@@ -11,12 +11,10 @@ class MovableObject {
         this.img.src = path;
     }
 
-
     moveRight() {
         console.log('Moving right');
     }
 
     moveLeft() {
-
     }
 }
