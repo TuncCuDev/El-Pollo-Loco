@@ -1,9 +1,32 @@
+@font-face {
+    font-family: 'metrosant';
+    src: url('fonts/metrosant-regular.ttf') format('truetype'); 
+}  
+
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'metrosant', Arial, Helvetica, sans-serif;
+    background-image: url('img/desert.jpg');
+    background-position: center;
+    background-size: cover;   
+    background-repeat: no-repeat; 
+}
+
+h1 {
+    font-size: 56px;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+    background-color: #692424;
+    color: #ff9c1d;
+    padding: 2px 15px;
+    border: 1px solid #540903;
 }
 
 canvas {
     background-color: black;
+    border-radius: 10px;
 }
