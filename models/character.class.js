@@ -1,7 +1,7 @@
 class Character extends MoveableObject {
     height = 330;
     width = 130;
-    y = 50;
+    y = 110;
     speed = 10;
     IMAGES_WALKING = [
         '2_character_pepe/2_walk/W-21.png',
@@ -36,7 +36,6 @@ class Character extends MoveableObject {
         '2_character_pepe/4_hurt/H-42.png',
         '2_character_pepe/4_hurt/H-43.png'
     ];
-
     world;
 
     
@@ -88,6 +87,6 @@ class Character extends MoveableObject {
     }
 
     jump() {
-        this.speedY = 10;
+        this.speedY = 28;
     }
 }
