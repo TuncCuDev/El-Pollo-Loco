@@ -90,3 +90,5 @@ class Character extends MoveableObject {
         this.speedY = 28;
     }
 }
+
+

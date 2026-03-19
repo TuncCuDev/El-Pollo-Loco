@@ -39,4 +39,6 @@ level1 = new Level(
         new Background('5_background/layers/2_second_layer/1.png', 720 * 4),
         new Background('5_background/layers/1_first_layer/1.png', 720 * 4),
     ],
-)
+        collectables
+);
+
