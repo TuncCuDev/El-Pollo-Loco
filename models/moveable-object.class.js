@@ -24,12 +24,34 @@ class MoveableObject extends DrawableObject {
         }
     }
 
-    // character.isColliding(chicken);
+    // character is colliding (chicken)
     isColliding(mo) {
         return this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
             this.x < mo.x &&
             this.y < mo.y + mo.height
+    }
+
+    // character is colliding (coins/bottles)
+    isCollidingCollectable(item) {
+        let charFoot = {
+            x: this.x + 10, 
+            y: this.y, 
+            width: this.width - 20,
+            height: this.height
+        };
+
+        let itemBox = {
+            x: item.x + 5,
+            y: item.y + 5,
+            width: item.width - 10,
+            height: item.height - 10
+        };
+
+        return charFoot.x + charFoot.width > itemBox.x &&
+               charFoot.y + charFoot.height > itemBox.y &&
+               charFoot.x < itemBox.x + itemBox.width &&
+               charFoot.y < itemBox.y + itemBox.height;
     }
 
     hit() {

@@ -52,7 +52,7 @@ class World {
     for (let i = this.collectables.length - 1; i >= 0; i--) {
     let item = this.collectables[i];
     
-    if (item && item.img && this.character.isColliding(item)) { 
+    if (item && item.img && this.character.isCollidingCollectable(item)) { 
         if (item.imagePath.includes('coin')) {
             this.coinsBar.setCoins(this.coinsBar.coins + 1);
         } else if (item.imagePath.includes('bottle')) {
@@ -85,7 +85,7 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
 
-        // Draw wird immer wieder aufgerufen
+        // Draw everytime
         let self = this;
         requestAnimationFrame(function() {
             self.draw();

@@ -19,23 +19,26 @@ class BottleBar extends DrawableObject {
         this.width = 200;
         this.height = 60;
     }
- setBottles(bottles) {
-        this.bottles = bottles;
-            console.log('BottleBar: neue Anzahl =', this.bottles);
-        this.img = this.imageCache[this.resolveImageIndex()]; // Bild setzen
+
+    setBottles() {
+    if (this.bottles < 15) {  
+        this.bottles++;
+        this.img = this.imageCache[this.resolveImageIndex()];
+        return true;
     }
+    return false;
+}
 
     resolveImageIndex() {
-        // Ähnlich wie StatusBar
         if (this.bottles >= 10) {
             return this.IMAGES_BOTTLE[5]; // max 100%
-        } else if (this.bottles >= 8) {
+        } else if (this.bottles >= 12) {
             return this.IMAGES_BOTTLE[4];
-        } else if (this.bottles >= 6) {
+        } else if (this.bottles >= 9) {
             return this.IMAGES_BOTTLE[3];
-        } else if (this.bottles >= 4) {
+        } else if (this.bottles >= 6) {
             return this.IMAGES_BOTTLE[2];
-        } else if (this.bottles >= 2) {
+        } else if (this.bottles >= 3) {
             return this.IMAGES_BOTTLE[1];
         } else {
             return this.IMAGES_BOTTLE[0]; // 0 Flaschen

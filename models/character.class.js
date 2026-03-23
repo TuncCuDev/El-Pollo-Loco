@@ -89,6 +89,16 @@ class Character extends MoveableObject {
     jump() {
         this.speedY = 28;
     }
+
+    throwBottle() {
+    // Flasche nur werfen, wenn welche verfügbar sind
+    if (this.world.bottleBar.useBottle()) {
+        // Neue Flasche erzeugen
+        let bottle = new ThrowableObject(this.x + this.width, this.y + 50);
+        this.world.throwableObject.push(bottle); // in Welt einfügen
+        console.log('Flasche geworfen!');
+    }
+}
 }
 
 
