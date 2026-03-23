@@ -14,7 +14,6 @@ let coinsPositions = [
     {x: 2050, y: 250}
 ];
 
-// Flaschen: feste X- und Y-Positionen
 let bottlesPositions = [
     {x: 350, y: 150},
     {x: 450, y: 200},
