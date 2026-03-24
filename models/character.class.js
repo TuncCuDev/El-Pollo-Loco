@@ -37,7 +37,8 @@ class Character extends MoveableObject {
         '2_character_pepe/4_hurt/H-43.png'
     ];
     world;
-
+    
+   
     
     constructor(){
         super().loadImage('2_character_pepe/2_walk/W-21.png');
@@ -45,6 +46,10 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        
+        this.jumpSound = new Audio('sounds/jump.mp3');
+        this.jumpSound.volume = 0.1;
+        
         this.applyGravity();
         this.animate();
     }
@@ -71,9 +76,12 @@ class Character extends MoveableObject {
 
 
         setInterval(() => {
-
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+
+                if (this.world) {
+                    this.world.gameOver();
+                }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
@@ -88,17 +96,20 @@ class Character extends MoveableObject {
 
     jump() {
         this.speedY = 28;
+
+        this.jumpSound.currentTime = 0;
+        this.jumpSound.play();
     }
 
-    throwBottle() {
-    // Flasche nur werfen, wenn welche verfügbar sind
+ throwBottle() {
     if (this.world.bottleBar.useBottle()) {
-        // Neue Flasche erzeugen
-        let bottle = new ThrowableObject(this.x + this.width, this.y + 50);
-        this.world.throwableObject.push(bottle); // in Welt einfügen
-        console.log('Flasche geworfen!');
+        let direction = this.otherDirection ? -1 : 1;
+        let bottle = new ThrowableObject(
+            this.x + 50 * direction,
+            this.y + 50,
+            direction
+        );
+        this.world.throwableObject.push(bottle);
     }
 }
 }
-
-

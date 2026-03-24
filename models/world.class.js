@@ -9,6 +9,8 @@ class World {
     coinsBar = new CoinsBar();
     bottleBar = new BottleBar();
     throwableObject = [new ThrowableObject()]; 
+    gameIsRunning = true;
+    takeSound = new Audio('sounds/takecoin.mp3');
 
     
     constructor(canvas, keyboard) {
@@ -55,14 +57,33 @@ class World {
     if (item && item.img && this.character.isCollidingCollectable(item)) { 
         if (item.imagePath.includes('coin')) {
             this.coinsBar.setCoins(this.coinsBar.coins + 1);
+            this.takeSound.volume = 0.1;
+            this.takeSound.play();
         } else if (item.imagePath.includes('bottle')) {
             this.bottleBar.setBottles(this.bottleBar.bottles + 1);
+        } this.collectables.splice(i, 1);
+            this.takeSound.volume = 0.1;
+            this.takeSound.play();
         }
-
-        this.collectables.splice(i, 1);
         }
     }
-}
+
+    gameOver() {
+        if (!this.gameIsRunning) return;
+        this.gameIsRunning = false;
+
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0;
+
+        if (this.character && this.character.jumpSound) {
+            this.character.jumpSound.pause();
+            this.character.jumpSound.currentTime = 0;
+        }
+
+        document.getElementById('gameOverOverlay').style.display = 'block';
+        document.getElementById('restartButton').style.display = 'inline-block';
+    }
+
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -85,6 +106,7 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
 
+        if (!this.gameIsRunning) return;
         // Draw everytime
         let self = this;
         requestAnimationFrame(function() {

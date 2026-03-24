@@ -47,6 +47,11 @@ function restartGame() {
     world = new World(canvas, keyboard);
 
     world.camera_x = 0;
+
+     if (world.backgroundMusic) {
+        world.backgroundMusic.currentTime = 0;
+        world.backgroundMusic.play();
+    }
 }
 
 window.addEventListener("keydown", (e) => {
