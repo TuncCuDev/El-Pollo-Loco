@@ -1,12 +1,52 @@
-let canvas;
+let ctx;
 let world;
 let background;
 let keyboard = new Keyboard();
+let startImage = new Image();
+let backgroundMusic = new Audio ('sounds/gamemusic.mp3');
+backgroundMusic.volume = 0.1;
 
-
-function init () {
+function init() {
     canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
+
+    startImage.src = '9_intro_outro_screens/start/startscreen_1.png';
+    startImage.onload = () => drawStartScreen();
+}
+
+function drawStartScreen() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(startImage, 0, 0, canvas.width, canvas.height);
+
+    const playButton = document.getElementById('playButton');
+    playButton.style.display = 'block';
+}
+
+function startGame() {
+    document.getElementById('playButton').style.display = 'none';
     world = new World(canvas, keyboard);
+
+    backgroundMusic.play();
+}
+
+function gameOver() {
+    this.gameIsRunning = false;
+
+    let overlay = document.getElementById('gameOverlay');
+    overlay.style.display = 'block';
+
+    const restartButton = document.getElementById('restartButton');
+    restartButton.style.display = 'block';
+}
+
+function restartGame() {
+    document.getElementById('gameOverOverlay').style.display = 'none';
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    world = new World(canvas, keyboard);
+
+    world.camera_x = 0;
 }
 
 window.addEventListener("keydown", (e) => {
