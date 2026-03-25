@@ -30,20 +30,20 @@ class BottleBar extends DrawableObject {
 }
 
     resolveImageIndex() {
-        if (this.bottles >= 10) {
-            return this.IMAGES_BOTTLE[5]; // max 100%
-        } else if (this.bottles >= 12) {
-            return this.IMAGES_BOTTLE[4];
-        } else if (this.bottles >= 9) {
-            return this.IMAGES_BOTTLE[3];
-        } else if (this.bottles >= 6) {
-            return this.IMAGES_BOTTLE[2];
-        } else if (this.bottles >= 3) {
-            return this.IMAGES_BOTTLE[1];
-        } else {
-            return this.IMAGES_BOTTLE[0]; // 0 Flaschen
-        }
+    if (this.bottles >= 12) {
+        return this.IMAGES_BOTTLE[5];
+    } else if (this.bottles >= 10) {
+        return this.IMAGES_BOTTLE[4];
+    } else if (this.bottles >= 8) {
+        return this.IMAGES_BOTTLE[3];
+    } else if (this.bottles >= 6) {
+        return this.IMAGES_BOTTLE[2];
+    } else if (this.bottles >= 3) {
+        return this.IMAGES_BOTTLE[1];
+    } else {
+        return this.IMAGES_BOTTLE[0];
     }
+}
 
     draw(ctx) {
         if (this.img) ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
