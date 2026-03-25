@@ -54,6 +54,46 @@ function restartGame() {
     }
 }
 
+function fullscreen() {
+    let canvas = document.getElementById('canvas');
+    enterFullscreen(canvas);
+}
+
+function enterFullscreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if(element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  } else if(element.msRequestFullscreen) {   
+    element.msRequestFullscreen();
+  }
+}
+
+function exitFullscreen() { console.log('exit');
+  if(document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if(document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }
+}
+
+function toggleSound() {
+    world.soundOn = !world.soundOn;
+
+    document.querySelectorAll('audio').forEach(sound => {
+        sound.muted = !world.soundOn;
+    });
+}
+
+function gameInformation() {
+    console.log('ready');
+    document.getElementById('infoOverlay').classList.remove('hidden');
+}
+
+function closeInfo() {
+    document.getElementById('infoOverlay').classList.add('hidden');
+}
+
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {
         keyboard.RIGHT = true;

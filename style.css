@@ -24,6 +24,7 @@ h1 {
     color: #ff9c1d;
     padding: 2px 15px;
     border: 1px solid #540903;
+    text-align: center;
 }
 
 #playButton:hover {
@@ -41,7 +42,7 @@ canvas {
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 180px;
+    top: 220px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
@@ -87,6 +88,72 @@ canvas {
 #gameOverOverlay img {
     width: 720px;
     height: 460px;
+}
+
+.button-line {
+    background-color: transparent;
+    top: 160px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    padding: 6px;
+    cursor: pointer;
+    background: rgba(128, 128, 128, 0.247);   /* ❌ weiß weg */
+    border: 1px solid rgba(0, 0, 0, 0.164);   
+}
+
+canvas:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    background: black;
+}
+
+canvas:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    background: black;
+}
+
+.size {
+    height: 24px;
+}
+
+.overlay {
+    position: absolute;
+    top: 160px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 720px;   
+    height: 480px;
+    background: rgba(0, 0, 0, 0.93);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.hidden {
+    display: none;
+}
+
+.overlay-content {
+    text-align: center;
+    font-size: 20px;
+}
+
+.overlay-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #ff9c1d;
+}
+
+.overlay-content button:hover {
+    background-color: #ffad41;
 }
 
 
