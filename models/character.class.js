@@ -49,6 +49,8 @@ class Character extends MoveableObject {
         
         this.jumpSound = new Audio('sounds/jump.mp3');
         this.jumpSound.volume = 0.1;
+        this.losing = new Audio('sounds/losing.mp3');
+        this.losing.volume = 0.1;
         
         this.applyGravity();
         this.animate();
@@ -84,6 +86,10 @@ class Character extends MoveableObject {
                 }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+                if (this.losing.paused) {
+                    playSound(this.losing);
+                }
+
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
@@ -96,9 +102,7 @@ class Character extends MoveableObject {
 
     jump() {
         this.speedY = 28;
-
-        this.jumpSound.currentTime = 0;
-        this.jumpSound.play();
+        playSound(this.jumpSound);
     }
 
  throwBottle() {
@@ -110,6 +114,23 @@ class Character extends MoveableObject {
             direction
         );
         this.world.throwableObject.push(bottle);
+        
+         let s = new Audio('sounds/bottlesounds.mp3');
+        s.volume = 0.1;
+
+        console.log('Flaschen-Sound erzeugt, world.soundOn:', this.world.soundOn);
+
+
+        // Direkt in world registrieren, damit Stummschalter greift
+        this.world.addSound(s);
+
+        // Abspielen
+        playSound(s);
+        }
     }
-}
+
+    isJumpingOn(enemy) {
+    return this.isColliding(enemy) &&
+           this.y + this.height < enemy.y + 30;
+        }
 }
