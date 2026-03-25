@@ -13,6 +13,14 @@ class Endboss extends MoveableObject {
         '4_enemie_boss_chicken/2_alert/G12.png'
     ];
     hadFirstContact = false;
+    hits = 0;
+    isDead = false;
+    deadImages = [
+        'img/4_enemie_boss_chicken/5_dead/G24.png',
+        'img/4_enemie_boss_chicken/5_dead/G25.png',
+        'img/4_enemie_boss_chicken/5_dead/G26.png'
+    ];
+
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -39,4 +47,28 @@ class Endboss extends MoveableObject {
         }, 150 )
     }
 
+    hitByBottle() {
+        if (this.isDead) return; 
+        this.hits++;
+
+        if (this.hits >= 4) {
+            this.die();
+        }
+    }
+
+
+    die() {
+        this.isDead = true;
+        let i = 0;
+
+        const deathInterval = setInterval(() => {
+            if (i < this.deadImages.length) {
+                this.loadImage(this.deadImages[i]);
+                i++;
+            if (this.world) {
+                this.world.gameOver(true); // Screen Win
+            }
+        }
+    }, 300); 
+}
 }

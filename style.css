@@ -117,7 +117,7 @@ canvas:fullscreen {
     background: black;
 }
 
-.size {
+#soundIcon, .size {
     height: 24px;
 }
 

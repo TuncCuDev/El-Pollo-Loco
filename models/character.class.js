@@ -37,27 +37,19 @@ class Character extends MoveableObject {
         '2_character_pepe/4_hurt/H-43.png'
     ];
     world;
-    
-   
-    
-    constructor(){
+
+    constructor() {
         super().loadImage('2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
-        
-        this.jumpSound = new Audio('sounds/jump.mp3');
-        this.jumpSound.volume = 0.1;
-        this.losing = new Audio('sounds/losing.mp3');
-        this.losing.volume = 0.1;
-        
+
         this.applyGravity();
         this.animate();
     }
 
     animate() {
-
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
@@ -73,9 +65,8 @@ class Character extends MoveableObject {
                 this.jump();
             }
 
-            this.world.camera_x = -this.x +100;
+            this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
-
 
         setInterval(() => {
             if (this.isDead()) {
@@ -86,51 +77,34 @@ class Character extends MoveableObject {
                 }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-                if (this.losing.paused) {
-                    playSound(this.losing);
-                }
-
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
-                if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-        }, 50 )
+        }, 50);
     }
 
     jump() {
         this.speedY = 28;
-        playSound(this.jumpSound);
     }
 
- throwBottle() {
-    if (this.world.bottleBar.useBottle()) {
-        let direction = this.otherDirection ? -1 : 1;
-        let bottle = new ThrowableObject(
-            this.x + 50 * direction,
-            this.y + 50,
-            direction
-        );
-        this.world.throwableObject.push(bottle);
-        
-         let s = new Audio('sounds/bottlesounds.mp3');
-        s.volume = 0.1;
-
-        console.log('Flaschen-Sound erzeugt, world.soundOn:', this.world.soundOn);
-
-
-        // Direkt in world registrieren, damit Stummschalter greift
-        this.world.addSound(s);
-
-        // Abspielen
-        playSound(s);
+    throwBottle() {
+        if (this.world.bottleBar.useBottle()) {
+            let direction = this.otherDirection ? -1 : 1;
+            let bottle = new ThrowableObject(
+                this.x + 50 * direction,
+                this.y + 50,
+                direction
+            );
+            this.world.throwableObject.push(bottle);
         }
     }
 
     isJumpingOn(enemy) {
-    return this.isColliding(enemy) &&
-           this.y + this.height < enemy.y + 30;
-        }
+        return this.isColliding(enemy) &&
+               this.y + this.height < enemy.y + 30;
+    }
 }

@@ -11,8 +11,8 @@ class CoinsBar extends DrawableObject {
     coins = 0; 
 
     constructor() {
-        super().loadImages(this.IMAGES_COINS); // <- ALLE Bilder laden!
-        this.img = this.imageCache[this.IMAGES_COINS[0]]; // Anfangsbild
+        super().loadImages(this.IMAGES_COINS); 
+        this.img = this.imageCache[this.IMAGES_COINS[0]]; 
         
         this.x = 30;
         this.y = 50;
@@ -30,6 +30,6 @@ class CoinsBar extends DrawableObject {
         if (index > 5) index = 5;
         if (index < 0) index = 0;
 
-        this.img = this.imageCache[this.IMAGES_COINS[index]]; // <- Jetzt existiert das Bild
+        this.img = this.imageCache[this.IMAGES_COINS[index]]; 
     }
 }

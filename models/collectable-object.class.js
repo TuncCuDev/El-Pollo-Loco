@@ -5,7 +5,7 @@ class CollectableObject extends DrawableObject {
         this.y = y;
         this.width = 100;
         this.height = 100;
-        this.imagePath = imagePath; // unbedingt merken!
+        this.imagePath = imagePath;
         this.loadImage(imagePath);
     }
 }

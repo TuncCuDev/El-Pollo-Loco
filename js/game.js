@@ -3,8 +3,7 @@ let world;
 let background;
 let keyboard = new Keyboard();
 let startImage = new Image();
-let backgroundMusic = new Audio ('sounds/gamemusic.mp3');
-backgroundMusic.volume = 0.1;
+
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -25,9 +24,8 @@ function drawStartScreen() {
 function startGame() {
     document.getElementById('playButton').style.display = 'none';
     world = new World(canvas, keyboard);
-
-    backgroundMusic.play();
 }
+
 
 function gameOver() {
     this.gameIsRunning = false;
@@ -43,15 +41,9 @@ function restartGame() {
     document.getElementById('gameOverOverlay').style.display = 'none';
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     world = new World(canvas, keyboard);
 
     world.camera_x = 0;
-
-     if (world.backgroundMusic) {
-        world.backgroundMusic.currentTime = 0;
-        world.backgroundMusic.play();
-    }
 }
 
 function fullscreen() {
@@ -77,16 +69,7 @@ function exitFullscreen() { console.log('exit');
   }
 }
 
-function toggleSound() {
-    world.soundOn = !world.soundOn;
-
-    document.querySelectorAll('audio').forEach(sound => {
-        sound.muted = !world.soundOn;
-    });
-}
-
 function gameInformation() {
-    console.log('ready');
     document.getElementById('infoOverlay').classList.remove('hidden');
 }
 

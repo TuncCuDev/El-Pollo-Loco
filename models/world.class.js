@@ -10,7 +10,6 @@ class World {
     bottleBar = new BottleBar();
     throwableObject = [new ThrowableObject()]; 
     gameIsRunning = true;
-    takeSound = new Audio('sounds/takecoin.mp3');
 
     
     constructor(canvas, keyboard) {
@@ -19,16 +18,21 @@ class World {
         this.keyboard = keyboard;
 
         this.setWorld();
-
         this.draw();
         this.run();
     }
 
+
     setWorld() {
-        this.character.world = this;
-        this.collectables = this.level.collectableObject;
+    this.character.world = this;
+    this.collectables = this.level.collectableObject;
+
+     this.level.enemies.forEach(enemy => {
+        enemy.world = this;
+     
+    });
     }
- 
+     
     run() {
         setInterval(() => {
             this.checkCollisions();
@@ -41,15 +45,26 @@ class World {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObject.push(bottle);
         }
+
+        for (let i = 0; i < this.throwableObject.length; i++) {
+            let bottle = this.throwableObject[i];
+
+        if (this.endBoss && !this.endBoss.isDead && bottle.isColliding(this.endBoss)) {
+            this.endBoss.hitByBottle();
+            this.throwableObject.splice(i, 1);
+            i--;
+        }
     }
+}
 
     checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
+    this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
             };
         },)
+
 
     for (let i = this.collectables.length - 1; i >= 0; i--) {
     let item = this.collectables[i];
@@ -57,13 +72,9 @@ class World {
     if (item && item.img && this.character.isCollidingCollectable(item)) { 
         if (item.imagePath.includes('coin')) {
             this.coinsBar.setCoins(this.coinsBar.coins + 1);
-            this.takeSound.volume = 0.1;
-            this.takeSound.play();
         } else if (item.imagePath.includes('bottle')) {
             this.bottleBar.setBottles(this.bottleBar.bottles + 1);
         } this.collectables.splice(i, 1);
-            this.takeSound.volume = 0.1;
-            this.takeSound.play();
         }
         }
     }
@@ -72,18 +83,9 @@ class World {
         if (!this.gameIsRunning) return;
         this.gameIsRunning = false;
 
-        backgroundMusic.pause();
-        backgroundMusic.currentTime = 0;
-
-        if (this.character && this.character.jumpSound) {
-            this.character.jumpSound.pause();
-            this.character.jumpSound.currentTime = 0;
-        }
-
         document.getElementById('gameOverOverlay').style.display = 'block';
         document.getElementById('restartButton').style.display = 'inline-block';
     }
-
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
