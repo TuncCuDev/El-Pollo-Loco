@@ -3,6 +3,7 @@ let world;
 let background;
 let keyboard = new Keyboard();
 let startImage = new Image();
+let soundOn = true;
 
 
 function init() {
@@ -79,20 +80,29 @@ function closeInfo() {
 
 function toggleSound() {
     var icon = document.getElementById("soundIcon");
+    soundOn = !soundOn;
 
-    // Nur den Dateinamen extrahieren
-    var filename = icon.src.split('/').pop();  // z.B. "laut.png"
-    console.log("Icon src:", icon.src);       
-    console.log("Filename:", filename);       
+    var filename = icon.src.split('/').pop();
 
-    if (filename === "laut.png") {  // nur Dateiname vergleichen
-        icon.src = "./img/laut.stumm.png"; // auf Stumm wechseln
-        console.log("Wechsel zu: laut.stumm.png");
+    if (filename === "laut.png") {
+        icon.src = "./img/laut.stumm.png";
     } else {
-        icon.src = "./img/laut.png"; // zurück auf Laut
-        console.log("Wechsel zu: laut.png");
+        icon.src = "./img/laut.png";
+    }
+
+    // 🔊 ALLE Sounds aktualisieren
+    if (world) {
+        // Hintergrundmusik
+        world.backgroundMusic.muted = !soundOn;
+
+        // Alle Chicken-Sounds
+        world.level.enemies.forEach(chicken => {
+            chicken.chickenSound.muted = !soundOn;
+            chicken.chickenDie.muted = !soundOn;
+        });
     }
 }
+
 
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {

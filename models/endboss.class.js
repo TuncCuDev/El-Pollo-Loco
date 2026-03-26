@@ -35,7 +35,7 @@ class Endboss extends MoveableObject {
             if (i < 10) {
                 this.playAnimation(this.IMAGES_WALKING);
             } else {
-                this.playAnimation(); // hinzufpgen der animation
+                this.playAnimation( ); // hinzufpgen der animation
             }
 
             i++;

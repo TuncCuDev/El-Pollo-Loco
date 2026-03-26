@@ -45,6 +45,8 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
 
+        this.jumpSound = new Audio('sounds/jump.mp3');
+
         this.applyGravity();
         this.animate();
     }
@@ -89,32 +91,34 @@ class Character extends MoveableObject {
 
     jump() {
         this.speedY = 28;
+        if (soundOn) {
+            this.jumpSound.currentTime = 0;
+            this.jumpSound.volume = 0.1;
+            this.jumpSound.play();
+        }
     }
 
     throwBottle() {
         if (this.world.bottleBar.useBottle()) {
             let direction = this.otherDirection ? -1 : 1;
-            let bottle = new ThrowableObject(
+            new ThrowableObject(
                 this.x + 50 * direction,
                 this.y + 50,
-                direction
-            );
-            this.world.throwableObject.push(bottle);
+            );}
         }
-    }
 
-isJumpingOn(enemy) {
-    let horizontal = this.x + this.width > enemy.x && this.x < enemy.x + enemy.width;
-    let vertical;
-    
-    if (enemy.height <= 60) {
-        vertical = this.y + this.height >= enemy.y &&
-                   this.y + this.height <= enemy.y + enemy.height * 0.7;
-    } else {
-        vertical = this.y + this.height >= enemy.y &&
-                   this.y + this.height <= enemy.y + enemy.height * 0.5;
-    }
+    isJumpingOn(enemy) {
+        let horizontal = this.x + this.width > enemy.x && this.x < enemy.x + enemy.width;
+        let vertical;
+        
+        if (enemy.height <= 60) {
+            vertical = this.y + this.height >= enemy.y &&
+                    this.y + this.height <= enemy.y + enemy.height * 0.7;
+        } else {
+            vertical = this.y + this.height >= enemy.y &&
+                    this.y + this.height <= enemy.y + enemy.height * 0.5;
+        }
 
-    return horizontal && vertical;
-    }
+        return horizontal && vertical;
+        }
 }

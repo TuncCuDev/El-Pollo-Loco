@@ -17,7 +17,22 @@ class Chicken extends MoveableObject {
         this.x = 250 + Math.random() * (2000 - 200);
         this.speed = 0.15 + Math.random() * 0.25;
 
+        this.chickenSound = new Audio('sounds/chicken1.mp3');
+        this.chickenSound.volume = 0.05;
+        this.chickenDie = new Audio('sounds/chickendie.mp3');
+        this.chickenDie.volume = 0.1;
+
+
         this.animate();
+        this.playAudio();
+    }
+    playAudio() {
+        setInterval(() => {
+        if (!this.isDead && soundOn) {
+            this.chickenSound.currentTime = 0;
+            this.chickenSound.play();
+            }
+        }, 7000);
     }
 
     animate() {
@@ -34,7 +49,10 @@ class Chicken extends MoveableObject {
         if (this.isDead) return; 
         this.isDead = true;
         this.loadImage(this.IMAGE_DEAD);
-
+        if (soundOn) {
+        this.chickenDie.currentTime = 0;
+        this.chickenDie.play();
+        }
         setTimeout(() => {
             if (this.world) {
                 let index = this.world.level.enemies.indexOf(this);

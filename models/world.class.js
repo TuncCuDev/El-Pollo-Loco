@@ -10,11 +10,17 @@ class World {
     bottleBar = new BottleBar();
     throwableObject = [new ThrowableObject()]; 
     gameIsRunning = true;
+    
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+
+        this.backgroundMusic = new Audio('sounds/gamemusic.mp3');
+        this.backgroundMusic.loop = true;
+        this.backgroundMusic.volume = 0.1;
+        this.backgroundMusic.play();
 
         this.setWorld();
         this.draw();

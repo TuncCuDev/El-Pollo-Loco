@@ -12,17 +12,22 @@ class ThrowableObject extends MoveableObject {
         this.speedX = 10;
         this.speedY = 20;
 
+        this.throwSound = new Audio('sounds/bottlesounds.mp3');
+        this.throwSound.volume = 0.1;
+
         this.throw();
     }
 
     throw() {
         this.applyGravity();
 
+        if (soundOn) {
+                this.throwSound.currentTime = 0;
+                this.throwSound.play();
         setInterval(() => {
             this.x += this.speedX;
         }, 25);
+        
     }
 }
-
-
-
+}
