@@ -89,6 +89,16 @@ function toggleSound() {
     }
 }
 
+function goToMenu() {
+    document.getElementById('gameOverOverlay').style.display = 'none';
+
+    if (world) {
+        world.gameIsRunning = false;
+    }
+
+    window.location.href = "index.html"; 
+}
+
 
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {
