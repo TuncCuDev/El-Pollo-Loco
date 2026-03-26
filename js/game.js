@@ -77,6 +77,23 @@ function closeInfo() {
     document.getElementById('infoOverlay').classList.add('hidden');
 }
 
+function toggleSound() {
+    var icon = document.getElementById("soundIcon");
+
+    // Nur den Dateinamen extrahieren
+    var filename = icon.src.split('/').pop();  // z.B. "laut.png"
+    console.log("Icon src:", icon.src);       
+    console.log("Filename:", filename);       
+
+    if (filename === "laut.png") {  // nur Dateiname vergleichen
+        icon.src = "./img/laut.stumm.png"; // auf Stumm wechseln
+        console.log("Wechsel zu: laut.stumm.png");
+    } else {
+        icon.src = "./img/laut.png"; // zurück auf Laut
+        console.log("Wechsel zu: laut.png");
+    }
+}
+
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {
         keyboard.RIGHT = true;
