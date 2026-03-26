@@ -26,10 +26,10 @@ class World {
     this.character.world = this;
     this.collectables = this.level.collectableObject;
 
-     this.level.enemies.forEach(enemy => {
+    this.level.enemies.forEach(enemy => {
         enemy.world = this;
      
-    });
+        });
     }
      
     run() {
@@ -44,33 +44,31 @@ class World {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObject.push(bottle);
         }
-
         for (let i = 0; i < this.throwableObject.length; i++) {
             let bottle = this.throwableObject[i];
-
         if (this.endBoss && !this.endBoss.isDead && bottle.isColliding(this.endBoss)) {
             this.endBoss.hitByBottle();
             this.throwableObject.splice(i, 1);
             i--;
+            }
         }
     }
-}
 
     checkCollisions() {
-    this.level.enemies.forEach((enemy, index) => {
-    if (this.character.isJumpingOn(enemy)) {
-        enemy.die();
-        this.character.speedY = -15; // optional: Character springt leicht hoch nach Treffer
-    } else if (this.character.isColliding(enemy)) {
-        // nur Lebensabzug, wenn nicht von oben gesprungen
-        this.character.hit();
-        this.statusBar.setPercentage(this.character.energy);
-    }
-});
+        this.level.enemies.forEach(enemy => {
+        const jumpingOn = this.character.isJumpingOn(enemy);
+
+        if (jumpingOn) {
+            enemy.die();               
+            this.character.speedY = 25; 
+        } else if (this.character.isColliding(enemy) && !jumpingOn) {
+            this.character.hit();
+            this.statusBar.setPercentage(this.character.energy);
+        }
+    });
 
     for (let i = this.collectables.length - 1; i >= 0; i--) {
         let item = this.collectables[i];
-
         if (item && item.img && this.character.isCollidingCollectable(item)) { 
             if (item.imagePath.includes('coin')) {
                 this.coinsBar.setCoins(this.coinsBar.coins + 1);
@@ -78,9 +76,9 @@ class World {
                 this.bottleBar.setBottles(this.bottleBar.bottles + 1);
             }
             this.collectables.splice(i, 1);
+            }
         }
     }
-}
 
     gameOver() {
         if (!this.gameIsRunning) return;

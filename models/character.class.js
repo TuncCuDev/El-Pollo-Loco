@@ -104,17 +104,17 @@ class Character extends MoveableObject {
     }
 
 isJumpingOn(enemy) {
-    // Horizontaler Überlappungsbereich
     let horizontal = this.x + this.width > enemy.x && this.x < enemy.x + enemy.width;
-
-    // Vertikaler Bereich: obere 25px des Huhns
-    let vertical = this.y + this.height >= enemy.y &&
-                   this.y + this.height <= enemy.y + 25;
-
-    if (horizontal && vertical) {
-        console.log('Treffer auf Huhn erkannt!');
+    let vertical;
+    
+    if (enemy.height <= 60) {
+        vertical = this.y + this.height >= enemy.y &&
+                   this.y + this.height <= enemy.y + enemy.height * 0.7;
+    } else {
+        vertical = this.y + this.height >= enemy.y &&
+                   this.y + this.height <= enemy.y + enemy.height * 0.5;
     }
 
     return horizontal && vertical;
-}
+    }
 }

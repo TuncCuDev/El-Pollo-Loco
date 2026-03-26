@@ -17,7 +17,7 @@ class SmallChicken extends MoveableObject {
         this.loadImages(this.IMAGES_WALKING);
 
       
-        this.x = 200 + Math.random() * 500;
+        this.x = 250 + Math.random() * (2000 - 500);
         this.speed = 0.2 + Math.random() * 0.3; 
 
         this.animate();
