@@ -27,7 +27,6 @@ class ThrowableObject extends MoveableObject {
         setInterval(() => {
             this.x += this.speedX;
         }, 25);
-        
+        }
     }
-}
 }

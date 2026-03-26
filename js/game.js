@@ -27,17 +27,6 @@ function startGame() {
     world = new World(canvas, keyboard);
 }
 
-
-function gameOver() {
-    this.gameIsRunning = false;
-
-    let overlay = document.getElementById('gameOverlay');
-    overlay.style.display = 'block';
-
-    const restartButton = document.getElementById('restartButton');
-    restartButton.style.display = 'block';
-}
-
 function restartGame() {
     document.getElementById('gameOverOverlay').style.display = 'none';
 
@@ -90,12 +79,9 @@ function toggleSound() {
         icon.src = "./img/laut.png";
     }
 
-    // 🔊 ALLE Sounds aktualisieren
     if (world) {
-        // Hintergrundmusik
         world.backgroundMusic.muted = !soundOn;
 
-        // Alle Chicken-Sounds
         world.level.enemies.forEach(chicken => {
             chicken.chickenSound.muted = !soundOn;
             chicken.chickenDie.muted = !soundOn;

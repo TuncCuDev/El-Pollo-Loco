@@ -22,17 +22,18 @@ class Chicken extends MoveableObject {
         this.chickenDie = new Audio('sounds/chickendie.mp3');
         this.chickenDie.volume = 0.1;
 
-
         this.animate();
         this.playAudio();
     }
+
+
     playAudio() {
-        setInterval(() => {
-        if (!this.isDead && soundOn) {
+    this.audioInterval = setInterval(() => {
+        if (!this.isDead && soundOn && world.gameIsRunning) { // prüfe jetzt auch gameIsRunning
             this.chickenSound.currentTime = 0;
             this.chickenSound.play();
-            }
-        }, 7000);
+        }
+    }, 7000);
     }
 
     animate() {

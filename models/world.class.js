@@ -90,8 +90,33 @@ class World {
         if (!this.gameIsRunning) return;
         this.gameIsRunning = false;
 
+        if (this.backgroundMusic) {
+            this.backgroundMusic.pause();
+            this.backgroundMusic.currentTime = 0;
+        }
+
         document.getElementById('gameOverOverlay').style.display = 'block';
         document.getElementById('restartButton').style.display = 'inline-block';
+
+        this.level.enemies.forEach(chicken => {
+        if (chicken.audioInterval) {
+            clearInterval(chicken.audioInterval);
+        }
+
+        chicken.chickenSound.pause();
+        chicken.chickenSound.currentTime = 0;
+
+        chicken.chickenDie.pause();
+        chicken.chickenDie.currentTime = 0;
+    });
+
+    this.throwableObject.forEach(bottle => {
+        bottle.throwSound.pause();
+        bottle.throwSound.currentTime = 0;
+
+        bottle.hitSound.pause();
+        bottle.hitSound.currentTime = 0;
+    });
     }
 
     draw() {
