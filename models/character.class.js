@@ -108,17 +108,16 @@ class Character extends MoveableObject {
         }
 
     isJumpingOn(enemy) {
-        let horizontal = this.x + this.width > enemy.x && this.x < enemy.x + enemy.width;
-        let vertical;
-        
-        if (enemy.height <= 60) {
-            vertical = this.y + this.height >= enemy.y &&
-                    this.y + this.height <= enemy.y + enemy.height * 0.7;
-        } else {
-            vertical = this.y + this.height >= enemy.y &&
-                    this.y + this.height <= enemy.y + enemy.height * 0.5;
-        }
+    // horizontale Kollision: Spieler und Enemy überlappen sich horizontal
+    let horizontal = this.x + this.width > enemy.x + 5 && this.x < enemy.x + enemy.width - 5;
 
-        return horizontal && vertical;
-        }
+    // vertikale Kollision: Spieler berührt die Oberseite des Enemys
+    // wir erweitern die Stomp-Zone auf 20px oder 30% der Enemy-Höhe, je nachdem, was größer ist
+    let stompZone = Math.max(20, enemy.height * 0.3);
+
+    let vertical = this.y + this.height >= enemy.y &&
+                   this.y + this.height <= enemy.y + stompZone;
+
+    return horizontal && vertical;
+}
 }

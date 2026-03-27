@@ -29,7 +29,6 @@ function startGame() {
     world = new World(canvas, keyboard);
 
     setupMobileControls();
-    document.getElementById('mobileControls').style.display = 'flex';
 }
 
 function restartGame() {
