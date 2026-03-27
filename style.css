@@ -258,12 +258,10 @@ canvas:fullscreen {
     align-items: center;
 }
 
-/* Inhalt zentriert */
 .rotate-box {
     text-align: center;
 }
 
-/* Handy-Icon */
 .phone {
     width: 60px;
     height: 100px;
@@ -286,6 +284,30 @@ canvas:fullscreen {
     transform: translateX(-50%);
 }
 
+.rotate-box p {
+    font-size: 20px;
+}
+
+#mobileControls {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: none;
+    justify-content: space-around;
+    z-index: 999;
+}
+
+#mobileControls button {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(239, 199, 0, 0.8);
+    color: white;
+    cursor: pointer;
+}
+
 @keyframes rotatePhone {
     0% {
         transform: rotate(0deg);
@@ -298,8 +320,10 @@ canvas:fullscreen {
     }
 }
 
-.rotate-box p {
-    font-size: 20px;
+@media (max-width: 750px) and (orientation: landscape) {
+    #mobileControls {
+        display: flex;
+    }
 }
 
 @media (max-width: 750px) and (orientation: portrait) {

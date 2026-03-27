@@ -25,7 +25,11 @@ function drawStartScreen() {
 function startGame() {
     document.getElementById('playButton').style.display = 'none';
     document.getElementById('overlayImpressum').style.display = 'none';
+
     world = new World(canvas, keyboard);
+
+    setupMobileControls();
+    document.getElementById('mobileControls').style.display = 'flex';
 }
 
 function restartGame() {
@@ -130,7 +134,6 @@ window.addEventListener("keydown", (e) => {
     }
 })
 
-
 window.addEventListener("keyup", (e) => {
     if (e.keyCode == 39) {
         keyboard.RIGHT = false;
@@ -156,3 +159,22 @@ window.addEventListener("keyup", (e) => {
         keyboard.D = false;
     }
 })
+
+function setupMobileControls() {
+    const btnLeft = document.getElementById('btnLeft');
+    const btnRight = document.getElementById('btnRight');
+    const btnJump = document.getElementById('btnJump');
+    const btnThrow = document.getElementById('btnThrow');
+
+    btnLeft.ontouchstart = btnLeft.onmousedown = () => { keyboard.LEFT = true };
+    btnLeft.ontouchend = btnLeft.onmouseup = btnLeft.onmouseleave = () => { keyboard.LEFT = false };
+
+    btnRight.ontouchstart = btnRight.onmousedown = () => { keyboard.RIGHT = true };
+    btnRight.ontouchend = btnRight.onmouseup = btnRight.onmouseleave = () => { keyboard.RIGHT = false };
+
+    btnJump.ontouchstart = btnJump.onmousedown = () => { keyboard.SPACE = true };
+    btnJump.ontouchend = btnJump.onmouseup = btnJump.onmouseleave = () => { keyboard.SPACE = false };
+
+    btnThrow.ontouchstart = btnThrow.onmousedown = () => { keyboard.D = true };
+    btnThrow.ontouchend = btnThrow.onmouseup = btnThrow.onmouseleave = () => { keyboard.D = false };
+}
