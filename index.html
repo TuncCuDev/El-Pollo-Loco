@@ -35,6 +35,8 @@
 
         </canvas>
         <button id="playButton" onclick="startGame()">Play</button>
+        <button id="overlayImpressum" onclick="openImpressum()">Impressum</button>
+
         <div class="button-line">
             <button onclick="toggleSound()">
                 <img id="soundIcon" src="./img/laut.png" alt="">
@@ -45,6 +47,20 @@
             <button onclick="gameInformation()">
                 <img class="button-top size" src="./img/infoicon.png" alt="Info">
             </button>
+        </div>
+    </div>
+
+    <div id="impressumOverlay">
+        <div class="impressum-content">
+            <h2>Impressum</h2>
+            <ul>
+                <li><strong>Projekt:</strong> El Pollo Loco - Projektarbeit</li>
+                <li><strong>Erstellt von:</strong> Tuncay C.</li>
+                <li><strong>Kontakt:</strong> c.tuncay67@hotmail.de</li>
+            </ul>
+            <div class="button-gameover">
+                <button onclick="closeImpressum()">Schließen</button>
+            </div>
         </div>
     </div>
 

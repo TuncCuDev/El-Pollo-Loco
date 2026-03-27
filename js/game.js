@@ -24,6 +24,7 @@ function drawStartScreen() {
 
 function startGame() {
     document.getElementById('playButton').style.display = 'none';
+    document.getElementById('overlayImpressum').style.display = 'none';
     world = new World(canvas, keyboard);
 }
 
@@ -70,7 +71,6 @@ function closeInfo() {
 function toggleSound() {
     var icon = document.getElementById("soundIcon");
     soundOn = !soundOn;
-
     var filename = icon.src.split('/').pop();
 
     if (filename === "laut.png") {
@@ -78,7 +78,6 @@ function toggleSound() {
     } else {
         icon.src = "./img/laut.png";
     }
-
     if (world) {
         world.backgroundMusic.muted = !soundOn;
 
@@ -91,14 +90,19 @@ function toggleSound() {
 
 function goToMenu() {
     document.getElementById('gameOverOverlay').style.display = 'none';
-
     if (world) {
         world.gameIsRunning = false;
     }
-
     window.location.href = "index.html"; 
 }
 
+function openImpressum() {
+    document.getElementById('impressumOverlay').style.display = 'flex';
+}
+
+function closeImpressum() {
+    document.getElementById('impressumOverlay').style.display = 'none';
+}
 
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {
