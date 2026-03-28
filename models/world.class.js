@@ -52,20 +52,27 @@ class World {
         }
         for (let i = 0; i < this.throwableObject.length; i++) {
             let bottle = this.throwableObject[i];
-        if (this.endBoss && !this.endBoss.isDead && bottle.isColliding(this.endBoss)) {
-            this.endBoss.hitByBottle();
+            if (bottle.markedForDelete) {
             this.throwableObject.splice(i, 1);
             i--;
+            continue;
+            }
+
+            if (bottle.hasSplashed) continue;
+
+        if (this.endBoss && !this.endBoss.isDead && bottle.isColliding(this.endBoss)) {
+            bottle.playSplashAnimation();
+            this.endBoss.hitByBottle();
         }
-            this.level.enemies.forEach(chicken => {
-                if (!chicken.isDead && bottle.isColliding(chicken)) {
-                    chicken.die();
-                    this.throwableObject.splice(i, 1);
-                    i--;
-                }
-            });
+
+        this.level.enemies.forEach(chicken => {
+            if (!chicken.isDead && bottle.isColliding(chicken)) {
+                bottle.playSplashAnimation();
+                chicken.die();
+            }
+        });
         }
-    }
+        }
 
     checkCollisions() {
         this.level.enemies.forEach(enemy => {

@@ -32,7 +32,6 @@ let bottlesPositions = [
     {x: 2150, y: 160} 
 ];
 
-// Collectables erzeugen
 coinsPositions.forEach(pos => {
     collectables.push(new CollectableObject(pos.x, pos.y, '8_coin/coin_1.png'));
 });
