@@ -27,6 +27,8 @@ class Endboss extends MoveableObject {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.x = 2500;
+
+        this.winSound = new Audio('sounds/wingame.mp3');
         this.animate();
     }
 
@@ -36,7 +38,7 @@ class Endboss extends MoveableObject {
             if (i < 10) {
                 this.playAnimation(this.IMAGES_WALKING);
             } else {
-                this.playAnimation( ); // hinzufpgen der animation
+                this.playAnimation( ); 
             }
 
             i++;
@@ -65,9 +67,14 @@ class Endboss extends MoveableObject {
                 this.loadImage(this.deadImages[i]);
                 i++;
             if (this.world) {
-                this.world.youWin(); // Screen Win
+                if (soundOn) {
+                    this.winSound.currentTime = 0;
+                    this.winSound.volume = 0.1;
+                    this.winSound.play();
+                }
+                this.world.youWin(); 
+                }
             }
-        }
-    }, 300); 
-}
+        }, 300); 
+    }
 }
