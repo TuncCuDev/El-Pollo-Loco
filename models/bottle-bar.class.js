@@ -20,14 +20,10 @@ class BottleBar extends DrawableObject {
         this.height = 60;
     }
 
-    setBottles() {
-    if (this.bottles < 15) {  
-        this.bottles++;
-        this.img = this.imageCache[this.resolveImageIndex()];
-        return true;
+    setBottles(amount) {
+    this.bottles = amount;
+    this.img = this.imageCache[this.resolveImageIndex()];
     }
-    return false;
-}
 
     resolveImageIndex() {
     if (this.bottles >= 12) {

@@ -46,12 +46,17 @@ class World {
     }
 
     checkThrowObject() {
-        if (this.keyboard.D) {
+        if (this.keyboard.D && this.character.bottles > 0) {
+
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObject.push(bottle);
+
+            this.character.bottles--;
+            this.bottleBar.setBottles(this.character.bottles);
         }
         for (let i = 0; i < this.throwableObject.length; i++) {
             let bottle = this.throwableObject[i];
+            
         if (this.endBoss && !this.endBoss.isDead && bottle.isColliding(this.endBoss)) {
             this.endBoss.hitByBottle();
             this.throwableObject.splice(i, 1);
@@ -79,8 +84,11 @@ class World {
             if (item.imagePath.includes('coin')) {
                 this.coinsBar.setCoins(this.coinsBar.coins + 1);
             } else if (item.imagePath.includes('bottle')) {
-                this.bottleBar.setBottles(this.bottleBar.bottles + 1);
-            }
+    if (this.character.bottles < 15) {
+        this.character.bottles++;
+        this.bottleBar.setBottles(this.character.bottles);
+        }   
+    }
             this.collectables.splice(i, 1);
             }
         }
