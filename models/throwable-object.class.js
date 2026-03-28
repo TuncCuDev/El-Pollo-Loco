@@ -14,21 +14,26 @@ class ThrowableObject extends MoveableObject {
         this.y = y;
         this.width = 50;
         this.height = 60;
-
         this.speedX = 10;
         this.speedY = 20;
 
         this.throwSound = new Audio('sounds/bottlesounds.mp3');
         this.throwSound.volume = 0.1;
+        this.splashSound = new Audio('sounds/splash.mp3');
+        this.splashSound.volume = 0.1;
 
         this.throw();
     }
 
-   playSplashAnimation() {
-    this.hasSplashed = true;
-    this.speed = 0;
-    this.speedY = 0;
-    let i = 0;
+    playSplashAnimation() {
+        this.hasSplashed = true;
+        this.speed = 0;
+        this.speedY = 0;
+        let i = 0;
+        if (soundOn) {
+            this.splashSound.currentTime = 0;
+            this.splashSound.play();
+        }
 
     const interval = setInterval(() => {
         if (i < this.IMAGES_SPLASH.length) {
