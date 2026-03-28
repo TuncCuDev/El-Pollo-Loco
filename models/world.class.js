@@ -27,14 +27,12 @@ class World {
         this.run();
     }
 
-
     setWorld() {
     this.character.world = this;
     this.collectables = this.level.collectableObject;
 
     this.level.enemies.forEach(enemy => {
         enemy.world = this;
-     
         });
     }
      
@@ -58,13 +56,13 @@ class World {
             this.endBoss.hitByBottle();
             this.throwableObject.splice(i, 1);
             i--;
-            }
-             this.level.enemies.forEach(chicken => {
-            if (!chicken.isDead && bottle.isColliding(chicken)) {
-                chicken.die();
-                this.throwableObject.splice(i, 1);
-                i--;
-            }
+        }
+            this.level.enemies.forEach(chicken => {
+                if (!chicken.isDead && bottle.isColliding(chicken)) {
+                    chicken.die();
+                    this.throwableObject.splice(i, 1);
+                    i--;
+                }
             });
         }
     }
@@ -80,19 +78,19 @@ class World {
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
         }
-    });
+        });
 
-    for (let i = this.collectables.length - 1; i >= 0; i--) {
-        let item = this.collectables[i];
-        if (item && item.img && this.character.isCollidingCollectable(item)) { 
-            if (item.imagePath.includes('coin')) {
-                this.coinsBar.setCoins(this.coinsBar.coins + 1);
-            } else if (item.imagePath.includes('bottle')) {
-    if (this.character.bottles < 15) {
-        this.character.bottles++;
-        this.bottleBar.setBottles(this.character.bottles);
-        }   
-    }
+        for (let i = this.collectables.length - 1; i >= 0; i--) {
+            let item = this.collectables[i];
+            if (item && item.img && this.character.isCollidingCollectable(item)) { 
+                if (item.imagePath.includes('coin')) {
+                    this.coinsBar.setCoins(this.coinsBar.coins + 1);
+                } else if (item.imagePath.includes('bottle')) {
+                if (this.character.bottles < 15) {
+                    this.character.bottles++;
+                    this.bottleBar.setBottles(this.character.bottles);
+                }   
+                }
             this.collectables.splice(i, 1);
             }
         }
@@ -118,19 +116,22 @@ class World {
 
         chicken.chickenDie.pause();
         chicken.chickenDie.currentTime = 0;
-    });
-    this.throwableObject.forEach(bottle => {
-        bottle.throwSound.pause();
-        bottle.throwSound.currentTime = 0;
+        });
+        this.throwableObject.forEach(bottle => {
+            bottle.throwSound.pause();
+            bottle.throwSound.currentTime = 0;
 
-        bottle.hitSound.pause();
-        bottle.hitSound.currentTime = 0;
-    });
+            bottle.hitSound.pause();
+            bottle.hitSound.currentTime = 0;
+        });
     }
 
     gameOver() {
         if (!this.gameIsRunning) return;
         this.gameIsRunning = false;
+
+        const gameOverSound = new Audio('sounds/gameover.mp3');
+        gameOverSound.play();
 
         if (this.backgroundMusic) {
             this.backgroundMusic.pause();
@@ -150,15 +151,15 @@ class World {
 
         chicken.chickenDie.pause();
         chicken.chickenDie.currentTime = 0;
-    });
+        });
 
-    this.throwableObject.forEach(bottle => {
-        bottle.throwSound.pause();
-        bottle.throwSound.currentTime = 0;
+        this.throwableObject.forEach(bottle => {
+            bottle.throwSound.pause();
+            bottle.throwSound.currentTime = 0;
 
-        bottle.hitSound.pause();
-        bottle.hitSound.currentTime = 0;
-    });
+            bottle.hitSound.pause();
+            bottle.hitSound.currentTime = 0;
+        });
     }
 
     draw() {

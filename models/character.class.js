@@ -39,6 +39,7 @@ class Character extends MoveableObject {
     world;
     bottles = 0;
 
+
     constructor() {
         super().loadImage('2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -105,17 +106,16 @@ class Character extends MoveableObject {
             new ThrowableObject(
                 this.x + 50 * direction,
                 this.y + 50,
-            );}
+            );
         }
+    }
 
     isJumpingOn(enemy) {
     let horizontal = this.x + this.width > enemy.x + 5 && this.x < enemy.x + enemy.width - 5;
-
     let stompZone = Math.max(20, enemy.height * 0.3);
-
     let vertical = this.y + this.height >= enemy.y &&
                    this.y + this.height <= enemy.y + stompZone;
 
     return horizontal && vertical;
-}
+    }
 }

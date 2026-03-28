@@ -57,7 +57,6 @@ class Endboss extends MoveableObject {
         }
     }
 
-
     die() {
         this.isDead = true;
         let i = 0;
