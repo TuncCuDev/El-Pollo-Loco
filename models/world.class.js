@@ -47,21 +47,25 @@ class World {
 
     checkThrowObject() {
         if (this.keyboard.D && this.character.bottles > 0) {
-
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObject.push(bottle);
-
             this.character.bottles--;
             this.bottleBar.setBottles(this.character.bottles);
         }
         for (let i = 0; i < this.throwableObject.length; i++) {
             let bottle = this.throwableObject[i];
-            
         if (this.endBoss && !this.endBoss.isDead && bottle.isColliding(this.endBoss)) {
             this.endBoss.hitByBottle();
             this.throwableObject.splice(i, 1);
             i--;
             }
+             this.level.enemies.forEach(chicken => {
+            if (!chicken.isDead && bottle.isColliding(chicken)) {
+                chicken.die();
+                this.throwableObject.splice(i, 1);
+                i--;
+            }
+            });
         }
     }
 
@@ -92,6 +96,36 @@ class World {
             this.collectables.splice(i, 1);
             }
         }
+    }
+
+    youWin() {
+        if (!this.gameIsRunning) return;
+        this.gameIsRunning = false;
+
+        if (this.backgroundMusic) {
+            this.backgroundMusic.pause();
+            this.backgroundMusic.currentTime = 0;
+        }
+        document.getElementById('youWinOverlay').style.display = 'block';
+        document.getElementById('restartButton').style.display = 'inline-block';
+
+        this.level.enemies.forEach(chicken => {
+        if (chicken.audioInterval) {
+            clearInterval(chicken.audioInterval);
+        }
+        chicken.chickenSound.pause();
+        chicken.chickenSound.currentTime = 0;
+
+        chicken.chickenDie.pause();
+        chicken.chickenDie.currentTime = 0;
+    });
+    this.throwableObject.forEach(bottle => {
+        bottle.throwSound.pause();
+        bottle.throwSound.currentTime = 0;
+
+        bottle.hitSound.pause();
+        bottle.hitSound.currentTime = 0;
+    });
     }
 
     gameOver() {

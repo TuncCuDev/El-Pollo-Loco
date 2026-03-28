@@ -67,11 +67,20 @@
     </div>
 
     <div id="gameOverOverlay">
-        <img src="/9_intro_outro_screens/game_over/game over!.png" alt="Game Over">
+        <img src="./9_intro_outro_screens/game_over/game over!.png" alt="Game Over">
         <div class="button-gameover">
             <button id="restartButton" onclick="restartGame()">New Game</button>
             <button id="menuButton" onclick="goToMenu()">Menu</button>
         </div>
+    </div>
+
+    <div id="youWinOverlay">
+        <div class="overlay-bg"></div>
+        <img src="./9_intro_outro_screens/start/startscreen_2.png" alt="YouWin" class="overlay-img">
+        <div class="overlay-text">YOU WIN!</div>
+            <div class="overlay-buttons">
+                <button id="menuButton" class="btn" onclick="goToMenu()">Menu</button>
+            </div>
     </div>
 
     <div id="infoOverlay" class="overlay hidden">
