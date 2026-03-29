@@ -26,10 +26,10 @@ class MoveableObject extends DrawableObject {
 
     // character is colliding (chicken)
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height
+    return this.x + this.width - 20 > mo.x &&
+        this.y + this.height - 20 > mo.y &&
+        this.x + 20 < mo.x + mo.width &&
+        this.y + 20 < mo.y + mo.height;
     }
 
     // character is colliding (coins/bottles)

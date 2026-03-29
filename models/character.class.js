@@ -110,12 +110,22 @@ class Character extends MoveableObject {
         }
     }
 
-    isJumpingOn(enemy) {
-    let horizontal = this.x + this.width > enemy.x + 5 && this.x < enemy.x + enemy.width - 5;
-    let stompZone = Math.max(20, enemy.height * 0.3);
-    let vertical = this.y + this.height >= enemy.y &&
-                   this.y + this.height <= enemy.y + stompZone;
+   isJumpingOn(enemy) {
+    let playerBottom = this.y + this.height;
+    let playerCenterX = this.x + this.width / 2;
 
-    return horizontal && vertical;
-    }
+    let isSmall = enemy.height < 80;
+
+    let horizontal = playerCenterX > enemy.x - (isSmall ? 20 : 10) &&
+                     playerCenterX < enemy.x + enemy.width + (isSmall ? 20 : 10);
+
+    let stompZone = Math.max(25, enemy.height * (isSmall ? 0.6 : 0.3));
+
+    let vertical = playerBottom >= enemy.y - 10 &&
+                   playerBottom <= enemy.y + stompZone;
+
+    let falling = this.speedY < 5; // 🔥 FIX
+
+    return horizontal && vertical && falling;
+   }
 }
