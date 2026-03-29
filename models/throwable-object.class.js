@@ -35,16 +35,16 @@ class ThrowableObject extends MoveableObject {
             this.splashSound.play();
         }
 
-    const interval = setInterval(() => {
-        if (i < this.IMAGES_SPLASH.length) {
-            this.loadImage(this.IMAGES_SPLASH[i]);
-            i++;
-        } else {
-            clearInterval(interval);
-            this.markedForDelete = true; 
-        }
-    }, 80);
-}
+        const interval = setInterval(() => {
+            if (i < this.IMAGES_SPLASH.length) {
+                this.loadImage(this.IMAGES_SPLASH[i]);
+                i++;
+            } else {
+                clearInterval(interval);
+                this.markedForDelete = true; 
+            }
+        }, 20);
+    }
 
     throw() {
         this.applyGravity();

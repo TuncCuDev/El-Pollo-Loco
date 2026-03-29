@@ -7,7 +7,7 @@ class EndbossStatusBar extends DrawableObject {
         '7_statusbars/2_statusbar_endboss/orange/orange80.png',
         '7_statusbars/2_statusbar_endboss/orange/orange100.png' 
     ];
-    percentage = 100; //Health = 100%
+    percentage = 100; 
 
 
     constructor() {
@@ -22,12 +22,12 @@ class EndbossStatusBar extends DrawableObject {
         this.setPercentage(100);
     }
 
-    //setPercentage(50);
+
     setPercentage(percentage) {
-        this.percentage = percentage; // => 0 ... 5;
-        let path = this.IMAGES[this.resolveImageIndex()];
-        this.img = this.imageCache[path];
-    }
+    this.percentage = percentage;
+    let path = this.IMAGES[this.resolveImageIndex()];
+    this.img = this.imageCache[path];
+}
 
     resolveImageIndex() {
         if (this.percentage == 100) {

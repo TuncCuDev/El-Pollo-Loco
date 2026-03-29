@@ -1,5 +1,5 @@
 let level1; 
-
+let endBoss = new Endboss();
 level1 = new Level(
     [
         new Chicken(),
@@ -14,7 +14,7 @@ level1 = new Level(
         new SmallChicken(), 
         new SmallChicken(),
         new SmallChicken(),
-        new Endboss()
+        endBoss
     ],
     [
         new Cloud(),

@@ -29,7 +29,7 @@ class Chicken extends MoveableObject {
 
     playAudio() {
     this.audioInterval = setInterval(() => {
-        if (!this.isDead && soundOn && world.gameIsRunning) { // prüfe jetzt auch gameIsRunning
+        if (!this.isDead && soundOn && world.gameIsRunning) { 
             this.chickenSound.currentTime = 0;
             this.chickenSound.play();
         }
@@ -46,7 +46,7 @@ class Chicken extends MoveableObject {
         }, 200);
     }
 
-    die() {
+    kill() {
         if (this.isDead) return; 
         this.isDead = true;
         this.loadImage(this.IMAGE_DEAD);

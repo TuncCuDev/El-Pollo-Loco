@@ -28,6 +28,12 @@ class Endboss extends MoveableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.x = 2500;
 
+          this.id = Math.random().toString(36).substr(2, 5); // kurze zufällige ID
+    console.log('Endboss created with ID:', this.id);
+
+        this.statusBar = new EndbossStatusBar();
+        this.statusBar.setPercentage(this.energy); 
+
         this.winSound = new Audio('sounds/wingame.mp3');
         this.animate();
     }
@@ -35,45 +41,49 @@ class Endboss extends MoveableObject {
     animate() {
         let i = 0;
         setInterval(() => {
-            if (i < 10) {
                 this.playAnimation(this.IMAGES_WALKING);
-            } else {
-                this.playAnimation( ); 
-            }
-
-            i++;
-
-            if(world.character.x > 2800 && !hadFirstContact) {
-                i = 0;
-                hadFirstContact = true;
-            }
-        }, 150 )
-    }
-
-    hitByBottle() {
-        this.energy -= 25; 
-        if (this.energy <= 0) {
-            this.die(); 
+            }, 200)
         }
+
+
+ hitByBottle() {
+    if (this.isDead) return;
+
+    console.log(`hitByBottle called on ID ${this.id} BEFORE:`, this.energy);
+    this.energy -= 25;
+    if (this.energy < 0) this.energy = 0;
+    this.statusBar.setPercentage(this.energy);
+    console.log(`hitByBottle called on ID ${this.id} AFTER:`, this.energy);
+
+    if (this.energy === 0 && !this.isDead) {
+        console.log(`Energy is 0, calling die() now for ID ${this.id}`);
+        this.die();
     }
+}
 
-    die() {
-        this.isDead = true;
-        let i = 0;
+die() {
+    if (this.isDead) return;
+    this.isDead = true;
 
-        const deathInterval = setInterval(() => {
-            if (i < this.deadImages.length) {
-                this.loadImage(this.deadImages[i]);
-                i++;
+    console.log(`die() called on ID ${this.id} Energy:`, this.energy);
+    
+    let i = 0;
+    const deathInterval = setInterval(() => {
+        if (i < this.deadImages.length) {
+            this.loadImage(this.deadImages[i]);
+            i++;
+        } else {
+            clearInterval(deathInterval);
             if (this.world) {
                 if (soundOn) {
                     this.winSound.currentTime = 0;
                     this.winSound.volume = 0.1;
                     this.winSound.play();
                 }
-                this.world.youWin(); 
-                }
+                this.world.youWin();
             }
-        }, 300); 
+        }
+    }, 300);
     }
 }
+
