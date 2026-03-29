@@ -43,7 +43,20 @@ class Endboss extends MoveableObject {
         setInterval(() => {
                 this.playAnimation(this.IMAGES_WALKING);
             }, 200)
+
+        let direction = 1; 
+        let minX = 2000; 
+        let maxX = 2500; 
+        setInterval(() => {
+        this.x += direction * this.speed * 10; 
+
+        
+        if (this.x >= maxX) direction = -1; 
+        if (this.x <= minX) direction = 1;  
+
+            }, 2); 
         }
+        
 
 
  hitByBottle() {
@@ -64,8 +77,6 @@ class Endboss extends MoveableObject {
 die() {
     if (this.isDead) return;
     this.isDead = true;
-
-    console.log(`die() called on ID ${this.id} Energy:`, this.energy);
     
     let i = 0;
     const deathInterval = setInterval(() => {
