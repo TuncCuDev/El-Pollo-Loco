@@ -28,9 +28,6 @@ class Endboss extends MoveableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.x = 2500;
 
-          this.id = Math.random().toString(36).substr(2, 5); // kurze zufällige ID
-    console.log('Endboss created with ID:', this.id);
-
         this.statusBar = new EndbossStatusBar();
         this.statusBar.setPercentage(this.energy); 
 
@@ -47,54 +44,49 @@ class Endboss extends MoveableObject {
         let direction = 1; 
         let minX = 2000; 
         let maxX = 2500; 
+
         setInterval(() => {
-        this.x += direction * this.speed * 10; 
-
-        
-        if (this.x >= maxX) direction = -1; 
-        if (this.x <= minX) direction = 1;  
-
-            }, 2); 
-        }
-        
-
-
- hitByBottle() {
-    if (this.isDead) return;
-
-    console.log(`hitByBottle called on ID ${this.id} BEFORE:`, this.energy);
-    this.energy -= 25;
-    if (this.energy < 0) this.energy = 0;
-    this.statusBar.setPercentage(this.energy);
-    console.log(`hitByBottle called on ID ${this.id} AFTER:`, this.energy);
-
-    if (this.energy === 0 && !this.isDead) {
-        console.log(`Energy is 0, calling die() now for ID ${this.id}`);
-        this.die();
+            this.x += direction * this.speed * 10; 
+            if (this.x >= maxX) direction = -1; 
+            if (this.x <= minX) direction = 1;  
+        }, 2); 
     }
-}
+        
 
-die() {
-    if (this.isDead) return;
-    this.isDead = true;
-    
-    let i = 0;
-    const deathInterval = setInterval(() => {
-        if (i < this.deadImages.length) {
-            this.loadImage(this.deadImages[i]);
-            i++;
-        } else {
-            clearInterval(deathInterval);
-            if (this.world) {
-                if (soundOn) {
-                    this.winSound.currentTime = 0;
-                    this.winSound.volume = 0.1;
-                    this.winSound.play();
-                }
-                this.world.youWin();
-            }
+
+    hitByBottle() {
+        if (this.isDead) return;
+
+        this.energy -= 25;
+        if (this.energy < 0) this.energy = 0;
+        this.statusBar.setPercentage(this.energy);
+
+        if (this.energy === 0 && !this.isDead) {
+            this.die();
         }
-    }, 300);
+    }
+
+    die() {
+        if (this.isDead) return;
+        this.isDead = true;
+        
+        let i = 0;
+        const deathInterval = setInterval(() => {
+            if (i < this.deadImages.length) {
+                this.loadImage(this.deadImages[i]);
+                i++;
+            } else {
+                clearInterval(deathInterval);
+                if (this.world) {
+                    if (soundOn) {
+                        this.winSound.currentTime = 0;
+                        this.winSound.volume = 0.1;
+                        this.winSound.play();
+                    }
+                    this.world.youWin();
+                }
+            }
+        }, 300);
     }
 }
 

@@ -48,6 +48,7 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_HURT);
 
         this.jumpSound = new Audio('sounds/jump.mp3');
+        this.crySound = new Audio('sounds/cry.mp3')
 
         this.applyGravity();
         this.animate();
@@ -75,11 +76,15 @@ class Character extends MoveableObject {
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-
                 if (this.world) {
                     this.world.gameOver();
                 }
             } else if (this.isHurt()) {
+                if (soundOn) {
+                    this.crySound.currentTime = 0;
+                    this.crySound.volume = 0.1;
+                    this.crySound.play();
+                }
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
@@ -110,22 +115,14 @@ class Character extends MoveableObject {
         }
     }
 
-   isJumpingOn(enemy) {
+isJumpingOn(enemy) {
     let playerBottom = this.y + this.height;
     let playerCenterX = this.x + this.width / 2;
 
-    let isSmall = enemy.height < 80;
-
-    let horizontal = playerCenterX > enemy.x - (isSmall ? 20 : 10) &&
-                     playerCenterX < enemy.x + enemy.width + (isSmall ? 20 : 10);
-
-    let stompZone = Math.max(25, enemy.height * (isSmall ? 0.6 : 0.3));
-
-    let vertical = playerBottom >= enemy.y - 10 &&
-                   playerBottom <= enemy.y + stompZone;
-
-    let falling = this.speedY < 5; // 🔥 FIX
+    let horizontal = playerCenterX > enemy.x - 100 && playerCenterX < enemy.x + enemy.width + 100;
+    let vertical = playerBottom >= enemy.y - 20 && playerBottom <= enemy.y + enemy.height + 10;
+    let falling = this.speedY < 10;
 
     return horizontal && vertical && falling;
-   }
+}
 }
