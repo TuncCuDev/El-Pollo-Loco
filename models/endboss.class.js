@@ -17,29 +17,40 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
+    IMAGES_HuRT = [
+        '4_enemie_boss_chicken/4_hurt/G21.png',
+        '4_enemie_boss_chicken/4_hurt/G22.png',
+        '4_enemie_boss_chicken/4_hurt/G23.png'
+    ]
     hadFirstContact = false;
     hits = 0;
     isDead = false;
     energy = 100;
+    isHurt = false;
+
     
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_HuRT);
+        this.loadImages(this.deadImages);
         this.x = 2500;
 
         this.statusBar = new EndbossStatusBar();
         this.statusBar.setPercentage(this.energy); 
 
         this.winSound = new Audio('sounds/wingame.mp3');
+        
         this.animate();
     }
 
     animate() {
-        let i = 0;
         setInterval(() => {
+            if (!this.isHurt && !this.isDead) { 
                 this.playAnimation(this.IMAGES_WALKING);
-            }, 200)
+            }
+        }, 200);
 
         let direction = 1; 
         let minX = 2000; 
@@ -49,10 +60,8 @@ class Endboss extends MoveableObject {
             this.x += direction * this.speed * 10; 
             if (this.x >= maxX) direction = -1; 
             if (this.x <= minX) direction = 1;  
-        }, 2); 
+        }, 100); 
     }
-        
-
 
     hitByBottle() {
         if (this.isDead) return;
@@ -61,9 +70,26 @@ class Endboss extends MoveableObject {
         if (this.energy < 0) this.energy = 0;
         this.statusBar.setPercentage(this.energy);
 
-        if (this.energy === 0 && !this.isDead) {
+        if (this.energy > 0) {
+            this.playHurtAnimation();
+        } else if (!this.isDead) {
             this.die();
         }
+    }
+
+    playHurtAnimation() {
+        if (this.isHurt) return; 
+        this.isHurt = true;
+        let i = 0;
+        const hurtInterval = setInterval(() => {
+            if (i < this.IMAGES_HuRT.length) {
+                this.loadImage(this.IMAGES_HuRT[i]);
+                i++;
+            } else {
+                clearInterval(hurtInterval);
+                this.isHurt = false;
+            }
+        }, 500);
     }
 
     die() {
