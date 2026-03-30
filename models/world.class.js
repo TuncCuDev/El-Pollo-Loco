@@ -13,6 +13,8 @@ class World {
     endBoss = endBoss;
     gameIsRunning = true;
     hasWon = false; 
+    lastThrowTime = 0; 
+    throwCooldown = 1500;
     
 
     constructor(canvas, keyboard) {
@@ -47,11 +49,19 @@ class World {
     }
 
     checkThrowObject() {
-    if (this.keyboard.D && this.character.bottles > 0) {
+    const now = Date.now(); // aktueller Zeitpunkt in ms
+
+    // nur werfen, wenn D gedrückt, Flaschen vorhanden und Cooldown vorbei
+    if (this.keyboard.D 
+        && this.character.bottles > 0 
+        && (now - this.lastThrowTime >= this.throwCooldown)) {
+        
         let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
         this.throwableObject.push(bottle);
         this.character.bottles--;
         this.bottleBar.setBottles(this.character.bottles);
+
+        this.lastThrowTime = now; // Zeit merken
     }
 
     for (let i = 0; i < this.throwableObject.length; i++) {
@@ -69,6 +79,8 @@ class World {
         this.checkEnemiesHit(bottle); 
     }
 }
+
+
     checkEndbossHit(bottle) {
     if (!this.endBoss || this.endBoss.isDead) return;
 
