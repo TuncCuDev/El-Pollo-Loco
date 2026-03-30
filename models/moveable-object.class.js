@@ -4,8 +4,9 @@ class MoveableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
-    lastHit;
+    lastHit = 0;
     currentImage = 0;
+    startTime = new Date().getTime();
 
 
     applyGravity() {
@@ -55,19 +56,22 @@ class MoveableObject extends DrawableObject {
                charFoot.y < itemBox.y + itemBox.height;
     }
 
-    hit() {
+      hit() {
+        const now = new Date().getTime();
+        if (now - this.startTime < 3000) {
+            return; 
+        }
         this.energy -= 5;
         if (this.energy < 0) {
             this.energy = 0;
-        } else {
-            this.lastHit = new Date().getTime(); //Difference in ms
         }
+        this.lastHit = now; 
     }
 
+
     isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit;
-        timepassed = timepassed / 1000; // Difference in sec.
-        return timepassed < 1;
+        let timepassed = (new Date().getTime() - this.lastHit) / 1000;
+        return timepassed < 1; 
     }
 
     isDead() {
