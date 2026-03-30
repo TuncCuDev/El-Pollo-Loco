@@ -13,9 +13,9 @@ class Endboss extends MoveableObject {
         '4_enemie_boss_chicken/2_alert/G12.png'
     ];
     deadImages = [
-        'img/4_enemie_boss_chicken/5_dead/G24.png',
-        'img/4_enemie_boss_chicken/5_dead/G25.png',
-        'img/4_enemie_boss_chicken/5_dead/G26.png'
+        '4_enemie_boss_chicken/5_dead/G24.png',
+        '4_enemie_boss_chicken/5_dead/G25.png',
+        '4_enemie_boss_chicken/5_dead/G26.png'
     ];
     IMAGES_HuRT = [
         '4_enemie_boss_chicken/4_hurt/G21.png',
@@ -27,6 +27,8 @@ class Endboss extends MoveableObject {
     isDead = false;
     energy = 100;
     isHurt = false;
+    walkInterval;
+    moveInterval;
 
     
 
@@ -46,7 +48,7 @@ class Endboss extends MoveableObject {
     }
 
     animate() {
-        setInterval(() => {
+        this.walkInterval = setInterval(() => {
             if (!this.isHurt && !this.isDead) { 
                 this.playAnimation(this.IMAGES_WALKING);
             }
@@ -56,7 +58,7 @@ class Endboss extends MoveableObject {
         let minX = 2000; 
         let maxX = 2500; 
 
-        setInterval(() => {
+        this.moveInterval = setInterval(() => {
             this.x += direction * this.speed * 10; 
             if (this.x >= maxX) direction = -1; 
             if (this.x <= minX) direction = 1;  
@@ -93,26 +95,30 @@ class Endboss extends MoveableObject {
     }
 
     die() {
-        if (this.isDead) return;
-        this.isDead = true;
-        
-        let i = 0;
-        const deathInterval = setInterval(() => {
-            if (i < this.deadImages.length) {
-                this.loadImage(this.deadImages[i]);
-                i++;
-            } else {
-                clearInterval(deathInterval);
-                if (this.world) {
-                    if (soundOn) {
-                        this.winSound.currentTime = 0;
-                        this.winSound.volume = 0.1;
-                        this.winSound.play();
-                    }
-                    this.world.youWin();
+    if (this.isDead) return;
+    this.isDead = true;
+
+    // ❗ ALLE Animationen stoppen
+    clearInterval(this.walkInterval);
+    clearInterval(this.moveInterval);
+
+    let i = 0;
+    const deathInterval = setInterval(() => {
+        if (i < this.deadImages.length) {
+            this.loadImage(this.deadImages[i]);
+            i++;
+        } else {
+            clearInterval(deathInterval);
+            if (this.world) {
+                if (soundOn) {
+                    this.winSound.currentTime = 0;
+                    this.winSound.volume = 0.1;
+                    this.winSound.play();
                 }
+                this.world.youWin();
             }
-        }, 300);
-    }
+        }
+    }, 300);
+}
 }
 
