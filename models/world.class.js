@@ -49,66 +49,64 @@ class World {
     }
 
     checkThrowObject() {
-    const now = Date.now(); // aktueller Zeitpunkt in ms
+        const now = Date.now(); 
 
-    // nur werfen, wenn D gedrückt, Flaschen vorhanden und Cooldown vorbei
-    if (this.keyboard.D 
-        && this.character.bottles > 0 
-        && (now - this.lastThrowTime >= this.throwCooldown)) {
-        
-        let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-        this.throwableObject.push(bottle);
-        this.character.bottles--;
-        this.bottleBar.setBottles(this.character.bottles);
-
-        this.lastThrowTime = now; // Zeit merken
-    }
-
-    for (let i = 0; i < this.throwableObject.length; i++) {
-        let bottle = this.throwableObject[i];
-
-        if (bottle.markedForDelete) {
-            this.throwableObject.splice(i, 1);
-            i--;
-            continue;
+        if (this.keyboard.D 
+            && this.character.bottles > 0 
+            && (now - this.lastThrowTime >= this.throwCooldown)) {
+            
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+            this.throwableObject.push(bottle);
+            this.character.bottles--;
+            this.bottleBar.setBottles(this.character.bottles);
+            this.lastThrowTime = now; 
         }
-
-        if (bottle.hasSplashed) continue;
-
-        this.checkEndbossHit(bottle); 
-        this.checkEnemiesHit(bottle); 
+        for (let i = 0; i < this.throwableObject.length; i++) {
+                let bottle = this.throwableObject[i];
+                if (bottle.markedForDelete) {
+                    this.throwableObject.splice(i, 1);
+                    i--;
+                    continue;
+                }
+                if (bottle.hasSplashed) continue;
+                this.checkEndbossHit(bottle); 
+                this.checkEnemiesHit(bottle); 
+        }
     }
-}
 
 
     checkEndbossHit(bottle) {
-    if (!this.endBoss || this.endBoss.isDead) return;
+        if (!this.endBoss || this.endBoss.isDead) return;
 
-    if (bottle.isColliding(this.endBoss)) {
-        if (bottle.hasSplashed) return;
-        bottle.hasSplashed = true;
+        if (bottle.isColliding(this.endBoss)) {
+            if (bottle.hasSplashed) return;
+            bottle.hasSplashed = true;
 
-        bottle.playSplashAnimation();
-
-        if (!this.endBoss.isDead) {
-            this.endBoss.hitByBottle();
-        }
-    }
-}
-
-    checkEnemiesHit(bottle) {
-    this.level.enemies.forEach(enemy => {
-        if (enemy === this.endBoss) return;
-        if (!enemy.isDead && bottle.isColliding(enemy)) {
             bottle.playSplashAnimation();
-            if (typeof enemy.kill === 'function') {
-                enemy.kill();
-            } else if (typeof enemy.die === 'function') {
-                enemy.die();
+
+            if (!this.endBoss.isDead) {
+                this.endBoss.hitByBottle();
             }
         }
-    });
-}
+    }
+
+    checkEnemiesHit(bottle) {
+        this.level.enemies.forEach(enemy => {
+            if (enemy === this.endBoss) return;
+
+            if (!enemy.isDead && bottle.isColliding(enemy)) {
+                console.log("HIT DETECTED!"); 
+
+                bottle.playSplashAnimation();
+
+                if (typeof enemy.kill === 'function') {
+                    enemy.kill();
+                } else if (typeof enemy.die === 'function') {
+                    enemy.die();
+                }
+            }
+        });
+    }
 
     checkCollisions() {
         this.level.enemies.forEach(enemy => {
