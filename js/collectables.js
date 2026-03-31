@@ -1,6 +1,3 @@
-let collectables = [];
-
-
 let coinsPositions = [
     {x: 500, y: 250},
     {x: 700, y: 280},
@@ -32,11 +29,15 @@ let bottlesPositions = [
     {x: 2150, y: 330} 
 ];
 
+function initCollactibles() {
+    const collectables = [];
+    coinsPositions.forEach(pos => {
+        collectables.push(new CollectableObject(pos.x, pos.y, '8_coin/coin_1.png', 50, 50));
+    });
+    bottlesPositions.forEach(pos => {
+        collectables.push(new CollectableObject(pos.x, pos.y, '6_salsa_bottle/2_salsa_bottle_on_ground.png', 30 ,10));
+    });
+    return collectables;
+};
 
-coinsPositions.forEach(pos => {
-    collectables.push(new CollectableObject(pos.x, pos.y, '8_coin/coin_1.png', 50, 50));
-});
 
-bottlesPositions.forEach(pos => {
-    collectables.push(new CollectableObject(pos.x, pos.y, '6_salsa_bottle/2_salsa_bottle_on_ground.png', 30 ,10));
-});
