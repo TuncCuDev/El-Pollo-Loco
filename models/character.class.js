@@ -53,6 +53,7 @@ class Character extends MoveableObject {
         this.applyGravity();
         this.animate();
     }
+    
 
     animate() {
         setInterval(() => {
@@ -71,6 +72,7 @@ class Character extends MoveableObject {
             }
 
             this.world.camera_x = -this.x + 100;
+            this.world.checkMusicSwitch();
         }, 1000 / 60);
 
         setInterval(() => {
@@ -80,18 +82,16 @@ class Character extends MoveableObject {
                     this.world.gameOver();
                 }
             } else if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
                 if (soundOn) {
                     this.crySound.currentTime = 0;
                     this.crySound.volume = 0.1;
                     this.crySound.play();
                 }
-                this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
-            } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.IMAGES_WALKING);
-                }
             }
         }, 50);
     }
@@ -115,14 +115,14 @@ class Character extends MoveableObject {
         }
     }
 
-isJumpingOn(enemy) {
-    let playerBottom = this.y + this.height;
-    let playerCenterX = this.x + this.width / 2;
+    isJumpingOn(enemy) {
+        let playerBottom = this.y + this.height;
+        let playerCenterX = this.x + this.width / 2;
 
-    let horizontal = playerCenterX > enemy.x - 100 && playerCenterX < enemy.x + enemy.width + 100;
-    let vertical = playerBottom >= enemy.y - 20 && playerBottom <= enemy.y + enemy.height + 10;
-    let falling = this.speedY < 10;
+        let horizontal = playerCenterX > enemy.x - 100 && playerCenterX < enemy.x + enemy.width + 100;
+        let vertical = playerBottom >= enemy.y - 20 && playerBottom <= enemy.y + enemy.height + 10;
+        let falling = this.speedY < 10;
 
-    return horizontal && vertical && falling;
-}
+        return horizontal && vertical && falling;
+    }
 }

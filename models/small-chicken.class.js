@@ -16,21 +16,19 @@ class SmallChicken extends MoveableObject {
         super().loadImage(this.IMAGES_WALKING[0]); 
         this.loadImages(this.IMAGES_WALKING);
 
-      
         this.x = 250 + Math.random() * (2000 - 500);
         this.speed = 0.2 + Math.random() * 0.3; 
 
         this.animate();
     }
+    
 
     animate() {
-
-        let walkInterval = setInterval(() => {
+        setInterval(() => {
             if (!this.isDead) this.moveLeft();
         }, 1000 / 60);
 
-     
-        let animInterval = setInterval(() => {
+        setInterval(() => {
             if (!this.isDead) this.playAnimation(this.IMAGES_WALKING);
         }, 200);
     }

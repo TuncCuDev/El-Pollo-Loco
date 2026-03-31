@@ -72,9 +72,9 @@ function closeInfo() {
 }
 
 function toggleSound() {
-    var icon = document.getElementById("soundIcon");
+    const icon = document.getElementById("soundIcon");
     soundOn = !soundOn;
-    var filename = icon.src.split('/').pop();
+    const filename = icon.src.split('/').pop();
 
     if (filename === "laut.png") {
         icon.src = "./img/laut.stumm.png";
@@ -83,6 +83,10 @@ function toggleSound() {
     }
     if (world) {
         world.backgroundMusic.muted = !soundOn;
+
+        if (world.bossMusic) {
+            world.bossMusic.muted = !soundOn;
+        }
 
         world.level.enemies.forEach(chicken => {
             chicken.chickenSound.muted = !soundOn;

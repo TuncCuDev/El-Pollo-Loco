@@ -37,9 +37,9 @@ class MoveableObject extends DrawableObject {
     // character is colliding (coins/bottles)
     isCollidingCollectable(item) {
         let charFoot = {
-            x: this.x + 10, 
+            x: this.x , 
             y: this.y, 
-            width: this.width - 20,
+            width: this.width,
             height: this.height
         };
 
@@ -86,7 +86,7 @@ class MoveableObject extends DrawableObject {
     }
 
     moveRight() {
-        this.x += this.speed
+        this.x += this.speed;
     }
 
     moveLeft() {

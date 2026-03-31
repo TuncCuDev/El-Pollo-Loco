@@ -7,7 +7,6 @@ class CoinsBar extends DrawableObject {
         '7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png',
         '7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
     ];
-
     coins = 0; 
 
     constructor() {

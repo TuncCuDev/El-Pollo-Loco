@@ -42,7 +42,9 @@ class Endboss extends MoveableObject {
         this.statusBar = new EndbossStatusBar();
         this.statusBar.setPercentage(this.energy); 
 
+        this.endbossHit = new Audio('sounds/endbossmatch.mp3');
         this.winSound = new Audio('sounds/wingame.mp3');
+        this.endbossDie = new Audio('sounds/endbossdie.mp3');
         
         this.animate();
     }
@@ -87,6 +89,10 @@ class Endboss extends MoveableObject {
             if (i < this.IMAGES_HuRT.length) {
                 this.loadImage(this.IMAGES_HuRT[i]);
                 i++;
+                if (soundOn) {
+                    this.endbossHit.play();
+                    this.endbossHit.volume = 0.4;
+                }
             } else {
                 clearInterval(hurtInterval);
                 this.isHurt = false;
@@ -97,8 +103,11 @@ class Endboss extends MoveableObject {
     die() {
     if (this.isDead) return;
     this.isDead = true;
+    if (soundOn) {
+        this.endbossDie.play();
+        this.endbossDie.volume = 0.5;
+    }
 
-    // ❗ ALLE Animationen stoppen
     clearInterval(this.walkInterval);
     clearInterval(this.moveInterval);
 
