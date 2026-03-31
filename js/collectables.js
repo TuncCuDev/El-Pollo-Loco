@@ -31,12 +31,14 @@ let bottlesPositions = [
 
 function initCollactibles() {
     const collectables = [];
+
     coinsPositions.forEach(pos => {
         collectables.push(new CollectableObject(pos.x, pos.y, '8_coin/coin_1.png', 50, 50));
     });
     bottlesPositions.forEach(pos => {
         collectables.push(new CollectableObject(pos.x, pos.y, '6_salsa_bottle/2_salsa_bottle_on_ground.png', 30 ,10));
     });
+    
     return collectables;
 };
 
