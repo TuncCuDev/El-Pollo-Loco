@@ -35,7 +35,7 @@ class SmallChicken extends MoveableObject {
         }, 200);
     }
 
-    die() {
+    kill() {
         if (this.isDead) return; 
         this.isDead = true;
         this.loadImage(this.IMAGE_DEAD);
