@@ -36,28 +36,15 @@ class MoveableObject extends DrawableObject {
 
     // character is colliding (coins/bottles)
     isCollidingCollectable(item) {
-        let charFoot = {
-            x: this.x , 
-            y: this.y, 
-            width: this.width,
-            height: this.height
-        };
-
-        let itemBox = {
-            x: item.x + 5,
-            y: item.y + 5,
-            width: item.width - 10,
-            height: item.height - 10
-        };
-
-        return charFoot.x + charFoot.width > itemBox.x &&
-               charFoot.y + charFoot.height > itemBox.y &&
-               charFoot.x < itemBox.x + itemBox.width &&
-               charFoot.y < itemBox.y + itemBox.height;
+        return this.x + this.width > item.x + 5 &&
+            this.y + this.height > item.y + 5 &&
+            this.x < item.x + item.width - 5 &&
+            this.y < item.y + item.height - 5;
     }
 
       hit() {
         const now = new Date().getTime();
+        
         if (now - this.startTime < 3000) {
             return; 
         }

@@ -47,18 +47,34 @@ class Chicken extends MoveableObject {
     }
 
     kill() {
-        if (this.isDead) return; 
+        if (this.isDead) return;
+
+        this.markAsDead();
+        this.showDeadImage();
+        this.playDeathSound();
+        this.removeFromWorldAfterDelay(500);
+    }
+
+    markAsDead() {
         this.isDead = true;
+    }
+
+    showDeadImage() {
         this.loadImage(this.IMAGE_DEAD);
-        if (soundOn) {
+    }
+
+    playDeathSound() {
+        if (!soundOn || !this.chickenDie) return;
         this.chickenDie.currentTime = 0;
         this.chickenDie.play();
-        }
+    }
+
+    removeFromWorldAfterDelay(delay) {
         setTimeout(() => {
             if (this.world) {
-                let index = this.world.level.enemies.indexOf(this);
+                const index = this.world.level.enemies.indexOf(this);
                 if (index > -1) this.world.level.enemies.splice(index, 1);
-                }
-        }, 500);
+            }
+        }, delay);
     }
 }

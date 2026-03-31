@@ -26,22 +26,32 @@ class ThrowableObject extends MoveableObject {
     }
 
     playSplashAnimation() {
+        this.stopMovement();
+        this.playSplashSound();
+        this.animateSplashImages();
+    }
+
+    stopMovement() {
         this.hasSplashed = true;
         this.speed = 0;
         this.speedY = 0;
-        let i = 0;
-        if (soundOn) {
-            this.splashSound.currentTime = 0;
-            this.splashSound.play();
-        }
+    }
 
+    playSplashSound() {
+        if (!soundOn || !this.splashSound) return;
+        this.splashSound.currentTime = 0;
+        this.splashSound.play();
+    }
+
+    animateSplashImages() {
+        let i = 0;
         const interval = setInterval(() => {
             if (i < this.IMAGES_SPLASH.length) {
                 this.loadImage(this.IMAGES_SPLASH[i]);
                 i++;
             } else {
                 clearInterval(interval);
-                this.markedForDelete = true; 
+                this.markedForDelete = true;
             }
         }, 20);
     }
@@ -59,9 +69,9 @@ class ThrowableObject extends MoveableObject {
     }
 
     isColliding(enemy) {
-    return this.x + this.width > enemy.x - 20 &&
-           this.y + this.height > enemy.y - 20 &&
-           this.x < enemy.x + enemy.width + 20 &&
-           this.y < enemy.y + enemy.height + 20;
-}
+        return this.x + this.width > enemy.x - 20 &&
+            this.y + this.height > enemy.y - 20 &&
+            this.x < enemy.x + enemy.width + 20 &&
+            this.y < enemy.y + enemy.height + 20;
+    }
 }

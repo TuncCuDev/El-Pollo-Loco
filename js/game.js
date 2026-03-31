@@ -72,34 +72,44 @@ function closeInfo() {
 }
 
 function toggleSound() {
-    const icon = document.getElementById("soundIcon");
     soundOn = !soundOn;
+    updateSoundIcon();
+    updateWorldSounds();
+}
+
+function updateSoundIcon() {
+    const icon = document.getElementById("soundIcon");
     const filename = icon.src.split('/').pop();
 
-    if (filename === "laut.png") {
-        icon.src = "./img/laut.stumm.png";
-    } else {
-        icon.src = "./img/laut.png";
-    }
-    if (world) {
-        world.backgroundMusic.muted = !soundOn;
+    icon.src = (filename === "laut.png") 
+        ? "./img/laut.stumm.png" 
+        : "./img/laut.png";
+}
 
-        if (world.bossMusic) {
-            world.bossMusic.muted = !soundOn;
-        }
+function updateWorldSounds() {
+    if (!world) return;
 
-        world.level.enemies.forEach(chicken => {
-            chicken.chickenSound.muted = !soundOn;
-            chicken.chickenDie.muted = !soundOn;
-        });
-    }
+    toggleAudio(world.backgroundMusic);
+    toggleAudio(world.bossMusic);
+
+    world.level.enemies.forEach(chicken => {
+        toggleAudio(chicken.chickenSound);
+        toggleAudio(chicken.chickenDie);
+    });
+}
+
+function toggleAudio(audio) {
+    if (!audio) return;
+    audio.muted = !soundOn;
 }
 
 function goToMenu() {
     document.getElementById('gameOverOverlay').style.display = 'none';
+
     if (world) {
         world.gameIsRunning = false;
     }
+
     window.location.href = "index.html"; 
 }
 
