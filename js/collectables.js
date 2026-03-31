@@ -29,7 +29,7 @@ let bottlesPositions = [
     {x: 2150, y: 330} 
 ];
 
-function initCollactibles() {
+function initCollactables() {
     const collectables = [];
 
     coinsPositions.forEach(pos => {
