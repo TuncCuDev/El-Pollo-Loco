@@ -1,6 +1,6 @@
 class World {
     character = new Character();
-    level = level1;
+    level;
     canvas;
     ctx;
     keyboard;
@@ -21,7 +21,8 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        
+        this.level = initLevel1();
+
         this.backgroundMusic = new Audio('sounds/gamemusic.mp3');
         this.backgroundMusic.loop = true;
         this.backgroundMusic.volume = 0.1;
@@ -32,15 +33,20 @@ class World {
         this.run();
     }
 
-    setWorld() {
-    this.character.world = this;
-    this.collectables = this.level.collectableObject;
+       setWorld() {
+        if (!this.level) {
+            console.error("Kein Level gesetzt!");
+            return;
+        }
 
-    this.level.enemies.forEach(enemy => {
-        enemy.world = this;
+        this.character.world = this;
+        this.collectables = this.level.collectableObject;
+
+        this.level.enemies.forEach(enemy => {
+            enemy.world = this;
         });
     }
-     
+
     run() {
         setInterval(() => {
             this.checkCollisions();
@@ -113,9 +119,9 @@ class World {
         const jumpingOn = this.character.isJumpingOn(enemy);
 
         if (jumpingOn) {
-            enemy.die();               
+            enemy.kill();               
             this.character.speedY = 25; 
-        } else if (this.character.isColliding(enemy) && !jumpingOn) {
+        } else if (this.character.isColliding(enemy)) {
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
         }
@@ -138,7 +144,6 @@ class World {
     }
 
     youWin() {
-    console.log('youWin() called! Energy:', this.endBoss ? this.endBoss.energy : 'no boss', new Error().stack);
         if (!this.gameIsRunning) return;
         this.gameIsRunning = false;
 
