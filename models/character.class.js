@@ -50,7 +50,6 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_HURT);
 
         this.jumpSound = new Audio('sounds/jump.mp3');
-        this.crySound = new Audio('sounds/cry.mp3')
        
         this.applyGravity();
         this.animate();
@@ -89,11 +88,6 @@ class Character extends MoveableObject {
 
     playHurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
-        if (!soundOn || !this.crySound) return;
-
-        this.crySound.currentTime = 0;
-        this.crySound.volume = 0.1;
-        this.crySound.play();
     }
 
     playJumpingAnimation() {

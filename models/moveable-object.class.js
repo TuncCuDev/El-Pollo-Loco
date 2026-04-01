@@ -42,17 +42,30 @@ class MoveableObject extends DrawableObject {
             this.y < item.y + item.height - 5;
     }
 
-      hit() {
+    hit() {
         const now = new Date().getTime();
         
         if (now - this.startTime < 3000) {
             return; 
         }
         this.energy -= 5;
+        this.playCrySound();
+        this.updateHitStatus(now);
+    }
+
+    playCrySound() {
+        if (soundOn) {
+            this.crySound = new Audio('sounds/cry.mp3');
+            this.crySound.volume = 0.1;
+            this.crySound.play();
+        }
+    }
+
+    updateHitStatus(timestamp) {
         if (this.energy < 0) {
             this.energy = 0;
         }
-        this.lastHit = now; 
+        this.lastHit = timestamp;
     }
 
 
