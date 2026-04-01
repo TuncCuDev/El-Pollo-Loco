@@ -24,6 +24,7 @@ class ThrowableObject extends MoveableObject {
 
         this.throw();
     }
+    
 
     playSplashAnimation() {
         this.stopMovement();

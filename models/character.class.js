@@ -3,6 +3,8 @@ class Character extends MoveableObject {
     width = 130;
     y = 110;
     speed = 10;
+    world;
+    bottles = 0;
     IMAGES_WALKING = [
         '2_character_pepe/2_walk/W-21.png',
         '2_character_pepe/2_walk/W-22.png',
@@ -11,6 +13,7 @@ class Character extends MoveableObject {
         '2_character_pepe/2_walk/W-25.png',
         '2_character_pepe/2_walk/W-26.png'
     ];
+
     IMAGES_JUMPING = [
         '2_character_pepe/3_jump/J-31.png',
         '2_character_pepe/3_jump/J-32.png',
@@ -22,6 +25,7 @@ class Character extends MoveableObject {
         '2_character_pepe/3_jump/J-38.png',
         '2_character_pepe/3_jump/J-39.png',
     ];
+
     IMAGES_DEAD = [
         '2_character_pepe/5_dead/D-51.png',
         '2_character_pepe/5_dead/D-52.png',
@@ -31,15 +35,13 @@ class Character extends MoveableObject {
         '2_character_pepe/5_dead/D-56.png',
         '2_character_pepe/5_dead/D-57.png'
     ];
+
     IMAGES_HURT = [
         '2_character_pepe/4_hurt/H-41.png',
         '2_character_pepe/4_hurt/H-42.png',
         '2_character_pepe/4_hurt/H-43.png'
     ];
-    world;
-    bottles = 0;
-
-
+    
     constructor() {
         super().loadImage('2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -61,11 +63,11 @@ class Character extends MoveableObject {
     }
 
     handleMovement() {
-    if (!this.world || !this.world.keyboard) return;
+        if (!this.world || !this.world.keyboard) return;
 
-    this.moveCharacter();
-    this.updateCamera();
-    this.world.checkMusicSwitch();
+        this.moveCharacter();
+        this.updateCamera();
+        this.world.checkMusicSwitch();
     }
 
     handleAnimations() {

@@ -1,4 +1,5 @@
 class BottleBar extends DrawableObject {
+    bottles = 0;
     IMAGES_BOTTLE = [
         '7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
         '7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
@@ -7,7 +8,6 @@ class BottleBar extends DrawableObject {
         '7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png',
         '7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
     ];
-    bottles = 0;
 
     constructor() {
         super();
@@ -19,6 +19,7 @@ class BottleBar extends DrawableObject {
         this.width = 200;
         this.height = 60;
     }
+    
 
     setBottles(amount) {
         this.bottles = amount;

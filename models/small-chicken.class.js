@@ -19,6 +19,9 @@ class SmallChicken extends MoveableObject {
         this.x = 250 + Math.random() * (2000 - 500);
         this.speed = 0.2 + Math.random() * 0.3; 
 
+        this.chickenDie = new Audio('sounds/chickendie.mp3');
+        this.chickenDie.volume = 0.1;
+
         this.animate();
     }
     
@@ -34,15 +37,34 @@ class SmallChicken extends MoveableObject {
     }
 
     kill() {
-        if (this.isDead) return; 
+        if (this.isDead) return;
+
+        this.markAsDead();
+        this.playDeathSound();
+        this.removeFromWorldAfterDelay(500);
+    }
+
+
+    markAsDead() {
         this.isDead = true;
         this.loadImage(this.IMAGE_DEAD);
+    }
 
+    playDeathSound() {
+        if (!soundOn || !this.chickenDie) return;
+
+        this.chickenDie.currentTime = 0;
+        this.chickenDie.play();
+    }
+
+    removeFromWorldAfterDelay(delay) {
         setTimeout(() => {
-            if (this.world) {
-                let index = this.world.level.enemies.indexOf(this);
-                if (index > -1) this.world.level.enemies.splice(index, 1);
+            if (!this.world) return;
+
+            const index = this.world.level.enemies.indexOf(this);
+            if (index > -1) {
+                this.world.level.enemies.splice(index, 1);
             }
-        }, 500);
+        }, delay);
     }
 }

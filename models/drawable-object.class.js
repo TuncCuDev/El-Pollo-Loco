@@ -8,7 +8,6 @@ class DrawableObject {
     currentImage = 0;
 
 
-    // loadImage('img/test.png);
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
@@ -18,14 +17,10 @@ class DrawableObject {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
- 
-   drawFrame(ctx) {
+     drawFrame(ctx) {
         
     }
-     /**
-     * 
-     * @param {Array} arr - ['img/image.png', 'img/image2.png', ...]
-     */
+    
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
@@ -33,5 +28,4 @@ class DrawableObject {
             this.imageCache[path] = img;
         })
     }
-
 }

@@ -5,11 +5,6 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
-    coinsBar = new CoinsBar();
-    bottleBar = new BottleBar();
-    endbossBar = new EndbossStatusBar();
-    throwableObject = [new ThrowableObject()]; 
     endBoss = endBoss;
     gameIsRunning = true;
     hasWon = false; 
@@ -17,6 +12,12 @@ class World {
     throwCooldown = 1500;
     bossMusicStarted = false;
     bossMusic;
+    statusBar = new StatusBar();
+    coinsBar = new CoinsBar();
+    bottleBar = new BottleBar();
+    endbossBar = new EndbossStatusBar();
+    throwableObject = [new ThrowableObject()]; 
+    
     
 
     constructor(canvas, keyboard) {
@@ -41,11 +42,11 @@ class World {
         this.run();
     }
 
+
     setWorld() {
         this.setCharacterWorld();
         this.setCollectable();
         this.setEnemisWorld();
-        
     }
 
     setCharacterWorld() {
@@ -284,14 +285,6 @@ class World {
         gameOverSound.play();
     }
 
-    stopAllMusic() {
-        [this.backgroundMusic, this.bossMusic].forEach(music => {
-            if (!music) return;
-            music.pause();
-            music.currentTime = 0;
-        });
-    }
-
     stopEnemySounds() {
         this.level.enemies.forEach(enemy => {
             if (enemy.audioInterval) clearInterval(enemy.audioInterval);
@@ -345,8 +338,9 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
 
         if (!this.gameIsRunning) return;
-        // Draw everytime
+
         let self = this;
+
         requestAnimationFrame(function() {
             self.draw();
         });
