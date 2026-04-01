@@ -9,6 +9,11 @@ class Endboss extends MoveableObject {
     isHurt = false;
     walkInterval;
     moveInterval;
+    isJumping = false;   
+    jumpSpeed = 20;     
+    megaJumpSpeed = 25;
+    gravity = 2;        
+    groundY = this.y;   
     IMAGES_WALKING = [
         '4_enemie_boss_chicken/2_alert/G5.png',
         '4_enemie_boss_chicken/2_alert/G6.png',
@@ -51,9 +56,56 @@ class Endboss extends MoveableObject {
         this.animate();
     }
 
+
+    jump(isMega = false, direction = 1, minX = 1750, maxX = 2500) {
+        if (this.isJumping || this.isDead) return;
+
+        this.isJumping = true;
+
+        let speedY = this.getJumpSpeed(isMega);
+        let speedX = this.getJumpDistance(isMega, direction);
+
+        this.startJumpInterval(speedY, speedX, minX, maxX);
+    }
+
+    getJumpSpeed(isMega) {
+        return isMega ? this.megaJumpSpeed : this.jumpSpeed;
+    }
+
+    getJumpDistance(isMega, direction) {
+        return direction * (isMega ? 15 : 7);
+    }
+
+    startJumpInterval(speedY, speedX, minX, maxX) {
+        let currentSpeedY = speedY;
+
+        const jumpInterval = setInterval(() => {
+            this.updateJumpPosition(currentSpeedY, speedX, minX, maxX);
+            currentSpeedY -= this.gravity;
+
+            if (this.y >= this.groundY) {
+                this.landOnGround(jumpInterval);
+            }
+        }, 30);
+    }
+
+    updateJumpPosition(speedY, speedX, minX, maxX) {
+        this.y -= speedY;
+        this.x += speedX;
+
+        if (this.x > maxX) this.x = maxX;
+        if (this.x < minX) this.x = minX;
+    }
+
+    landOnGround(jumpInterval) {
+        this.y = this.groundY;
+        this.isJumping = false;
+        clearInterval(jumpInterval);
+    }
+
     animate() {
         this.startWalkingAnimation();
-        this.startPatrolMovement(2000, 2500);
+        this.startPatrolMovement(1900, 2500);
     }
 
     startWalkingAnimation() {
@@ -61,20 +113,39 @@ class Endboss extends MoveableObject {
             if (!this.isHurt && !this.isDead) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 200);
+        }, 150);
     }
 
-    startPatrolMovement(minX, maxX) {
+   startPatrolMovement(minX = 1900, maxX = 2500) {
         let direction = 1;
 
         this.moveInterval = setInterval(() => {
-            this.updatePosition(direction, minX, maxX);
-            direction = this.updateDirection(this.x, direction, minX, maxX);
+            
+            direction = this.patrolStep(direction, minX, maxX);
+
+            this.tryRandomJump(direction, minX, maxX);
         }, 100);
     }
 
+    patrolStep(direction, minX, maxX) {
+        this.updatePosition(direction, minX, maxX);
+        return this.updateDirection(this.x, direction, minX, maxX);
+    }
+
+    tryRandomJump(direction, minX, maxX) {
+        if (this.isJumping || this.isDead) return;
+
+        const rand = Math.random();
+
+        if (rand < 0.4) {
+            this.jump(false, direction, minX, maxX); 
+        } else if (rand < 0.4) { 
+            this.jump(true, direction, minX, maxX);  
+        }
+    }
+
     updatePosition(direction, minX, maxX) {
-        this.x += direction * this.speed * 10;
+        this.x += direction * this.speed * 30;
     }
 
 

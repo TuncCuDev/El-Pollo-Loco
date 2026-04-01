@@ -40,6 +40,7 @@ function restartGame() {
     world.camera_x = 0;
 }
 
+
 function fullscreen() {
     let canvas = document.getElementById('canvas');
     enterFullscreen(canvas);

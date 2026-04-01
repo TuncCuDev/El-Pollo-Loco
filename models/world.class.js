@@ -1,5 +1,9 @@
 class World {
     character = new Character();
+    statusBar = new StatusBar();
+    coinsBar = new CoinsBar();
+    bottleBar = new BottleBar();
+    endbossBar = new EndbossStatusBar();
     level;
     canvas;
     ctx;
@@ -12,10 +16,6 @@ class World {
     throwCooldown = 1500;
     bossMusicStarted = false;
     bossMusic;
-    statusBar = new StatusBar();
-    coinsBar = new CoinsBar();
-    bottleBar = new BottleBar();
-    endbossBar = new EndbossStatusBar();
     throwableObject = [new ThrowableObject()]; 
     
     
@@ -25,7 +25,7 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.level = initLevel1();
-
+      
         this.backgroundMusic = new Audio('sounds/gamemusic.mp3');
         this.backgroundMusic.loop = true;
         this.backgroundMusic.volume = 0.1;
@@ -276,6 +276,7 @@ class World {
         this.playGameOverSound();
         this.stopAllMusic();
         this.stopEnemySounds();
+        this.stopEndbossSounds();
         this.stopThrowableSounds();
         this.showGameOverOverlay();
     }
@@ -285,16 +286,34 @@ class World {
         gameOverSound.play();
     }
 
-    stopEnemySounds() {
-        this.level.enemies.forEach(enemy => {
-            if (enemy.audioInterval) clearInterval(enemy.audioInterval);
+    stopEndbossSounds() {
+        if (!this.level.endboss) return;
+        const endboss = this.level.endboss;
 
-            ['chickenSound', 'chickenDie'].forEach(soundKey => {
-                if (!enemy[soundKey]) return;
-                enemy[soundKey].pause();
-                enemy[soundKey].currentTime = 0;
-            });
+        if (endboss.audioInterval) {
+            clearInterval(endboss.audioInterval);
+            endboss.audioInterval = null;
+        }
+        
+        ['endbossHit', 'crySound', 'endbossDie', 'honkSound'].forEach(soundKey => {
+            if (!endboss[soundKey]) return;
+            endboss[soundKey].pause();
+            endboss[soundKey].currentTime = 0;
         });
+    }
+
+    stopEndbossSounds() {
+        if (!this.level.endboss) return;
+
+        const endboss = this.level.endboss;
+
+        ['endbossHit', 'crySound', 'endbossDie'].forEach(soundKey => {
+            if (!endboss[soundKey]) return;
+            endboss[soundKey].pause();
+            endboss[soundKey].currentTime = 0;
+        });
+
+        if (endboss.audioInterval) clearInterval(endboss.audioInterval);
     }
 
     stopThrowableSounds() {
