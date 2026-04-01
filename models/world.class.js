@@ -213,7 +213,7 @@ class World {
     }
 
     collectBottle() {
-        if (this.character.bottles >= 15) return; // Maximalwert prüfen
+        if (this.character.bottles >= 15) return; 
 
         this.character.bottles++;
         this.bottleBar.setBottles(this.character.bottles);
