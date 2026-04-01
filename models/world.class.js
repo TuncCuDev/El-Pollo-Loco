@@ -104,8 +104,8 @@ class World {
         const now = Date.now(); 
 
         if (this.keyboard.D && this.character.bottles > 0 && (now - this.lastThrowTime >= this.throwCooldown)) {
-            let bottle = new ThrowableObject(
-            this.character.x + (this.character.otherDirection ? -40 : 40), this.character.y + 100, this.character.otherDirection );
+            this.character.resetLongIdle();
+            let bottle = new ThrowableObject(this.character.x + (this.character.otherDirection ? -40 : 40), this.character.y + 100, this.character.otherDirection );
             this.throwableObject.push(bottle);
             this.character.bottles--;
             this.bottleBar.setBottles(this.character.bottles);

@@ -111,7 +111,7 @@ function goToMenu() {
         world.gameIsRunning = false;
     }
 
-    window.location.href = "index.html"; 
+    init();
 }
 
 function openImpressum() {

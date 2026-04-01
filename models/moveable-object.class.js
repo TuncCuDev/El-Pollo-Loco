@@ -6,6 +6,7 @@ class MoveableObject extends DrawableObject {
     energy = 100;
     lastHit = 0;
     currentImage = 0;
+    groundY = 100;
     startTime = new Date().getTime();
 
 
@@ -22,24 +23,24 @@ class MoveableObject extends DrawableObject {
         if (this instanceof ThrowableObject) { 
             return true;
         } else {
-            return this.y < 100;
+            return this.y < this.groundY;
         }
     }
 
     // character is colliding (chicken)
     isColliding(mo) {
-        return this.x + this.width - 20 > mo.x &&
-            this.y + this.height - 20 > mo.y &&
-            this.x + 20 < mo.x + mo.width &&
-            this.y + 20 < mo.y + mo.height;
+        return this.x + this.width - 50 > mo.x &&
+            this.y + this.height - 50 > mo.y &&
+            this.x + 50 < mo.x + mo.width &&
+            this.y + 50 < mo.y + mo.height;
     }
 
     // character is colliding (coins/bottles)
     isCollidingCollectable(item) {
-        return this.x + this.width > item.x + 5 &&
-            this.y + this.height > item.y + 5 &&
-            this.x < item.x + item.width - 5 &&
-            this.y < item.y + item.height - 5;
+        return this.x + this.width > item.x + 50&&
+            this.y + this.height > item.y + 50 &&
+            this.x < item.x + item.width - 50 &&
+            this.y < item.y + item.height - 50 ;
     }
 
     hit() {
@@ -49,16 +50,14 @@ class MoveableObject extends DrawableObject {
             return; 
         }
         this.energy -= 5;
-        this.playCrySound();
+        if (soundOn) {this.playCrySound()};
         this.updateHitStatus(now);
     }
 
     playCrySound() {
-        if (soundOn) {
-            this.crySound = new Audio('sounds/cry.mp3');
-            this.crySound.volume = 0.1;
-            this.crySound.play();
-        }
+        this.crySound = new Audio('sounds/cry.mp3');
+        this.crySound.volume = 0.1;
+        this.crySound.play();
     }
 
     updateHitStatus(timestamp) {

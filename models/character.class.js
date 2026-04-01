@@ -1,7 +1,7 @@
 class Character extends MoveableObject {
     height = 330;
     width = 130;
-    y = 110;
+    y = 100;
     speed = 10;
     world;
     bottles = 0;
@@ -104,14 +104,25 @@ class Character extends MoveableObject {
         } else if (this.isHurt()) {
             this.playHurtAnimation();
         } else if (this.isAboveGround()) {
+            this.resetLongIdle();
             this.playJumpingAnimation();
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-            this.resetLongIdle();
-            this.playWalkingAnimation();
+            this.resetAndWalking();
         } else {
-            this.playIdleAnimation();
-            this.startLongIdleTimer();
+            this.resetAndIdleAnimation();
         }
+    }
+
+    resetAndWalking() {
+        this.resetJumpAnimation();
+        this.resetLongIdle();
+        this.playWalkingAnimation();
+    }
+
+    resetAndIdleAnimation() {
+        this.resetJumpAnimation();
+        this.playIdleAnimation();
+        this.startLongIdleTimer();
     }
 
     playDeadAnimation() {
@@ -124,9 +135,20 @@ class Character extends MoveableObject {
     }
 
     playJumpingAnimation() {
-        this.playAnimation(this.IMAGES_JUMPING);
+        if (!this.jumpIndex) this.jumpIndex = 0;
+
+        if (this.jumpIndex < this.IMAGES_JUMPING.length) {
+            this.loadImage(this.IMAGES_JUMPING[this.jumpIndex]);
+            this.jumpIndex++;
+        } else {
+            this.loadImage(this.IMAGES_JUMPING[this.IMAGES_JUMPING.length - 1]);
+        }
     }
-    
+
+    resetJumpAnimation() {
+        this.jumpIndex = 0;
+    }
+
     playWalkingAnimation() {
         this.playAnimation(this.IMAGES_WALKING);
     }
@@ -149,7 +171,7 @@ class Character extends MoveableObject {
 
         this.longIdleTimer = setTimeout(() => {
             if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
-                this.isLongIdle = true;   // Long Idle aktivieren
+                this.isLongIdle = true;  
             }
             this.longIdleTimer = null;
         }, 3000);
@@ -215,7 +237,7 @@ class Character extends MoveableObject {
     }
 
     jump() {
-        this.speedY = 28;
+        this.speedY = 30;
         if (soundOn) {
             this.jumpSound.currentTime = 0;
             this.jumpSound.volume = 0.1;
@@ -226,10 +248,14 @@ class Character extends MoveableObject {
     throwBottle() {
         if (this.world.bottleBar.useBottle()) {
             let direction = this.otherDirection ? -1 : 1;
-            new ThrowableObject(
-                this.x + 50 * direction,
-                this.y + 50,
-            );
+            let startX = this.x + 50 * direction;
+            let startY = this.y + 50;
+            let bottle = new ThrowableObject(startX, startY);
+
+            bottle.speedX = 5 * direction;  
+            bottle.otherDirection = this.otherDirection; 
+
+            this.world.addThrowable(bottle); 
         }
     }
 
@@ -237,8 +263,8 @@ class Character extends MoveableObject {
         let playerBottom = this.y + this.height;
         let playerCenterX = this.x + this.width / 2;
 
-        let horizontal = playerCenterX > enemy.x - 100 && playerCenterX < enemy.x + enemy.width + 100;
-        let vertical = playerBottom >= enemy.y - 20 && playerBottom <= enemy.y + enemy.height + 10;
+        let horizontal = playerCenterX > enemy.x - 15 && playerCenterX < enemy.x + enemy.width + 15;
+        let vertical = playerBottom >= enemy.y - 25 && playerBottom <= enemy.y + enemy.height ;
         let falling = this.speedY < 10;
 
         return horizontal && vertical && falling;
