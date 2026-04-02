@@ -8,7 +8,7 @@ class MoveableObject extends DrawableObject {
     currentImage = 0;
     groundY = 100;
     startTime = new Date().getTime();
-    crySound = new Audio('sounds/cry.mp3');
+    crySound = new Audio('sounds/lostinglife.mp3');
        
 
     /**
@@ -60,11 +60,12 @@ class MoveableObject extends DrawableObject {
     hit() {
         const now = new Date().getTime();
         
-        if (now - this.startTime < 3000) {
+        if (now - this.startTime < 1000) {
             return; 
         }
         this.energy -= 5;
-        if (soundOn) {this.playCrySound()};
+        this.playCrySound();
+        this.lastHit = now;
         this.updateHitStatus(now);
     }
 
@@ -72,9 +73,10 @@ class MoveableObject extends DrawableObject {
      * Playing cry sound for being hurt.
      */
     playCrySound() {
-        this.crySound.currentTime = 0;
-        this.crySound.volume = 0.1;
-        this.crySound.play();
+        if (!soundOn) return;
+        const sound = this.crySound.cloneNode();
+        sound.volume = 0.1;
+        sound.play();
     }
 
     /**

@@ -337,10 +337,10 @@ class Character extends MoveableObject {
      */
     isJumpingOn(enemy) {
         let playerBottom = this.y + this.height;
-        let playerCenterX = this.x + this.width / 2;
+        let playerCenterX = this.x + this.width ;
 
-        let horizontal = playerCenterX > enemy.x - 10  && playerCenterX < enemy.x + enemy.width + 10;
-        let vertical = playerBottom >= enemy.y - 10  && playerBottom <= enemy.y + enemy.height - 10 ;
+        let horizontal = playerCenterX > enemy.x + 10 && playerCenterX < enemy.x + enemy.width + 80;
+        let vertical = playerBottom >= enemy.y - 25 && playerBottom <= enemy.y + enemy.height;
         let falling = this.speedY < 10;
 
         return horizontal && vertical && falling;

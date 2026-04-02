@@ -25,15 +25,19 @@ class World {
         this.level = initLevel1();
         this.endBoss = this.level.enemies.find (e => e instanceof Endboss);
         this.endbossBar = new EndbossStatusBar(this.endBoss);
-      
+        
         this.backgroundMusic = new Audio('sounds/gamemusic.mp3');
         this.backgroundMusic.loop = true;
         this.backgroundMusic.volume = 0.1;
         this.backgroundMusic.play();
+        this.gameOverSound = new Audio('sounds/gameover.mp3');
+        this.gameOverSound.volume = 0.5;
         this.takeCoin = new Audio('sounds/takecoin.mp3');
         this.takeCoin.volume = 0.1;
         this.takeBottle = new Audio ('sounds/bottlesound.mp3');
         this.takeBottle.volume = 0.1;
+        this.bossMusic = new Audio('sounds/matchsound.mp3');
+        this.bossMusic.volume = 0.5;
 
         this.setWorld();
         this.draw();
@@ -107,9 +111,6 @@ class World {
      */
     playBossMusic() {
         if (!soundOn) return;
-        this.bossMusic = new Audio('sounds/matchsound.mp3');
-        this.bossMusic.loop = true;
-        this.bossMusic.volume = 0.8;
         this.bossMusic.play();
     }
 
@@ -254,6 +255,10 @@ class World {
             this.killEnemy(enemy);
             this.character.speedY = 25; 
         } else if (this.character.isColliding(enemy)) {
+             console.log('Collision detected!', {
+        character: {x: this.character.x, y: this.character.y},
+        enemy: {x: enemy.x, y: enemy.y, width: enemy.width, height: enemy.height}
+    });
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
         }
@@ -327,9 +332,11 @@ class World {
      */
     endGame(status) {
         if (!this.gameIsRunning) return;
-
         this.gameIsRunning = false;
 
+    if (status === 'gameOver' && this.soundOn) {
+        this.playGameOverSound();
+    }
         this.stopAllMusic();
         this.stopEnemySounds();
         this.stopEndbossSounds();
@@ -343,7 +350,7 @@ class World {
      */
     winOrGameOver(status) {
         if (status === 'gameOver') {
-            if (this.soundOn) this.playGameOverSound();
+            this.playGameOverSound();
             this.showGameOverOverlay();
         } else if (status === 'win') {
             this.showWinOverlay();
@@ -367,7 +374,7 @@ class World {
     stopEnemySounds() {
         this.level.enemies.forEach(enemy => {
             if (enemy.audioInterval) clearInterval(enemy.audioInterval);
-            ['chickenSound', 'chickenDie'].forEach(soundKey => {
+            ['chickenSound', 'chickenDie', 'crySound'].forEach(soundKey => {
                 if (!enemy[soundKey]) return;
                 enemy[soundKey].pause();
                 enemy[soundKey].currentTime = 0;
@@ -408,8 +415,9 @@ class World {
      * Creates game over sound.
      */
     playGameOverSound() {
-        const gameOverSound = new Audio('sounds/gameover.mp3');
-        gameOverSound.play();
+        if (!soundOn) return;
+        this.gameOverSound.currentTime = 0;
+        this.gameOverSound.play();
     }
 
     /**
@@ -418,7 +426,7 @@ class World {
     stopEndbossSounds() {
         if (!this.level.endboss) return;
         const endboss = this.level.endboss;
-        ['endbossHit', 'crySound', 'endbossDie'].forEach(soundKey => {
+        ['endbossHit', 'endbossDie'].forEach(soundKey => {
             if (!endboss[soundKey]) return;
             endboss[soundKey].pause();
             endboss[soundKey].currentTime = 0;

@@ -1,5 +1,5 @@
 class SmallChicken extends MoveableObject {
-    y = 365; 
+    y = 375; 
     height = 50; 
     width = 60;
 
