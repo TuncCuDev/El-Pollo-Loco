@@ -4,7 +4,6 @@ class Endboss extends MoveableObject {
     y = 100;
     hadFirstContact = false;
     hits = 0;
-    isDead = false;
     energy = 100;
     isHurt = false;
     walkInterval;
@@ -45,6 +44,11 @@ class Endboss extends MoveableObject {
         this.loadImages(this.IMAGES_HuRT);
         this.loadImages(this.deadImages);
         this.x = 2500;
+
+        this.maxEnergy = 100;
+        this.energy = this.maxEnergy;
+        this.isDead = false;
+        this.statusBar = new EndbossStatusBar(this)
 
         this.statusBar = new EndbossStatusBar();
         this.statusBar.setPercentage(this.energy); 

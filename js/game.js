@@ -105,12 +105,18 @@ function toggleAudio(audio) {
 }
 
 function goToMenu() {
-    document.getElementById('gameOverOverlay').style.display = 'none';
-
-    if (world) {
+  if (world) {
         world.gameIsRunning = false;
+        if (world.enemies) {
+            world.enemies.forEach(e => {
+                if (typeof e.stopAll === 'function') e.stopAll();
+            });
+        }
     }
-
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    document.getElementById('gameOverOverlay').style.display = 'none';
+    document.getElementById('youWinOverlay').style.display = 'none';
+    world = null;
     init();
 }
 

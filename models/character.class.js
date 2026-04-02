@@ -264,7 +264,7 @@ class Character extends MoveableObject {
         let playerCenterX = this.x + this.width / 2;
 
         let horizontal = playerCenterX > enemy.x - 15 && playerCenterX < enemy.x + enemy.width + 15;
-        let vertical = playerBottom >= enemy.y - 25 && playerBottom <= enemy.y + enemy.height ;
+        let vertical = playerBottom >= enemy.y - 25 && playerBottom <= enemy.y + enemy.height + 25 ;
         let falling = this.speedY < 10;
 
         return horizontal && vertical && falling;

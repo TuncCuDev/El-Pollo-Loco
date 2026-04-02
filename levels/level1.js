@@ -1,8 +1,7 @@
-let endBoss = new Endboss();
-
 function initLevel1() {
-    return new Level(
-    [
+    
+    const endBoss = new Endboss();
+    const enemies = [
         new Chicken(),
         new Chicken(),
         new Chicken(),
@@ -16,7 +15,10 @@ function initLevel1() {
         new SmallChicken(),
         new SmallChicken(),
         endBoss
-    ],
+    ];
+
+    return new Level(
+        enemies,
     [
         new Cloud(),
         new Cloud(),

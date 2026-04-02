@@ -51,7 +51,9 @@ class Chicken extends MoveableObject {
 
         this.markAsDead();
         this.showDeadImage();
-        this.playDeathSound();
+        if (soundOn) {
+            this.playDeathSound();
+        }
         this.removeFromWorldAfterDelay(500);
     }
 
@@ -64,7 +66,6 @@ class Chicken extends MoveableObject {
     }
 
     playDeathSound() {
-        if (!soundOn || !this.chickenDie) return;
         this.chickenDie.currentTime = 0;
         this.chickenDie.play();
     }

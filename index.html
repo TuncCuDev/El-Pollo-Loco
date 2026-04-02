@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./css/responsive.style.css">
     <title>El Pollo Loco</title>
     <link rel="shortcut icon" href="3_enemies_chicken/chicken_normal/1_walk/1_w.png" type="image/x-icon">
 
@@ -34,7 +35,7 @@
 <body onload="init()">
     <div id="fullscreen">
         <h1>El Pollo Loco </h1>
-        <canvas id="canvas" width="720" height="480">
+        <canvas id="canvas" class="container" width="720" height="480">
 
         </canvas>
         <button id="playButton" onclick="startGame()">Play</button>
@@ -53,7 +54,7 @@
         </div>
     </div>
 
-    <div id="impressumOverlay">
+    <div id="impressumOverlay" class="container">
         <div class="impressum-content">
             <h2>Impressum</h2>
             <ul>
@@ -103,10 +104,14 @@
     </div>
 
     <div id="mobileControls">
-        <button id="btnLeft">⬅️</button>
-        <button id="btnRight">➡️</button>
-        <button id="btnThrow">🧴</button>
-        <button id="btnJump">⬆️</button>
+        <div class="left-side">
+            <button id="btnLeft">⬅️</button>
+            <button id="btnRight">➡️</button>
+        </div>
+        <div class="right-side">
+            <button id="btnThrow">🧴</button>
+            <button id="btnJump">⬆️</button>
+        </div>
     </div>
 
 </body>
