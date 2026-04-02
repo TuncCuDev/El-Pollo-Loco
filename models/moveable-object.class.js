@@ -56,6 +56,7 @@ class MoveableObject extends DrawableObject {
 
     playCrySound() {
         this.crySound = new Audio('sounds/cry.mp3');
+        this.crySound.currentTime = 0;
         this.crySound.volume = 0.1;
         this.crySound.play();
     }
