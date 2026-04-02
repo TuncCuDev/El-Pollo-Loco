@@ -19,11 +19,18 @@ class CoinsBar extends DrawableObject {
         this.height = 60;
     }
 
+
+    /**
+     * Updates count of coins.
+     */
     setCoins(coins) {
         this.coins = coins;
         this.updateImage();
     }
 
+    /**
+     * Converts the number of coins into an index for your coin bar images.
+     */
     updateImage() {
         let index = Math.floor(this.coins / 2);
         if (index > 5) index = 5;

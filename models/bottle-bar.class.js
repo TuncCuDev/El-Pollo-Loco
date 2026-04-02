@@ -20,12 +20,17 @@ class BottleBar extends DrawableObject {
         this.height = 60;
     }
     
-
+    /**
+     * Updates count of bottles.
+     */
     setBottles(amount) {
         this.bottles = amount;
         this.img = this.imageCache[this.resolveImageIndex()];
     }
 
+    /**
+     * Converts the number of bottles into an index for your bottle bar images.
+     */
     resolveImageIndex() {
         if (this.bottles >= 12) {
             return this.IMAGES_BOTTLE[5];

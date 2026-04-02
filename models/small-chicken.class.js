@@ -1,5 +1,5 @@
 class SmallChicken extends MoveableObject {
-    y = 370; 
+    y = 365; 
     height = 50; 
     width = 60;
 
@@ -26,6 +26,9 @@ class SmallChicken extends MoveableObject {
     }
     
 
+    /**
+     * This makes the enemy walk left and animate continuously until killed.
+     */
     animate() {
         setInterval(() => {
             if (!this.isDead) this.moveLeft();
@@ -36,6 +39,9 @@ class SmallChicken extends MoveableObject {
         }, 200);
     }
 
+    /**
+     * This creates a smooth death effect.
+     */
     kill() {
         if (this.isDead) return;
 
@@ -44,12 +50,17 @@ class SmallChicken extends MoveableObject {
         this.removeFromWorldAfterDelay(500);
     }
 
-
+    /**
+     * Loads the dead image.
+     */
     markAsDead() {
         this.isDead = true;
         this.loadImage(this.IMAGE_DEAD);
     }
 
+    /**
+     * Plays the death sound if sound is enabled.
+     */
     playDeathSound() {
         if (!soundOn || !this.chickenDie) return;
 
@@ -57,6 +68,9 @@ class SmallChicken extends MoveableObject {
         this.chickenDie.play();
     }
 
+    /**
+     * Removes the enemy from the enemies array so it no longer appears or interacts in the game.
+     */
     removeFromWorldAfterDelay(delay) {
         setTimeout(() => {
             if (!this.world) return;

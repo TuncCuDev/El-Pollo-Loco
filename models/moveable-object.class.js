@@ -8,8 +8,12 @@ class MoveableObject extends DrawableObject {
     currentImage = 0;
     groundY = 100;
     startTime = new Date().getTime();
+    crySound = new Audio('sounds/cry.mp3');
+       
 
-
+    /**
+     * Throws and jumps are affected by this.
+     */
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -19,6 +23,9 @@ class MoveableObject extends DrawableObject {
         }, 1000 / 25)
     }
 
+    /**
+     * Checks if an object is above the ground.
+     */
     isAboveGround() {
         if (this instanceof ThrowableObject) { 
             return true;
@@ -27,7 +34,9 @@ class MoveableObject extends DrawableObject {
         }
     }
 
-    // character is colliding (chicken)
+    /** 
+     *  Checks if the character collides with a movable object.
+     */ 
     isColliding(mo) {
         return this.x + this.width - 50 > mo.x &&
             this.y + this.height - 50 > mo.y &&
@@ -35,7 +44,9 @@ class MoveableObject extends DrawableObject {
             this.y + 50 < mo.y + mo.height;
     }
 
-    // character is colliding (coins/bottles)
+    /**
+     * Checks if the character collides with coins or bottles.
+     */
     isCollidingCollectable(item) {
         return this.x + this.width > item.x + 50&&
             this.y + this.height > item.y + 50 &&
@@ -43,6 +54,9 @@ class MoveableObject extends DrawableObject {
             this.y < item.y + item.height - 50 ;
     }
 
+    /**
+     * Reduces the energy when hit.
+     */
     hit() {
         const now = new Date().getTime();
         
@@ -54,13 +68,18 @@ class MoveableObject extends DrawableObject {
         this.updateHitStatus(now);
     }
 
+    /**
+     * Playing cry sound for being hurt.
+     */
     playCrySound() {
-        this.crySound = new Audio('sounds/cry.mp3');
         this.crySound.currentTime = 0;
         this.crySound.volume = 0.1;
         this.crySound.play();
     }
 
+    /**
+     * Updates last hit timestamp.
+     */
     updateHitStatus(timestamp) {
         if (this.energy < 0) {
             this.energy = 0;
@@ -68,16 +87,24 @@ class MoveableObject extends DrawableObject {
         this.lastHit = timestamp;
     }
 
-
+    /**
+     * For flashing effect or invincibility.
+     */
     isHurt() {
         let timepassed = (new Date().getTime() - this.lastHit) / 1000;
         return timepassed < 1; 
     }
 
+    /**
+     * Returns true if the characte´s energy is 0.
+     */
     isDead() {
         return this.energy == 0;
     }
 
+    /**
+     * Cycles through images for animations.
+    */
     playAnimation(images) {
         let i = this.currentImage % images.length; 
         let path = images[i];
@@ -85,14 +112,23 @@ class MoveableObject extends DrawableObject {
         this.currentImage++;
     }
 
+    /**
+     * Moves the chracter right by speed.
+     */
     moveRight() {
         this.x += this.speed;
     }
 
+    /**
+     * Moves left.
+     */
     moveLeft() {
         this.x -= this.speed
     }
 
+    /**
+     * Sets vertical spped upward.
+     */
     jump() {
         this.speedY = 30;
     }

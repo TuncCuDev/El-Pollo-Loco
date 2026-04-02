@@ -30,24 +30,37 @@ class ThrowableObject extends MoveableObject {
     }
     
 
+    /**
+     * Called when the bottle hits something.
+     */
     playSplashAnimation() {
         this.stopMovement();
         this.playSplashSound();
         this.animateSplashImages();
     }
 
+
+    /**
+     * Stops the bottle physically.
+     */
     stopMovement() {
         this.hasSplashed = true;
         this.speed = 0;
         this.speedY = 0;
     }
 
+    /**
+     * Plays the splash sound of sound is on.
+     */
     playSplashSound() {
         if (!soundOn || !this.splashSound) return;
         this.splashSound.currentTime = 0;
         this.splashSound.play();
     }
 
+    /**
+     * Loops through all splash images.
+     */
     animateSplashImages() {
         let frameIndex = 0;
 
@@ -61,26 +74,42 @@ class ThrowableObject extends MoveableObject {
         }, 50); 
     }
 
+    /**
+     * Loads the splash image for the current frame.
+     */
     loadSplashFrame(index) {
         this.loadImage(this.IMAGES_SPLASH[index]);
     }
 
+
+    /**
+     * Stops the splash animation.
+     */
     endSplashAnimation(interval) {
         clearInterval(interval);
         this.markedForDelete = true;
     }
 
+    /**
+     * Called when the bottle is thrown.
+    */
     throw() {
         this.applyGravity();
         if (soundOn) this.playThrowSound();
         this.startMovement();
     }
 
+    /**
+     * Plays the throw sound.
+     */
     playThrowSound() {
         this.throwSound.currentTime = 0;
         this.throwSound.play();
     }
 
+    /**
+     * Starts horizontal movement of the bottle.
+     */
     startMovement() {
         if (this.movementInterval) clearInterval(this.movementInterval);
         this.movementInterval = setInterval(() => {
@@ -88,6 +117,9 @@ class ThrowableObject extends MoveableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * Checks if the bottle collides with an enemy.
+     */
     isColliding(enemy) {
         return this.x + this.width > enemy.x - 20 &&
             this.y + this.height > enemy.y - 20 &&

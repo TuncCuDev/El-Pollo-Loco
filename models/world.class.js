@@ -40,27 +40,42 @@ class World {
         this.run();
     }
 
-
+    /**
+     * Initializing world for game. Main components of the world.
+     */
     setWorld() {
         this.setCharacterWorld();
         this.setCollectable();
         this.setEnemisWorld();
     }
 
+    /**
+     * Giving character reference to world.
+     */
+
     setCharacterWorld() {
         this.character.world = this;
     }
 
+    /**
+     *Giving reference to collectables item.
+     */
     setCollectable() {
         this.collectables = this.level.collectableObject;
     }
 
+    /**
+     * Giving reference to enemy objects.
+     */
     setEnemisWorld() {
         this.level.enemies.forEach(enemy => {
             enemy.world = this;
         });
     }
 
+    /**
+     * Checks if the character has collided with enemies or collectables and bottles.
+     */
     run() {
         setInterval(() => {
             this.checkCollisions();
@@ -68,6 +83,9 @@ class World {
         }, 200);
     }
 
+    /**
+     * Checks if the character reached point 1900 = x to switch music.
+     */
     checkMusicSwitch() {
         if (this.character.x < 1900 || this.musicTriggerReached) return;
         this.musicTriggerReached = true;
@@ -75,12 +93,18 @@ class World {
         this.playBossMusic();
     }
 
+    /**
+     * Checks if background music exist to stop.
+     */
     stopBackgroundMusic() {
         if (!this.backgroundMusic) return;
         this.backgroundMusic.pause();
         this.backgroundMusic.currentTime = 0;
     }
 
+    /**
+     * Checks if sound is enabled.
+     */
     playBossMusic() {
         if (!soundOn) return;
         this.bossMusic = new Audio('sounds/matchsound.mp3');
@@ -89,12 +113,17 @@ class World {
         this.bossMusic.play();
     }
 
-
+    /**
+     * Checks if the character is trying to throw a bottle.
+     */
     checkThrowObject() {
         this.throwBottle();
         this.updateThrowableObjects();
     }
 
+    /**
+     * Function for throwing one bottle with minimum delay.
+     */
     throwBottle() {
         const now = Date.now(); 
 
@@ -108,6 +137,9 @@ class World {
         }
     }
 
+    /**
+     * Function removes used bottles, check collisions.
+     */
     updateThrowableObjects() {
         for (let i = 0; i < this.throwableObject.length; i++) {
             let bottle = this.throwableObject[i];
@@ -121,50 +153,79 @@ class World {
         }
     }
 
+    /**
+     * Check if thrown bottle hit anything.
+     */
     checkHits(bottle) {
         this.checkEndbossHit(bottle); 
         this.checkEnemiesHit(bottle); 
     }
 
+    /**
+     * Checks if the bottle can hit the boss.
+     */
     checkEndbossHit(bottle) {
         if (!this.canHitEndboss(bottle)) return;
         this.hitEndboss(bottle);
     }
 
+    /**
+     * Function for conditions are met.
+     */
     canHitEndboss(bottle) {
         return this.endBoss && !this.endBoss.isDead && !bottle.hasSplashed && bottle.isColliding(this.endBoss);
     }
 
+    /**
+     * Marks the bottle as used, play the splash animation, tells the boss it got hit.
+     */
     hitEndboss(bottle) {
         bottle.hasSplashed = true;
         bottle.playSplashAnimation();
         this.endBoss.hitByBottle();
     }
 
+    /**
+     * Loop through all enemies in the level.
+     */
     checkEnemiesHit(bottle) {
         this.level.enemies.forEach(enemy => this.checkEnemyHit(enemy, bottle));
     }
 
+    /**
+     * Checks hits.
+     */
     checkEnemyHit(enemy, bottle) {
         if (enemy === this.endBoss || enemy.isDead || !bottle.isColliding(enemy)) return;
         this.hitEnemy(enemy, bottle);
     }
 
+    /**
+     * Plays bottle splash animation and eliminate the enemy.
+     */
     hitEnemy(enemy, bottle) {
         bottle.playSplashAnimation();
         if (typeof enemy.kill === 'function') enemy.kill();
         else if (typeof enemy.die === 'function') enemy.die();
     }
 
+    /**
+     * Checks enemy and collectable collisions.
+     */
     checkCollisions() {
         this.checkEnemyCollisions();
         this.checkCollectableCollisions();
     }
-
+    /**
+     * Loops through all enemis for collisions.
+     */
     checkEnemyCollisions() {
         this.level.enemies.forEach(enemy => this.handleEnemyCollision(enemy));
     }
 
+    /**
+     * Safety check, seperates logic by enemy type.
+     */
     handleEnemyCollision(enemy) {
         if (!enemy) return;
         if (enemy instanceof Endboss) {
@@ -174,6 +235,9 @@ class World {
         }
     }
 
+    /**
+     * Checks if the character touches the endboss.
+     */
     handleEndbossCollision(endboss) {
         if (this.character.isColliding(endboss)) {
             this.character.hit();
@@ -181,6 +245,9 @@ class World {
         }
     }
 
+    /**
+     *Function for character jumps on enemy or touching from side.
+     */
     handleNormalEnemyCollision(enemy) {
         if (typeof enemy.kill !== 'function') return;
         if (this.character.isJumpingOn(enemy)) {
@@ -192,10 +259,16 @@ class World {
         }
     }
 
+    /**
+     * Function for enemy kill method.
+     */
     killEnemy(enemy) {
         enemy.kill();
     }
 
+    /**
+     * Loop for collectables backwards.
+     */
     checkCollectableCollisions() {
         for (let i = this.collectables.length - 1; i >= 0; i--) {
             const item = this.collectables[i];
@@ -207,6 +280,9 @@ class World {
         }
     }
 
+    /**
+     * Function for collectables item,collct bottle or coin.
+     */
     handleCollectable(item) {
         if (item.imagePath.includes('coin')) {
             this.collectCoin();
@@ -215,6 +291,9 @@ class World {
         }
     }
 
+    /**
+     * Coin counting and playing sound.
+     */
     collectCoin() {
         this.coinsBar.setCoins(this.coinsBar.coins + 1);
         if (soundOn && this.takeCoin) {
@@ -223,6 +302,9 @@ class World {
         }
     }
 
+    /**
+     * Bottle cointing and playing sound.
+     */
     collectBottle() {
         if (this.character.bottles >= 15) return; 
         this.character.bottles++;
@@ -233,15 +315,44 @@ class World {
         }
     }
 
+    /** 
+     * Calls endGame() with status "win".
+     */
     youWin() {
-        if (!this.gameIsRunning) return;
-        this.gameIsRunning = false;
-        this.stopAllMusic();
-        this.stopEnemySounds();
-        this.stopThrowableSounds();
-        this.showWinOverlay();
+        this.endGame('win');
     }
 
+    /**
+     * For ending the game, and stopped all sounds.
+     */
+    endGame(status) {
+        if (!this.gameIsRunning) return;
+
+        this.gameIsRunning = false;
+
+        this.stopAllMusic();
+        this.stopEnemySounds();
+        this.stopEndbossSounds();
+        this.stopThrowableSounds();
+
+        this.winOrGameOver(status);
+    }
+
+    /**
+     * Decides what happens when the game ends based on status.
+     */
+    winOrGameOver(status) {
+        if (status === 'gameOver') {
+            if (this.soundOn) this.playGameOverSound();
+            this.showGameOverOverlay();
+        } else if (status === 'win') {
+            this.showWinOverlay();
+        }
+    }
+
+    /**
+     * Stops background and match sounds.
+     */
     stopAllMusic() {
         [this.backgroundMusic, this.bossMusic].forEach(music => {
             if (!music) return;
@@ -250,6 +361,9 @@ class World {
         });
     }
 
+    /**
+     * Stopa individual sounds for each enemy.
+     */
     stopEnemySounds() {
         this.level.enemies.forEach(enemy => {
             if (enemy.audioInterval) clearInterval(enemy.audioInterval);
@@ -261,6 +375,10 @@ class World {
         });
     }
 
+
+    /**
+     * Stops all sounds of throwable objects.
+     */
     stopThrowableSounds() {
         this.throwableObject.forEach(bottle => {
             ['throwSound', 'hitSound'].forEach(soundKey => {
@@ -271,41 +389,32 @@ class World {
         });
     }
 
+    /**
+     * Shows the win screen.
+     */
     showWinOverlay() {
         document.getElementById('youWinOverlay').style.display = 'block';
         document.getElementById('restartButton').style.display = 'inline-block';
     }
 
+    /**
+     * Function for losing the game.
+     */
     gameOver() {
-        if (!this.gameIsRunning) return;
-        this.gameIsRunning = false;
-        if (this.soundOn) this.playGameOverSound(); 
-        this.stopAllMusic();
-        this.stopEnemySounds();
-        this.stopEndbossSounds();
-        this.stopThrowableSounds();
-        this.showGameOverOverlay();
+        this.endGame('gameOver');
     }
 
+    /**
+     * Creates game over sound.
+     */
     playGameOverSound() {
         const gameOverSound = new Audio('sounds/gameover.mp3');
         gameOverSound.play();
     }
 
-    stopEndbossSounds() {
-        if (!this.level.endboss) return;
-        const endboss = this.level.endboss;
-        if (endboss.audioInterval) {
-            clearInterval(endboss.audioInterval);
-            endboss.audioInterval = null;
-        }
-        ['endbossHit', 'crySound', 'endbossDie', 'honkSound'].forEach(soundKey => {
-            if (!endboss[soundKey]) return;
-            endboss[soundKey].pause();
-            endboss[soundKey].currentTime = 0;
-        });
-    }
-
+    /**
+     * Stops all sounds for endboss.
+     */
     stopEndbossSounds() {
         if (!this.level.endboss) return;
         const endboss = this.level.endboss;
@@ -317,21 +426,17 @@ class World {
         if (endboss.audioInterval) clearInterval(endboss.audioInterval);
     }
 
-    stopThrowableSounds() {
-        this.throwableObject.forEach(bottle => {
-            ['throwSound', 'hitSound'].forEach(soundKey => {
-                if (!bottle[soundKey]) return;
-                bottle[soundKey].pause();
-                bottle[soundKey].currentTime = 0;
-            });
-        });
-    }
-
+    /**
+     * Shows the game over scree.
+     */
     showGameOverOverlay() {
         document.getElementById('gameOverOverlay').style.display = 'block';
         document.getElementById('restartButton').style.display = 'inline-block';
     }
 
+    /**
+     * Draw UI, game objects, resetting camera etc.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -359,12 +464,18 @@ class World {
         });
     }
 
+    /**
+     * Loops through an array of objects.
+     */
     addObjectsToMap(objects) {
         objects.forEach (o => {
             this.addToMap(o);
         });
     }
 
+    /**
+     * Draws movable objetc.
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
@@ -376,6 +487,9 @@ class World {
         }
     }
 
+    /**
+     * Flips the canvas horizontally.
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -383,6 +497,9 @@ class World {
         mo.x = mo.x * -1;
     }
 
+    /**
+     * Restores orginal canvas state, reverts object position.
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();

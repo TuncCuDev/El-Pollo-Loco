@@ -36,7 +36,6 @@ class Endboss extends MoveableObject {
         '4_enemie_boss_chicken/4_hurt/G23.png'
     ]
   
-
     
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -61,6 +60,14 @@ class Endboss extends MoveableObject {
     }
 
 
+    /**
+     * The endboss jump normally or mega, direction determines left or right.
+     * @param {isMega} Mega jumps higher and longer. 
+     * @param {direction} Left or right.
+     * @param {minX } Coordinate for minimum x line.
+     * @param {maxX } Coordinate for maximum x line.
+     * @returns isMega = true or false, direction.
+     */
     jump(isMega = false, direction = 1, minX = 1750, maxX = 2500) {
         if (this.isJumping || this.isDead) return;
 
@@ -72,14 +79,23 @@ class Endboss extends MoveableObject {
         this.startJumpInterval(speedY, speedX, minX, maxX);
     }
 
+    /**
+     * Function for speed.
+     */
     getJumpSpeed(isMega) {
         return isMega ? this.megaJumpSpeed : this.jumpSpeed;
     }
 
+    /**
+     * Function for distance.
+     */
     getJumpDistance(isMega, direction) {
         return direction * (isMega ? 15 : 7);
     }
 
+    /**
+     * Function for Jump invterval.
+     */
     startJumpInterval(speedY, speedX, minX, maxX) {
         let currentSpeedY = speedY;
 
@@ -93,6 +109,9 @@ class Endboss extends MoveableObject {
         }, 30);
     }
 
+    /**
+     * Position updates.
+     */
     updateJumpPosition(speedY, speedX, minX, maxX) {
         this.y -= speedY;
         this.x += speedX;
@@ -101,17 +120,26 @@ class Endboss extends MoveableObject {
         if (this.x < minX) this.x = minX;
     }
 
+    /**
+     * Interval for jumping.
+     */
     landOnGround(jumpInterval) {
         this.y = this.groundY;
         this.isJumping = false;
         clearInterval(jumpInterval);
     }
 
+    /**
+     * Hanldes continuous walking animation and patrol movement.
+     */
     animate() {
         this.startWalkingAnimation();
         this.startPatrolMovement(1900, 2500);
     }
 
+    /**
+     * Walking animation.
+     */
     startWalkingAnimation() {
         this.walkInterval = setInterval(() => {
             if (!this.isHurt && !this.isDead) {
@@ -120,6 +148,9 @@ class Endboss extends MoveableObject {
         }, 150);
     }
 
+    /**
+     * Patrol movement left or right, randomly decides to jump.
+     */
    startPatrolMovement(minX = 1900, maxX = 2500) {
         let direction = 1;
 
@@ -131,11 +162,17 @@ class Endboss extends MoveableObject {
         }, 100);
     }
 
+    /**
+     * Updating patrol movement.
+     */
     patrolStep(direction, minX, maxX) {
         this.updatePosition(direction, minX, maxX);
         return this.updateDirection(this.x, direction, minX, maxX);
     }
 
+    /**
+     * Adds random jumps.
+     */
     tryRandomJump(direction, minX, maxX) {
         if (this.isJumping || this.isDead) return;
 
@@ -148,17 +185,25 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Updating position.
+     */
     updatePosition(direction, minX, maxX) {
         this.x += direction * this.speed * 30;
     }
 
-
+    /**
+     * Updating direction between maxX and minX.
+     */
     updateDirection(currentX, direction, minX, maxX) {
         if (currentX >= maxX) return -1;
         if (currentX <= minX) return 1;
         return direction;
     }
 
+    /**
+     * Taking damage, update health bar and play hurt animation, dies if energy 0.
+    */
     hitByBottle() {
         if (this.isDead) return;
 
@@ -173,12 +218,18 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Playing hurt animation.
+     */
     playHurtAnimation() {
         if (!this.isHurt) {
             this.startHurtAnimation();
         }
     }
 
+    /** 
+     * Starting hurt animation every 500ms.
+     */
     startHurtAnimation() {
         if (this.hurtInterval) clearInterval(this.hurtInterval); 
         this.isHurt = true;
@@ -195,6 +246,9 @@ class Endboss extends MoveableObject {
         }, 500);
     }
 
+    /**
+     * Shows hurt images.
+     */
     showHurtFrame(index) {
         this.loadImage(this.IMAGES_HuRT[index]);
         if (soundOn) {
@@ -202,17 +256,26 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Plays hurt sound.
+     */
     playHurtSound() {
         this.endbossHit.currentTime = 0;
         this.endbossHit.volume = 0.4;
         this.endbossHit.play();
     }
 
+    /**
+     * Finish hurt animation.
+     */
     finishHurtAnimation(interval) {
         clearInterval(interval);
         this.isHurt = false;
     }
 
+    /**
+     * Plays deat sound and animation, stops walking/patrol intervals.
+     */
     die() {
         if (this.isDead) return;
         this.isDead = true;
@@ -222,17 +285,26 @@ class Endboss extends MoveableObject {
         this.playDeathAnimation();
     }
 
+    /**
+     * Plays death sound.
+     */
     playDeathSound() {
         if (!soundOn) return;
         this.endbossDie.volume = 0.5;
         this.endbossDie.play();
     }
 
+    /**
+     * Stops walking and move intervals.
+     */
     stopIntervals() {
         clearInterval(this.walkInterval);
         clearInterval(this.moveInterval);
     }
 
+    /**
+     * Plays death animation every 300ms.
+     */
     playDeathAnimation() {
         let i = 0;
         const deathInterval = setInterval(() => {
@@ -246,6 +318,9 @@ class Endboss extends MoveableObject {
         }, 300);
     }
 
+    /**
+     * Plays win sound and the win condition.
+     */
     finishDeath() {
         if (!this.world) return;
 

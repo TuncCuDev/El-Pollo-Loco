@@ -22,13 +22,18 @@ class EndbossStatusBar extends DrawableObject {
         this.setPercentage(100);
     }
 
-
+    /**
+     * Loads that images from imageCache and sets it as this.img, updates the bar visually.
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
 
+    /**
+     * Determines which image to show based on the percentage.
+     */
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 5;

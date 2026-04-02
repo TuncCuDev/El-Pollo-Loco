@@ -8,19 +8,27 @@ class DrawableObject {
     currentImage = 0;
 
 
+    /**
+     * Creates a new image object.
+     */
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
+    /**
+     * Draws the current image.
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
-     drawFrame(ctx) {
-        
-    }
+    drawFrame(ctx) { }
     
+
+    /**
+     * Loads multiple images at once.
+     */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();

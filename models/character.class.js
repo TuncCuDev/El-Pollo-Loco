@@ -85,11 +85,18 @@ class Character extends MoveableObject {
         this.animate();
     }
 
+
+    /**
+     * Updates chaaracter position and characters sprite for smooth animation.
+     */
     animate() {
         setInterval(() => this.handleMovement(), 1000 / 60);
         setInterval(() => this.handleAnimations(), 50);
     }
 
+    /**
+     * Checks if the world exists and the keyboard is available.
+     */
     handleMovement() {
         if (!this.world || !this.world.keyboard) return;
 
@@ -98,6 +105,9 @@ class Character extends MoveableObject {
         this.world.checkMusicSwitch();
     }
 
+    /**
+     * Checks the player’s state and plays the correct animation.
+     */
     handleAnimations() {
         if (this.isDead()) {
             this.playDeadAnimation();
@@ -113,27 +123,42 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Reset animations when switching between states to avoid overlapping frames.
+     */
     resetAndWalking() {
         this.resetJumpAnimation();
         this.resetLongIdle();
         this.playWalkingAnimation();
     }
 
+    /**
+     * Reset animations when switching between states to avoid overlapping frames.
+     */
     resetAndIdleAnimation() {
         this.resetJumpAnimation();
         this.playIdleAnimation();
         this.startLongIdleTimer();
     }
 
+    /**
+     * Plays dead animation.
+     */
     playDeadAnimation() {
         this.playAnimation(this.IMAGES_DEAD);
         if (this.world) this.world.gameOver();
     }
 
+    /**
+     * Plays hurt animation.
+     */
     playHurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
     }
 
+    /**
+     * Plays jump animation.
+     */
     playJumpingAnimation() {
         if (!this.jumpIndex) this.jumpIndex = 0;
 
@@ -145,14 +170,23 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Reset jump animation.
+     */
     resetJumpAnimation() {
         this.jumpIndex = 0;
     }
 
+    /**
+     * Plays walking animation.
+     */
     playWalkingAnimation() {
         this.playAnimation(this.IMAGES_WALKING);
     }
 
+    /**
+     * Plays idle animation.
+     */
     playIdleAnimation() {
         if (this.isLongIdle) {
             if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()) {
@@ -166,6 +200,9 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Starts timer for long idle.
+     */
     startLongIdleTimer() {
         if (this.longIdleTimer || this.isLongIdle) return;
 
@@ -177,6 +214,9 @@ class Character extends MoveableObject {
         }, 3000);
     }
 
+    /**
+     * Reset long idle.
+     */
     resetLongIdle() {
         clearTimeout(this.longIdleTimer);
         this.longIdleTimer = null;
@@ -184,12 +224,18 @@ class Character extends MoveableObject {
         this.longIdleIndex = 0; 
     }
 
+    /**
+     * Function for right, left movement and jump.
+     */
     moveCharacter() {
         this.handleRightMovement();
         this.handleLeftMovement();
         this.handleJump();
     }
 
+    /**
+     * Moves right.
+     */
     handleRightMovement() {
         const keyboard = this.world.keyboard;
 
@@ -199,6 +245,9 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Moves left.
+     */
     handleLeftMovement() {
         const keyboard = this.world.keyboard;
 
@@ -208,6 +257,9 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Jumping.
+     */
     handleJump() {
         const keyboard = this.world.keyboard;
 
@@ -216,26 +268,44 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Moves to right.
+     */
     canMoveRight() {
         return this.x < this.world.level.level_end_x;
     }
 
+    /**
+     * Moves to left.
+     */
     canMoveLeft() {
         return this.x > 0;
     }
 
+    /**
+     * Turns face to right.
+     */
     faceRight() {
         this.otherDirection = false;
     }
 
+    /**
+     * Turns face to left.
+     */
     faceLeft() {
         this.otherDirection = true;
     }
 
+    /**
+     * Moves the camera to follow the player.
+     */
     updateCamera() {
         this.world.camera_x = -this.x + 100;
     }
 
+    /**
+     * Plays jump sound.
+     */
     jump() {
         this.speedY = 30;
         if (soundOn) {
@@ -245,6 +315,9 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Creates a ThrowableObject in the correct direction.
+     */
     throwBottle() {
         if (this.world.bottleBar.useBottle()) {
             let direction = this.otherDirection ? -1 : 1;
@@ -259,12 +332,15 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Checks if the player is colliding from above an enemy.
+     */
     isJumpingOn(enemy) {
         let playerBottom = this.y + this.height;
         let playerCenterX = this.x + this.width / 2;
 
-        let horizontal = playerCenterX > enemy.x && playerCenterX < enemy.x + enemy.width;
-        let vertical = playerBottom >= enemy.y - 25 && playerBottom <= enemy.y + enemy.height + 25 ;
+        let horizontal = playerCenterX > enemy.x - 10  && playerCenterX < enemy.x + enemy.width + 10;
+        let vertical = playerBottom >= enemy.y - 10  && playerBottom <= enemy.y + enemy.height - 10 ;
         let falling = this.speedY < 10;
 
         return horizontal && vertical && falling;

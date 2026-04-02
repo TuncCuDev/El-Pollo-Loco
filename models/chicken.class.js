@@ -1,5 +1,5 @@
 class Chicken extends MoveableObject {
-    y = 350;
+    y = 360;
     height = 70;
     width = 90;
     isDead = false;
@@ -27,6 +27,9 @@ class Chicken extends MoveableObject {
     }
 
 
+    /**
+     * Plays the chicken’s sound every 7 seconds.
+     */
     playAudio() {
         this.audioInterval = setInterval(() => {
             if (!this.isDead && soundOn && world.gameIsRunning) { 
@@ -36,6 +39,9 @@ class Chicken extends MoveableObject {
         }, 7000);
     }
 
+    /**
+     * Movement animation.
+     */
     animate() {
         setInterval(() => {
             if (!this.isDead) this.moveLeft();
@@ -46,6 +52,9 @@ class Chicken extends MoveableObject {
         }, 200);
     }
 
+    /**
+     * Kills the chicken when called.
+     */
     kill() {
         if (this.isDead) return;
 
@@ -57,19 +66,31 @@ class Chicken extends MoveableObject {
         this.removeFromWorldAfterDelay(500);
     }
 
+    /**
+     * Marks the chicken as dead.
+     */
     markAsDead() {
         this.isDead = true;
     }
 
+    /**
+     * Replaces its image with a dead sprite.
+     */
     showDeadImage() {
         this.loadImage(this.IMAGE_DEAD);
     }
 
+    /**
+     * Plays the chicken’s death sound from the beginning.
+     */
     playDeathSound() {
         this.chickenDie.currentTime = 0;
         this.chickenDie.play();
     }
 
+    /**
+     * Removes the chicken from the world’s enemy array.
+     */
     removeFromWorldAfterDelay(delay) {
         setTimeout(() => {
             if (this.world) {
