@@ -14,26 +14,26 @@ class Endboss extends MoveableObject {
     gravity = 2;        
     groundY = this.y;   
     IMAGES_WALKING = [
-        '4_enemie_boss_chicken/2_alert/G5.png',
-        '4_enemie_boss_chicken/2_alert/G6.png',
-        '4_enemie_boss_chicken/2_alert/G7.png',
-        '4_enemie_boss_chicken/2_alert/G8.png',
-        '4_enemie_boss_chicken/2_alert/G9.png',
-        '4_enemie_boss_chicken/2_alert/G10.png',
-        '4_enemie_boss_chicken/2_alert/G11.png',
-        '4_enemie_boss_chicken/2_alert/G12.png'
+        'assets/4_enemie_boss_chicken/2_alert/G5.png',
+        'assets/4_enemie_boss_chicken/2_alert/G6.png',
+        'assets/4_enemie_boss_chicken/2_alert/G7.png',
+        'assets/4_enemie_boss_chicken/2_alert/G8.png',
+        'assets/4_enemie_boss_chicken/2_alert/G9.png',
+        'assets/4_enemie_boss_chicken/2_alert/G10.png',
+        'assets/4_enemie_boss_chicken/2_alert/G11.png',
+        'assets/4_enemie_boss_chicken/2_alert/G12.png'
     ];
 
     deadImages = [
-        '4_enemie_boss_chicken/5_dead/G24.png',
-        '4_enemie_boss_chicken/5_dead/G25.png',
-        '4_enemie_boss_chicken/5_dead/G26.png'
+        'assets/4_enemie_boss_chicken/5_dead/G24.png',
+        'assets/4_enemie_boss_chicken/5_dead/G25.png',
+        'assets/4_enemie_boss_chicken/5_dead/G26.png'
     ];
     
     IMAGES_HuRT = [
-        '4_enemie_boss_chicken/4_hurt/G21.png',
-        '4_enemie_boss_chicken/4_hurt/G22.png',
-        '4_enemie_boss_chicken/4_hurt/G23.png'
+        'assets/4_enemie_boss_chicken/4_hurt/G21.png',
+        'assets/4_enemie_boss_chicken/4_hurt/G22.png',
+        'assets/4_enemie_boss_chicken/4_hurt/G23.png'
     ]
   
     
@@ -52,9 +52,9 @@ class Endboss extends MoveableObject {
         this.statusBar = new EndbossStatusBar();
         this.statusBar.setPercentage(this.energy); 
 
-        this.endbossHit = new Audio('sounds/endbossmatch.mp3');
-        this.winSound = new Audio('sounds/wingame.mp3');
-        this.endbossDie = new Audio('sounds/endbossdie.mp3');
+        this.endbossHit = new Audio('assets/sounds/endbossmatch.mp3');
+        this.winSound = new Audio('assets/sounds/wingame.mp3');
+        this.endbossDie = new Audio('assets/sounds/endbossdie.mp3');
         
         this.animate();
     }

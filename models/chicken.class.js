@@ -4,22 +4,22 @@ class Chicken extends MoveableObject {
     width = 90;
     isDead = false;
     IMAGES_WALKING = [
-        '3_enemies_chicken/chicken_normal/1_walk/1_w.png',
-        '3_enemies_chicken/chicken_normal/1_walk/2_w.png',
-        '3_enemies_chicken/chicken_normal/1_walk/3_w.png'
+        'assets/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
+        'assets/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
+        'assets/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ];
-    IMAGE_DEAD = '3_enemies_chicken/chicken_normal/2_dead/dead.png';
+    IMAGE_DEAD = 'assets/3_enemies_chicken/chicken_normal/2_dead/dead.png';
    
     constructor() {
-        super().loadImage('3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+        super().loadImage('assets/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
 
         this.x = 250 + Math.random() * (2000 - 200);
         this.speed = 0.15 + Math.random() * 0.25;
 
-        this.chickenSound = new Audio('sounds/chicken1.mp3');
+        this.chickenSound = new Audio('assets/sounds/chicken1.mp3');
         this.chickenSound.volume = 0.05;
-        this.chickenDie = new Audio('sounds/chickendie.mp3');
+        this.chickenDie = new Audio('assets/sounds/chickendie.mp3');
         this.chickenDie.volume = 0.1;
 
         this.animate();

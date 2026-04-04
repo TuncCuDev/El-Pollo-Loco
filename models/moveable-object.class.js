@@ -8,7 +8,7 @@ class MoveableObject extends DrawableObject {
     currentImage = 0;
     groundY = 100;
     startTime = new Date().getTime();
-    crySound = new Audio('sounds/lostinglife.mp3');
+    crySound = new Audio('assets/sounds/lostinglife.mp3');
        
 
     /**

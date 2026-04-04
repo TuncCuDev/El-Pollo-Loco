@@ -4,12 +4,12 @@ class SmallChicken extends MoveableObject {
     width = 60;
 
     IMAGES_WALKING = [
-        '3_enemies_chicken/chicken_small/1_walk/1_w.png',
-        '3_enemies_chicken/chicken_small/1_walk/2_w.png',
-        '3_enemies_chicken/chicken_small/1_walk/3_w.png'
+        'assets/3_enemies_chicken/chicken_small/1_walk/1_w.png',
+        'assets/3_enemies_chicken/chicken_small/1_walk/2_w.png',
+        'assets/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
 
-    IMAGE_DEAD = '3_enemies_chicken/chicken_small/2_dead/dead.png';
+    IMAGE_DEAD = 'assets/3_enemies_chicken/chicken_small/2_dead/dead.png';
     isDead = false;
 
     constructor() {
@@ -19,7 +19,7 @@ class SmallChicken extends MoveableObject {
         this.x = 250 + Math.random() * (2000 - 500);
         this.speed = 0.2 + Math.random() * 0.3; 
 
-        this.chickenDie = new Audio('sounds/chickendie.mp3');
+        this.chickenDie = new Audio('assets/sounds/chickendie.mp3');
         this.chickenDie.volume = 0.1;
 
         this.animate();

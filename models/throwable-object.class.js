@@ -1,13 +1,13 @@
 class ThrowableObject extends MoveableObject {
     IMAGES_SPLASH = [
-        '6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
-        '6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
-        '6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png'
+        'assets/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
+        'assets/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
+        'assets/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png'
     ];
 
     constructor(x, y, otherDirection = false) {
         super();
-        this.loadImage('6_salsa_bottle/salsa_bottle.png'); 
+        this.loadImage('assets/6_salsa_bottle/salsa_bottle.png'); 
         this.loadImages(this.IMAGES_SPLASH);
 
         this.x = x;
@@ -21,9 +21,9 @@ class ThrowableObject extends MoveableObject {
         this.flip = this.otherDirection;
         this.speedX = this.otherDirection ? -7 : 7;
 
-        this.throwSound = new Audio('sounds/bottlesounds.mp3');
+        this.throwSound = new Audio('assets/sounds/bottlesounds.mp3');
         this.throwSound.volume = 0.1;
-        this.splashSound = new Audio('sounds/splash.mp3');
+        this.splashSound = new Audio('assets/sounds/splash.mp3');
         this.splashSound.volume = 0.1;
 
         this.throw();

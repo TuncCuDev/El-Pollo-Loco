@@ -26,17 +26,17 @@ class World {
         this.endBoss = this.level.enemies.find (e => e instanceof Endboss);
         this.endbossBar = new EndbossStatusBar(this.endBoss);
         
-        this.backgroundMusic = new Audio('sounds/gamemusic.mp3');
+        this.backgroundMusic = new Audio('assets/sounds/gamemusic.mp3');
         this.backgroundMusic.loop = true;
         this.backgroundMusic.volume = 0.1;
         this.backgroundMusic.play();
-        this.gameOverSound = new Audio('sounds/gameover.mp3');
+        this.gameOverSound = new Audio('assets/sounds/gameover.mp3');
         this.gameOverSound.volume = 0.5;
-        this.takeCoin = new Audio('sounds/takecoin.mp3');
+        this.takeCoin = new Audio('assets/sounds/takecoin.mp3');
         this.takeCoin.volume = 0.1;
-        this.takeBottle = new Audio ('sounds/bottlesound.mp3');
+        this.takeBottle = new Audio ('assets/sounds/bottlesound.mp3');
         this.takeBottle.volume = 0.1;
-        this.bossMusic = new Audio('sounds/matchsound.mp3');
+        this.bossMusic = new Audio('assets/sounds/matchsound.mp3');
         this.bossMusic.volume = 0.5;
 
         this.setWorld();
@@ -255,10 +255,6 @@ class World {
             this.killEnemy(enemy);
             this.character.speedY = 25; 
         } else if (this.character.isColliding(enemy)) {
-             console.log('Collision detected!', {
-        character: {x: this.character.x, y: this.character.y},
-        enemy: {x: enemy.x, y: enemy.y, width: enemy.width, height: enemy.height}
-    });
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
         }

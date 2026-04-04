@@ -13,7 +13,7 @@ function init() {
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
 
-    startImage.src = '9_intro_outro_screens/start/startscreen_1.png';
+    startImage.src = 'assets/9_intro_outro_screens/start/startscreen_1.png';
     startImage.onload = () => drawStartScreen();
 }
 
@@ -126,8 +126,8 @@ function updateSoundIcon() {
     const filename = icon.src.split('/').pop();
 
     icon.src = (filename === "laut.png") 
-        ? "./img/laut.stumm.png" 
-        : "./img/laut.png";
+        ? "./assets/img/laut.stumm.png" 
+        : "./assets/img/laut.png";
 }
 
 /**

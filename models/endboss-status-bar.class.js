@@ -1,17 +1,17 @@
 class EndbossStatusBar extends DrawableObject {
     IMAGES = [
-        '7_statusbars/2_statusbar_endboss/orange/orange0.png',
-        '7_statusbars/2_statusbar_endboss/orange/orange20.png', 
-        '7_statusbars/2_statusbar_endboss/orange/orange40.png',
-        '7_statusbars/2_statusbar_endboss/orange/orange60.png',
-        '7_statusbars/2_statusbar_endboss/orange/orange80.png',
-        '7_statusbars/2_statusbar_endboss/orange/orange100.png' 
+        'assets/7_statusbars/2_statusbar_endboss/orange/orange0.png',
+        'assets/7_statusbars/2_statusbar_endboss/orange/orange20.png', 
+        'assets/7_statusbars/2_statusbar_endboss/orange/orange40.png',
+        'assets/7_statusbars/2_statusbar_endboss/orange/orange60.png',
+        'assets/7_statusbars/2_statusbar_endboss/orange/orange80.png',
+        'assets/7_statusbars/2_statusbar_endboss/orange/orange100.png' 
     ];
     percentage = 100; 
 
 
     constructor() {
-        super();this.loadImage('7_statusbars/1_statusbar/2_statusbar_health/blue/100.png');
+        super();this.loadImage('assets/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png');
         this.loadImages(this.IMAGES);
 
         this.x = 500;
