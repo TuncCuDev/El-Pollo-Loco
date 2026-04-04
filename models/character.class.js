@@ -78,6 +78,7 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_LONG_IDLE);
 
         this.jumpSound = new Audio('assets/sounds/jump.mp3');
+        this.souringSound = new Audio('assets/sounds/snoring.mp3')
         this.isLongIdle = false; 
         this.longIdleTimer = null;
 
@@ -191,6 +192,10 @@ class Character extends MoveableObject {
         if (this.isLongIdle) {
             if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_LONG_IDLE, 'longIdleIndex');
+                if (soundOn && this.souringSound.paused) {
+                    this.souringSound.volume = 0.3;
+                    this.souringSound.play();
+                }
             } else {
                 this.resetLongIdle();
                 this.playAnimation(this.IMAGES_IDLE, 'idleIndex');
@@ -222,6 +227,7 @@ class Character extends MoveableObject {
         this.longIdleTimer = null;
         this.isLongIdle = false;
         this.longIdleIndex = 0; 
+        this.souringSound.pause();
     }
 
     /**
