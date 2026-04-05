@@ -4,14 +4,15 @@ class SmallChicken extends MoveableObject {
     width = 60;
 
     IMAGES_WALKING = [
-        'assets/3_enemies_chicken/chicken_small/1_walk/1_w.png',
-        'assets/3_enemies_chicken/chicken_small/1_walk/2_w.png',
-        'assets/3_enemies_chicken/chicken_small/1_walk/3_w.png'
+        'assets/images/3_enemies_chicken/chicken_small/1_walk/1_w.png',
+        'assets/images/3_enemies_chicken/chicken_small/1_walk/2_w.png',
+        'assets/images/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
 
-    IMAGE_DEAD = 'assets/3_enemies_chicken/chicken_small/2_dead/dead.png';
+    IMAGE_DEAD = 'assets/images/3_enemies_chicken/chicken_small/2_dead/dead.png';
     isDead = false;
 
+    
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]); 
         this.loadImages(this.IMAGES_WALKING);
@@ -69,7 +70,8 @@ class SmallChicken extends MoveableObject {
     }
 
     /**
-     * Removes the enemy from the enemies array so it no longer appears or interacts in the game.
+     * Removes this enemy from the world's enemies array after a specified delay.
+     * @param {number} delay - The delay in milliseconds before the enemy is removed.
      */
     removeFromWorldAfterDelay(delay) {
         setTimeout(() => {

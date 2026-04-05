@@ -1,75 +1,77 @@
 class Character extends MoveableObject {
     height = 330;
     width = 130;
-    y = 100;
+    y = 90;
     speed = 10;
     world;
     bottles = 0;
+    isSnoring = false;
     IMAGES_WALKING = [
-        'assets/2_character_pepe/2_walk/W-21.png',
-        'assets/2_character_pepe/2_walk/W-22.png',
-        'assets/2_character_pepe/2_walk/W-23.png',
-        'assets/2_character_pepe/2_walk/W-24.png',
-        'assets/2_character_pepe/2_walk/W-25.png',
-        'assets/2_character_pepe/2_walk/W-26.png'
+        'assets/images/2_character_pepe/2_walk/W-21.png',
+        'assets/images/2_character_pepe/2_walk/W-22.png',
+        'assets/images/2_character_pepe/2_walk/W-23.png',
+        'assets/images/2_character_pepe/2_walk/W-24.png',
+        'assets/images/2_character_pepe/2_walk/W-25.png',
+        'assets/images/2_character_pepe/2_walk/W-26.png'
     ];
 
     IMAGES_JUMPING = [
-        'assets/2_character_pepe/3_jump/J-31.png',
-        'assets/2_character_pepe/3_jump/J-32.png',
-        'assets/2_character_pepe/3_jump/J-33.png',
-        'assets/2_character_pepe/3_jump/J-34.png',
-        'assets/2_character_pepe/3_jump/J-35.png',
-        'assets/2_character_pepe/3_jump/J-36.png',
-        'assets/2_character_pepe/3_jump/J-37.png',
-        'assets/2_character_pepe/3_jump/J-38.png',
-        'assets/2_character_pepe/3_jump/J-39.png',
+        'assets/images/2_character_pepe/3_jump/J-31.png',
+        'assets/images/2_character_pepe/3_jump/J-32.png',
+        'assets/images/2_character_pepe/3_jump/J-33.png',
+        'assets/images/2_character_pepe/3_jump/J-34.png',
+        'assets/images/2_character_pepe/3_jump/J-35.png',
+        'assets/images/2_character_pepe/3_jump/J-36.png',
+        'assets/images/2_character_pepe/3_jump/J-37.png',
+        'assets/images/2_character_pepe/3_jump/J-38.png',
+        'assets/images/2_character_pepe/3_jump/J-39.png',
     ];
 
     IMAGES_DEAD = [
-        'assets/2_character_pepe/5_dead/D-51.png',
-        'assets/2_character_pepe/5_dead/D-52.png',
-        'assets/2_character_pepe/5_dead/D-53.png',
-        'assets/2_character_pepe/5_dead/D-54.png',
-        'assets/2_character_pepe/5_dead/D-55.png',
-        'assets/2_character_pepe/5_dead/D-56.png',
-        'assets/2_character_pepe/5_dead/D-57.png'
+        'assets/images/2_character_pepe/5_dead/D-51.png',
+        'assets/images/2_character_pepe/5_dead/D-52.png',
+        'assets/images/2_character_pepe/5_dead/D-53.png',
+        'assets/images/2_character_pepe/5_dead/D-54.png',
+        'assets/images/2_character_pepe/5_dead/D-55.png',
+        'assets/images/2_character_pepe/5_dead/D-56.png',
+        'assets/images/2_character_pepe/5_dead/D-57.png'
     ];
 
     IMAGES_HURT = [
-        'assets/2_character_pepe/4_hurt/H-41.png',
-        'assets/2_character_pepe/4_hurt/H-42.png',
-        'assets/2_character_pepe/4_hurt/H-43.png'
+        'assets/images/2_character_pepe/4_hurt/H-41.png',
+        'assets/images/2_character_pepe/4_hurt/H-42.png',
+        'assets/images/2_character_pepe/4_hurt/H-43.png'
     ];
 
     IMAGES_IDLE = [
-        'assets/2_character_pepe/1_idle/idle/I-1.png',
-        'assets/2_character_pepe/1_idle/idle/I-2.png',
-        'assets/2_character_pepe/1_idle/idle/I-3.png',
-        'assets/2_character_pepe/1_idle/idle/I-4.png',
-        'assets/2_character_pepe/1_idle/idle/I-5.png',
-        'assets/2_character_pepe/1_idle/idle/I-6.png',
-        'assets/2_character_pepe/1_idle/idle/I-7.png',
-        'assets/2_character_pepe/1_idle/idle/I-8.png',
-        'assets/2_character_pepe/1_idle/idle/I-9.png',
-        'assets/2_character_pepe/1_idle/idle/I-10.png'
+        'assets/images/2_character_pepe/1_idle/idle/I-1.png',
+        'assets/images/2_character_pepe/1_idle/idle/I-2.png',
+        'assets/images/2_character_pepe/1_idle/idle/I-3.png',
+        'assets/images/2_character_pepe/1_idle/idle/I-4.png',
+        'assets/images/2_character_pepe/1_idle/idle/I-5.png',
+        'assets/images/2_character_pepe/1_idle/idle/I-6.png',
+        'assets/images/2_character_pepe/1_idle/idle/I-7.png',
+        'assets/images/2_character_pepe/1_idle/idle/I-8.png',
+        'assets/images/2_character_pepe/1_idle/idle/I-9.png',
+        'assets/images/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
     IMAGES_LONG_IDLE = [
-        'assets/2_character_pepe/1_idle/long_idle/I-11.png',
-        'assets/2_character_pepe/1_idle/long_idle/I-12.png',
-        'assets/2_character_pepe/1_idle/long_idle/I-13.png',
-        'assets/2_character_pepe/1_idle/long_idle/I-14.png',
-        'assets/2_character_pepe/1_idle/long_idle/I-15.png',
-        'assets/2_character_pepe/1_idle/long_idle/I-16.png',
-        'assets/2_character_pepe/1_idle/long_idle/I-17.png',
-        'assets/2_character_pepe/1_idle/long_idle/I-18.png',
-        'assets/2_character_pepe/1_idle/long_idle/I-19.png',
-        'assets/2_character_pepe/1_idle/long_idle/I-20.png'
+        'assets/images/2_character_pepe/1_idle/long_idle/I-11.png',
+        'assets/images/2_character_pepe/1_idle/long_idle/I-12.png',
+        'assets/images/2_character_pepe/1_idle/long_idle/I-13.png',
+        'assets/images/2_character_pepe/1_idle/long_idle/I-14.png',
+        'assets/images/2_character_pepe/1_idle/long_idle/I-15.png',
+        'assets/images/2_character_pepe/1_idle/long_idle/I-16.png',
+        'assets/images/2_character_pepe/1_idle/long_idle/I-17.png',
+        'assets/images/2_character_pepe/1_idle/long_idle/I-18.png',
+        'assets/images/2_character_pepe/1_idle/long_idle/I-19.png',
+        'assets/images/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
     
+    
     constructor() {
-        super().loadImage('assets/2_character_pepe/2_walk/W-21.png');
+        super().loadImage('assets/images/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
@@ -78,7 +80,9 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_LONG_IDLE);
 
         this.jumpSound = new Audio('assets/sounds/jump.mp3');
-        this.souringSound = new Audio('assets/sounds/snoring.mp3')
+        this.snoringSound = new Audio('assets/sounds/snore.mp3');
+        this.snoringSound.loop = true;     
+        this.snoringSound.volume = 0.3;
         this.isLongIdle = false; 
         this.longIdleTimer = null;
 
@@ -192,10 +196,7 @@ class Character extends MoveableObject {
         if (this.isLongIdle) {
             if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_LONG_IDLE, 'longIdleIndex');
-                if (soundOn && this.souringSound.paused) {
-                    this.souringSound.volume = 0.3;
-                    this.souringSound.play();
-                }
+                if (soundOn && this.world.gameIsRunning && !this.isSnoring) this.playSnoring();
             } else {
                 this.resetLongIdle();
                 this.playAnimation(this.IMAGES_IDLE, 'idleIndex');
@@ -203,6 +204,12 @@ class Character extends MoveableObject {
         } else {
             this.playAnimation(this.IMAGES_IDLE, 'idleIndex');
         }
+    }
+
+    playSnoring() {
+        this.snoringSound.volume = 0.3;
+        this.snoringSound.play();
+        this.isSnoring = true;
     }
 
     /**
@@ -227,7 +234,9 @@ class Character extends MoveableObject {
         this.longIdleTimer = null;
         this.isLongIdle = false;
         this.longIdleIndex = 0; 
-        this.souringSound.pause();
+        this.isSnoring = false;         
+        this.snoringSound.pause();       
+        this.snoringSound.currentTime = 0;
     }
 
     /**
@@ -314,7 +323,7 @@ class Character extends MoveableObject {
      */
     jump() {
         this.speedY = 30;
-        if (soundOn) {
+        if (soundOn && this.world.gameIsRunning) {
             this.jumpSound.currentTime = 0;
             this.jumpSound.volume = 0.1;
             this.jumpSound.play();
@@ -339,7 +348,8 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Checks if the player is colliding from above an enemy.
+     *  Checks if the player is jumping on top of an enemy.
+     *  @param {Object} enemy - The enemy object to check collision against. 
      */
     isJumpingOn(enemy) {
         let playerBottom = this.y + this.height;

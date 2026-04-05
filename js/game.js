@@ -13,8 +13,11 @@ function init() {
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
 
-    startImage.src = 'assets/9_intro_outro_screens/start/startscreen_1.png';
+    startImage.src = 'assets/images/9_intro_outro_screens/start/startscreen_1.png';
     startImage.onload = () => drawStartScreen();
+
+    let preloadSound = new Audio('assets/sounds/gamemusic.mp3');
+    preloadSound.load();
 }
 
 /**
@@ -56,7 +59,29 @@ function restartGame() {
 }
 
 /**
- * Shows mobile buttons.
+ * 
+ * @param {*} show 
+ */
+function setupMobileControls(show) {
+    const controls = document.getElementById('mobileControls');
+
+    if (show && isMobileLandscape()) {
+        controls.style.display = 'flex';
+    } else {
+        controls.style.display = 'none';
+    }
+}
+
+/**
+ * 
+ */
+function isMobileLandscape() {
+    return window.innerWidth <= 800 && window.innerWidth > window.innerHeight;
+}
+
+/**
+ * Shows mobile control buttons.
+ * @param {boolean} show - If true, displays the mobile controls; if false, hides them.
  */
 function setupMobileControls(show) {
     const controls = document.getElementById('mobileControls');
@@ -72,7 +97,8 @@ function fullscreen() {
 }
 
 /**
- * Makes the game go fullscreen.
+ * Makes the specified element enter fullscreen mode.
+ * @param {HTMLElement} element - The HTML element to display in fullscreen mode.
  */
 function enterFullscreen(element) {
     if(element.requestFullscreen) {
@@ -126,8 +152,8 @@ function updateSoundIcon() {
     const filename = icon.src.split('/').pop();
 
     icon.src = (filename === "laut.png") 
-        ? "./assets/img/laut.stumm.png" 
-        : "./assets/img/laut.png";
+        ? "./assets/images/img/laut.stumm.png" 
+        : "./assets/images/img/laut.png";
 }
 
 /**
@@ -147,6 +173,7 @@ function updateWorldSounds() {
 
 /**
  * Mutes or unmutes a single audio object.
+ * @param {HTMLAudioElement} audio - The audio object to mute or unmute.
  */
 function toggleAudio(audio) {
     if (!audio) return;
@@ -170,7 +197,8 @@ function goToMenu() {
 }
 
 /**
- * Stops the game loop and enemies.
+ * Stops the game loop and all enemies in the world.
+ * @param {Object} world - The game world object containing enemies and the game state.
  */
 function stopWorld(world) {
     if (!world) return;
@@ -180,7 +208,8 @@ function stopWorld(world) {
 }
 
 /**
- * Loop through all enemies and calls stopAll() if available.
+ *  Stops all enemies by calling their stopAll method if available.
+ * @param {Array<Object>} enemies - An array of enemy objects to stop.
  */
 function stopEnemies(enemies) {
     if (!enemies) return;
@@ -197,6 +226,7 @@ function stopEnemies(enemies) {
  */
 function openImpressum() {
     document.getElementById('impressumOverlay').style.display = 'flex';
+    document.body.classList.add('impressum-open');
 }
 
 /**
@@ -204,6 +234,7 @@ function openImpressum() {
  */
 function closeImpressum() {
     document.getElementById('impressumOverlay').style.display = 'none';
+    document.body.classList.remove('impressum-open'); 
 }
 
 /**

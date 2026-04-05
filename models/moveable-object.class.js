@@ -36,6 +36,7 @@ class MoveableObject extends DrawableObject {
 
     /** 
      *  Checks if the character collides with a movable object.
+     *  @param {Object} mo - The movable object to check collision with.
      */ 
     isColliding(mo) {
         return this.x + this.width - 50 > mo.x &&
@@ -46,6 +47,7 @@ class MoveableObject extends DrawableObject {
 
     /**
      * Checks if the character collides with coins or bottles.
+     * @param {Object} item - The collectible item (coin, bottle, etc.) to check collision with.
      */
     isCollidingCollectable(item) {
         return this.x + this.width > item.x + 50&&
@@ -64,7 +66,7 @@ class MoveableObject extends DrawableObject {
             return; 
         }
         this.energy -= 5;
-        this.playCrySound();
+        if (soundOn && this.world.gameIsRunning) this.playCrySound();
         this.lastHit = now;
         this.updateHitStatus(now);
     }
@@ -73,14 +75,14 @@ class MoveableObject extends DrawableObject {
      * Playing cry sound for being hurt.
      */
     playCrySound() {
-        if (!soundOn) return;
-        const sound = this.crySound.cloneNode();
-        sound.volume = 0.1;
-        sound.play();
+        this.crySound.volume = 0.5;
+        this.crySound.currentTime = 0;
+        this.crySound.play();
     }
 
     /**
      * Updates last hit timestamp.
+     * @param {number} timestamp - The current time or frame when the character was hit.
      */
     updateHitStatus(timestamp) {
         if (this.energy < 0) {
@@ -106,7 +108,8 @@ class MoveableObject extends DrawableObject {
 
     /**
      * Cycles through images for animations.
-    */
+     * @param {Array} images - An array of image paths used for the animation frames.
+     */
     playAnimation(images) {
         let i = this.currentImage % images.length; 
         let path = images[i];

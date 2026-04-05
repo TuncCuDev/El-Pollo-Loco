@@ -3,6 +3,18 @@
     src: url('./assets/fonts/metrosant-regular.ttf') format('truetype'); 
 }  
 
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* verhindert seitlichen Rand */
+}
+
 body {
     margin: 0;
     display: flex;
@@ -12,9 +24,8 @@ body {
     width: 100%;
     margin: 0;
     font-family: 'metrosant', Arial, Helvetica, sans-serif;
-    background-image: url('./assets/img/desert.jpg');
-    background-position: center;
-    background-size: cover;   
+    background-image: url('./assets/images/img/desert.jpg');
+    background-position: center;  
     background-repeat: no-repeat; 
     overflow: hidden;
 }
@@ -68,11 +79,12 @@ canvas {
     text-align: center;
     z-index: 100;
     border-radius: 12px;
+    overflow: hidden;
 }
 
 #gameOverOverlay img, #youWinOverlay img {
-    width: 725px;
-    height: 480px;
+    width: 724px;
+    height: 485px;
     border-radius: 14px;
 }
 
@@ -87,13 +99,6 @@ canvas {
     cursor: pointer;
     background: rgba(128, 128, 128, 0.247);   
     border: 1px solid rgba(0, 0, 0, 0.164);   
-}
-
-canvas:fullscreen {
-    width: 100vw;
-    height: 100vh;
-    object-fit: contain;
-    background: black;
 }
 
 canvas:fullscreen {
@@ -120,7 +125,9 @@ canvas:fullscreen {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 20;
+    z-index: 1002;
+    max-width: 800px;
+
 }
 
 .container {
@@ -147,14 +154,23 @@ canvas:fullscreen {
     background-color: #ffad41;
 }
 
-.button-gameover {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: -60px;   
+#overlayImpressum:hover {
+    background-color: #efc700;
 }
 
-.button-gameover button, .btn {
+.button-gameover, .btn {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, 12%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.button-gameover button, .btn, .btn-impressum {
     font-size: 20px;
     background-color: #efc700;
     color: whitesmoke;
@@ -164,27 +180,29 @@ canvas:fullscreen {
     cursor: pointer;
     border: none;
     transition: all 0.3s ease;
-    cursor: pointer;
 }
 
-.button-gameover button:hover {
+.button-gameover button:hover{
     background-color: #692424;
     color: white;
 }
 
 #impressumOverlay {
-    position: absolute;
+    position: fixed; /* wichtig! */
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('./assets/img/desert.jpg'); 
+    width: 100vw;
+    height: 100vh; /* volle Höhe vom Viewport */
+
+    background-image: url(./assets/images/img/desert.jpg);
     background-repeat: no-repeat;
-    background-position: center center;
     background-size: cover;
+    background-position: center;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     z-index: 1000;
     display: none;
 }
@@ -195,12 +213,12 @@ canvas:fullscreen {
     border-radius: 20px;
     max-width: 800px;
     width: 90%;
-    height: 350px; 
+    min-height: 350px; 
     text-align: center;
     box-shadow: 0 5px 20px rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;     
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     color: white;           
 }    
@@ -215,6 +233,11 @@ canvas:fullscreen {
     text-align: left;
     margin-bottom: 20px;
     padding-left: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
 }
 
 #impressumButton {
@@ -252,6 +275,9 @@ canvas:fullscreen {
     cursor: pointer;
     background-color: #692424; 
     color: whitesmoke;
+}
+body.impressum-open #overlayImpressum {
+    display: none !important; 
 }
 
 #rotateMessage {
@@ -366,7 +392,7 @@ canvas:fullscreen {
     pointer-events: none; 
 }
 
-.overlay-buttons {
+.button-youwin {
     position: absolute;
     bottom: 20%;
     left: 50%;
@@ -374,41 +400,7 @@ canvas:fullscreen {
     z-index: 1002;
 }
 
-@keyframes rotatePhone {
-    0% {
-        transform: rotate(0deg);
-    }
-    50% {
-        transform: rotate(90deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
+.impressum-open #overlayImpressum {
+    display: none !important;
 }
 
-@media (max-width: 750px) and (orientation: landscape) {
-    #mobileControls {
-        display: flex;
-    }
-}
-
-@media (max-width: 750px) and (orientation: portrait) {
-    #rotateMessage {
-        display: flex;
-    }
-    canvas {
-        display: none;
-    }
-}
-
-@media only screen and (max-width: 720px) {
-    canvas {
-        width: 100%;
-    }
-}
-
-@media only screen and (max-height: 480px) {
-    canvas {
-        height: 100vh;
-    }
-}

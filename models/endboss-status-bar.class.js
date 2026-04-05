@@ -1,17 +1,17 @@
 class EndbossStatusBar extends DrawableObject {
     IMAGES = [
-        'assets/7_statusbars/2_statusbar_endboss/orange/orange0.png',
-        'assets/7_statusbars/2_statusbar_endboss/orange/orange20.png', 
-        'assets/7_statusbars/2_statusbar_endboss/orange/orange40.png',
-        'assets/7_statusbars/2_statusbar_endboss/orange/orange60.png',
-        'assets/7_statusbars/2_statusbar_endboss/orange/orange80.png',
-        'assets/7_statusbars/2_statusbar_endboss/orange/orange100.png' 
+        'assets/images/7_statusbars/2_statusbar_endboss/orange/orange0.png',
+        'assets/images/7_statusbars/2_statusbar_endboss/orange/orange20.png', 
+        'assets/images/7_statusbars/2_statusbar_endboss/orange/orange40.png',
+        'assets/images/7_statusbars/2_statusbar_endboss/orange/orange60.png',
+        'assets/images/7_statusbars/2_statusbar_endboss/orange/orange80.png',
+        'assets/images/7_statusbars/2_statusbar_endboss/orange/orange100.png' 
     ];
     percentage = 100; 
 
 
     constructor() {
-        super();this.loadImage('assets/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png');
+        super();this.loadImage('assets/images/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png');
         this.loadImages(this.IMAGES);
 
         this.x = 500;
@@ -21,9 +21,11 @@ class EndbossStatusBar extends DrawableObject {
 
         this.setPercentage(100);
     }
+    
 
     /**
-     * Loads that images from imageCache and sets it as this.img, updates the bar visually.
+     * Updates the visual representation of the health/energy bar.
+     * @param {number} percentage - The current percentage (e.g., health or energy) to display on the bar.
      */
     setPercentage(percentage) {
         this.percentage = percentage;

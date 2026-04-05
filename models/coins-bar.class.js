@@ -1,14 +1,15 @@
 class CoinsBar extends DrawableObject {
     IMAGES_COINS = [
-        'assets/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
-        'assets/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',
-        'assets/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png',
-        'assets/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png',
-        'assets/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png',
-        'assets/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
+        'assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
+        'assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',
+        'assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png',
+        'assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png',
+        'assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png',
+        'assets/images/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
     ];
     coins = 0; 
 
+    
     constructor() {
         super().loadImages(this.IMAGES_COINS); 
         this.img = this.imageCache[this.IMAGES_COINS[0]]; 
@@ -21,7 +22,8 @@ class CoinsBar extends DrawableObject {
 
 
     /**
-     * Updates count of coins.
+     * Updates the character’s coin count and refreshes the coin display.
+     * @param {number} coins - The new total number of coins collected.
      */
     setCoins(coins) {
         this.coins = coins;

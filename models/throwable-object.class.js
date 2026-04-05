@@ -1,13 +1,14 @@
 class ThrowableObject extends MoveableObject {
     IMAGES_SPLASH = [
-        'assets/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
-        'assets/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
-        'assets/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png'
+        'assets/images/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
+        'assets/images/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
+        'assets/images/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png'
     ];
 
+    
     constructor(x, y, otherDirection = false) {
         super();
-        this.loadImage('assets/6_salsa_bottle/salsa_bottle.png'); 
+        this.loadImage('assets/images/6_salsa_bottle/salsa_bottle.png'); 
         this.loadImages(this.IMAGES_SPLASH);
 
         this.x = x;
@@ -76,6 +77,7 @@ class ThrowableObject extends MoveableObject {
 
     /**
      * Loads the splash image for the current frame.
+     * @param {number} index - The index of the splash frame to load.
      */
     loadSplashFrame(index) {
         this.loadImage(this.IMAGES_SPLASH[index]);
@@ -84,6 +86,7 @@ class ThrowableObject extends MoveableObject {
 
     /**
      * Stops the splash animation.
+     * @param {number} interval - The interval ID returned by `setInterval` for the splash animation.
      */
     endSplashAnimation(interval) {
         clearInterval(interval);
@@ -119,6 +122,7 @@ class ThrowableObject extends MoveableObject {
 
     /**
      * Checks if the bottle collides with an enemy.
+     * @param {Object} enemy - The enemy object to check collision with.
      */
     isColliding(enemy) {
         return this.x + this.width > enemy.x - 20 &&

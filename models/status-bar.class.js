@@ -1,16 +1,17 @@
 class StatusBar extends DrawableObject {
     percentage = 100;
     IMAGES = [
-        'assets/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
-        'assets/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png', 
-        'assets/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png',
-        'assets/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png',
-        'assets/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png',
-        'assets/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png' 
+        'assets/images/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
+        'assets/images/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png', 
+        'assets/images/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png',
+        'assets/images/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png',
+        'assets/images/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png',
+        'assets/images/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png' 
     ];
 
+
     constructor() {
-        super();this.loadImage('assets/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png');
+        super();this.loadImage('assets/images/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png');
         this.loadImages(this.IMAGES);
 
         this.x = 30;
@@ -21,8 +22,10 @@ class StatusBar extends DrawableObject {
         this.setPercentage(100);
     }
 
+    
     /**
-     * Loads that images from imageCache and sets it as this.img, updates the bar visually.
+     * Updates the percentage value and sets the corresponding image from the image cache.
+     * @param {number} percentage - The new percentage value to display (0–100).
      */
     setPercentage(percentage) {
         this.percentage = percentage; 

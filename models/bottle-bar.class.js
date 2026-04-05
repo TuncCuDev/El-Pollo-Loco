@@ -1,13 +1,14 @@
 class BottleBar extends DrawableObject {
     bottles = 0;
     IMAGES_BOTTLE = [
-        'assets/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
-        'assets/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
-        'assets/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png',
-        'assets/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png',
-        'assets/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png',
-        'assets/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
+        'assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
+        'assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
+        'assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png',
+        'assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png',
+        'assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png',
+        'assets/images/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
     ];
+
 
     constructor() {
         super();
@@ -20,8 +21,10 @@ class BottleBar extends DrawableObject {
         this.height = 60;
     }
     
+    
     /**
-     * Updates count of bottles.
+     * Updates the character’s bottle count and refreshes the display image.
+     * @param {number} amount - The new total number of bottles collected.
      */
     setBottles(amount) {
         this.bottles = amount;
@@ -47,6 +50,10 @@ class BottleBar extends DrawableObject {
         }
     }
 
+    /**
+     * Draws the current image on the canvas if it exists.
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context used to draw the image.
+     */
     draw(ctx) {
         if (this.img) ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./css/responsive.style.css">
     <title>El Pollo Loco</title>
-    <link rel="shortcut icon" href="assets/3_enemies_chicken/chicken_normal/1_walk/1_w.png" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/images/3_enemies_chicken/chicken_normal/1_walk/1_w.png" type="image/x-icon">
 
     <script src="models/drawable-object.class.js"></script>
     <script src="models/moveable-object.class.js"></script>
@@ -43,13 +43,13 @@
 
         <div class="button-line">
             <button onclick="toggleSound()">
-                <img id="soundIcon" src="./assets/img/laut.png" alt="">
+                <img id="soundIcon" src="assets/images/img/laut.png" alt="">
             </button>
             <button class="button-top" onclick="fullscreen()" id="fullscreenBtn">
-                <img src="./assets/img/vollbildbutton.png" alt=""> 
+                <img src="assets/images/img/vollbildbutton.png" alt=""> 
             </button>
             <button onclick="gameInformation()">
-                <img class="button-top size" src="./assets/img/infoicon.png" alt="Info">
+                <img class="button-top size" src="assets/images/img/infoicon.png" alt="Info">
             </button>
         </div>
     </div>
@@ -62,14 +62,14 @@
                 <li><strong>Erstellt von:</strong> Tuncay</li>
                 <li><strong>Kontakt:</strong> tuncayc@hotmail.de</li>
             </ul>
-            <div class="button-gameover">
-                <button onclick="closeImpressum()">Schließen</button>
+            <div class="button-impressum">
+                <button onclick="closeImpressum()" class="btn-impressum">Schließen</button>
             </div>
         </div>
     </div>
 
     <div id="gameOverOverlay">
-        <img src="./assets/9_intro_outro_screens/game_over/game over!.png" alt="Game Over">
+        <img src="./assets/images/9_intro_outro_screens/game_over/game over!.png" alt="Game Over">
         <div class="button-gameover">
             <button id="restartButton" onclick="restartGame()">New Game</button>
             <button id="menuButton" onclick="goToMenu()">Menu</button>
@@ -78,9 +78,9 @@
 
     <div id="youWinOverlay">
         <div class="overlay-bg"></div>
-        <img src="./assets/9_intro_outro_screens/start/startscreen_2.png" alt="YouWin" class="overlay-img">
+        <img src="./assets/images/9_intro_outro_screens/start/startscreen_2.png" alt="YouWin" class="overlay-img">
         <div class="overlay-text">YOU WIN!</div>
-            <div class="overlay-buttons">
+            <div class="button-youwin">
                 <button id="menuButton" class="btn" onclick="goToMenu()">Menu</button>
             </div>
     </div>

@@ -9,7 +9,8 @@ class DrawableObject {
 
 
     /**
-     * Creates a new image object.
+     * Loads an image and sets it as the current image.
+     * @param {string} path - The path to the image file to load.
      */
     loadImage(path) {
         this.img = new Image();
@@ -18,16 +19,18 @@ class DrawableObject {
 
     /**
      * Draws the current image.
+     *  @param {CanvasRenderingContext2D} ctx - The canvas rendering context used to draw the image.
      */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
-    drawFrame(ctx) { }
+    drawFrame() { }
     
 
     /**
-     * Loads multiple images at once.
+     * Loads multiple images and stores them in the image cache.
+     * @param {Array<string>} arr - An array of image paths to load.
      */
     loadImages(arr) {
         arr.forEach((path) => {

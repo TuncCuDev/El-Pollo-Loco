@@ -14,26 +14,26 @@ class Endboss extends MoveableObject {
     gravity = 2;        
     groundY = this.y;   
     IMAGES_WALKING = [
-        'assets/4_enemie_boss_chicken/2_alert/G5.png',
-        'assets/4_enemie_boss_chicken/2_alert/G6.png',
-        'assets/4_enemie_boss_chicken/2_alert/G7.png',
-        'assets/4_enemie_boss_chicken/2_alert/G8.png',
-        'assets/4_enemie_boss_chicken/2_alert/G9.png',
-        'assets/4_enemie_boss_chicken/2_alert/G10.png',
-        'assets/4_enemie_boss_chicken/2_alert/G11.png',
-        'assets/4_enemie_boss_chicken/2_alert/G12.png'
+        'assets/images/4_enemie_boss_chicken/2_alert/G5.png',
+        'assets/images/4_enemie_boss_chicken/2_alert/G6.png',
+        'assets/images/4_enemie_boss_chicken/2_alert/G7.png',
+        'assets/images/4_enemie_boss_chicken/2_alert/G8.png',
+        'assets/images/4_enemie_boss_chicken/2_alert/G9.png',
+        'assets/images/4_enemie_boss_chicken/2_alert/G10.png',
+        'assets/images/4_enemie_boss_chicken/2_alert/G11.png',
+        'assets/images/4_enemie_boss_chicken/2_alert/G12.png'
     ];
 
     deadImages = [
-        'assets/4_enemie_boss_chicken/5_dead/G24.png',
-        'assets/4_enemie_boss_chicken/5_dead/G25.png',
-        'assets/4_enemie_boss_chicken/5_dead/G26.png'
+        'assets/images/4_enemie_boss_chicken/5_dead/G24.png',
+        'assets/images/4_enemie_boss_chicken/5_dead/G25.png',
+        'assets/images/4_enemie_boss_chicken/5_dead/G26.png'
     ];
     
     IMAGES_HuRT = [
-        'assets/4_enemie_boss_chicken/4_hurt/G21.png',
-        'assets/4_enemie_boss_chicken/4_hurt/G22.png',
-        'assets/4_enemie_boss_chicken/4_hurt/G23.png'
+        'assets/images/4_enemie_boss_chicken/4_hurt/G21.png',
+        'assets/images/4_enemie_boss_chicken/4_hurt/G22.png',
+        'assets/images/4_enemie_boss_chicken/4_hurt/G23.png'
     ]
   
     
@@ -62,11 +62,10 @@ class Endboss extends MoveableObject {
 
     /**
      * The endboss jump normally or mega, direction determines left or right.
-     * @param {isMega} Mega jumps higher and longer. 
-     * @param {direction} Left or right.
-     * @param {minX } Coordinate for minimum x line.
-     * @param {maxX } Coordinate for maximum x line.
-     * @returns isMega = true or false, direction.
+     * @param {boolean} isMega - If true, performs a higher and longer jump.
+     * @param {number} direction - Direction of the jump: 1 for right, -1 for left.
+     * @param {number} minX - Minimum x-coordinate limit for the jump.
+     * @param {number} maxX - Maximum x-coordinate limit for the jump.
      */
     jump(isMega = false, direction = 1, minX = 1750, maxX = 2500) {
         if (this.isJumping || this.isDead) return;
@@ -80,21 +79,28 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Function for speed.
+     * Returns the jump speed based on jump type.
+     * @param {boolean} isMega - If true, returns the speed for a mega jump; otherwise returns normal jump speed.
      */
     getJumpSpeed(isMega) {
         return isMega ? this.megaJumpSpeed : this.jumpSpeed;
     }
 
     /**
-     * Function for distance.
+     * Returns the horizontal distance for a jump.
+     * @param {boolean} isMega - If true, the jump covers a longer distance; otherwise a normal distance.
+     * @param {number} direction - Direction of the jump: 1 for right, -1 for left.
      */
     getJumpDistance(isMega, direction) {
         return direction * (isMega ? 15 : 7);
     }
 
     /**
-     * Function for Jump invterval.
+     * Starts the interval to animate the jump.
+     * @param {number} speedY - Initial vertical speed for the jump.
+     * @param {number} speedX - Horizontal speed for the jump (direction included).
+     * @param {number} minX - Minimum x-coordinate boundary during the jump.
+     * @param {number} maxX - Maximum x-coordinate boundary during the jump.
      */
     startJumpInterval(speedY, speedX, minX, maxX) {
         let currentSpeedY = speedY;
@@ -110,7 +116,11 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Position updates.
+     * Updates the position of the character during a jump.
+     * @param {number} speedY - Vertical speed for the jump (positive values move up).  
+     * @param {number} speedX - Horizontal speed for the jump (direction included).  
+     * @param {number} minX - Minimum x-coordinate allowed during the jump.  
+     * @param {number} maxX - Maximum x-coordinate allowed during the jump. 
      */
     updateJumpPosition(speedY, speedX, minX, maxX) {
         this.y -= speedY;
@@ -121,7 +131,8 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Interval for jumping.
+     * Stops the jump and resets the character on the ground.
+     * @param {Interval} jumpInterval - The interval controlling the jump animation, which will be cleared when landing.
      */
     landOnGround(jumpInterval) {
         this.y = this.groundY;
@@ -149,7 +160,9 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Patrol movement left or right, randomly decides to jump.
+     * Starts patrol movement for the endboss. 
+     * @param {number} minX - Minimum x-coordinate limit for patrol movement.  
+     * @param {number} maxX - Maximum x-coordinate limit for patrol movement.     
      */
    startPatrolMovement(minX = 1900, maxX = 2500) {
         let direction = 1;
@@ -163,7 +176,10 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Updating patrol movement.
+     * Updates patrol movement.
+     * @param {number} direction - Current horizontal direction: 1 for right, -1 for left.
+     * @param {number} minX - Minimum x-coordinate boundary for patrol.  
+     * @param {number} maxX - Maximum x-coordinate boundary for patrol.
      */
     patrolStep(direction, minX, maxX) {
         this.updatePosition(direction, minX, maxX);
@@ -171,7 +187,10 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Adds random jumps.
+     * Triggers random jumps during patrol. 
+     * @param {number} direction - Current horizontal direction: 1 for right, -1 for left.  
+     * @param {number} minX - Minimum x-coordinate boundary for jump.  
+     * @param {number} maxX - Maximum x-coordinate boundary for jump.
      */
     tryRandomJump(direction, minX, maxX) {
         if (this.isJumping || this.isDead) return;
@@ -186,14 +205,19 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Updating position.
+     * Updates horizontal position of the endboss.
+     *  @param {number} direction - Horizontal direction: 1 for right, -1 for left.  
      */
-    updatePosition(direction, minX, maxX) {
+    updatePosition(direction) {
         this.x += direction * this.speed * 30;
     }
 
     /**
-     * Updating direction between maxX and minX.
+     * Updates the horizontal direction based on boundaries.
+     * @param {number} currentX - Current x-coordinate of the endboss.  
+     * @param {number} direction - Current horizontal direction: 1 for right, -1 for left.  
+     * @param {number} minX - Minimum x-coordinate boundary.  
+     * @param {number} maxX - Maximum x-coordinate boundary.  
      */
     updateDirection(currentX, direction, minX, maxX) {
         if (currentX >= maxX) return -1;
@@ -247,11 +271,12 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Shows hurt images.
+     * Displays the hurt animation frame for the character.
+     * @param {number} index - Index of the hurt image to display from the IMAGES_HuRT array.
      */
     showHurtFrame(index) {
         this.loadImage(this.IMAGES_HuRT[index]);
-        if (soundOn) {
+        if (soundOn && this.world.gameIsRunning) {
             this.playHurtSound();
         }
     }
@@ -266,7 +291,8 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Finish hurt animation.
+     * Ends the hurt animation for the character.
+     * @param {Interval} interval - The interval controlling the hurt animation, which will be cleared.
      */
     finishHurtAnimation(interval) {
         clearInterval(interval);

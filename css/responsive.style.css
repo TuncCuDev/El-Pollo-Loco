@@ -1,3 +1,9 @@
+@media (max-width: 900) and (orientation: landscape) {
+    #menuButton {
+        bottom: 10px;
+    }
+}
+
 @media (max-width: 800px) and (orientation: landscape) {
     #mobileControls {
         display: flex;
@@ -19,6 +25,8 @@
         display: flex;
         justify-content: center;  
         align-items: center; 
+        background-image: none;
+        background-color: black;
     }
 
     canvas {
@@ -48,34 +56,33 @@
 
     #playButton {
         position: absolute;
-        top: 15%;             /* wandert proportional zur Höhe */
+        top: 18%;             
         left: 50%;
         transform: translateX(-50%);
-        font-size: 4vh;       /* Schriftgröße proportional zur Höhe */
-        padding: 1.5vh 3vw;   /* Padding proportional zu Höhe/Breite */
+        font-size: 4vh;       
+        padding: 1.5vh 3vw;   
     }
 
     #overlayImpressum {
-        display: flex;            /* flexbox zentriert Inhalte */
-        align-items: center;      /* vertikale Zentrierung im Button */
-        justify-content: center;  /* horizontale Zentrierung im Button */
+        display: flex;            
+        align-items: center;      
+        justify-content: center; 
         position: absolute;       
-        top: 80%;                 /* anderer Top-Wert als #overlayImpressum */
+        top: inherit;                
         left: 50%;
         transform: translateX(-50%);
-        letter-spacing: 2px;      /* wie beim Overlay */
-        font-size: 20px;          
-        padding: 10px 30px;
+        letter-spacing: 2px;      
+        font-size: 16px;          
+        padding: 5px 20px;
+        z-index: 1001;
+        bottom: 10px;
+        height: 35px;
     }
 
     .impressum-content {
         height: auto;                  
         max-height: 50vh;              
         min-height: 250px;  
-    }
-
-    .button-gameover {
-        margin-top: 2px;
     }
 
     .impressum-content h2 {
@@ -87,8 +94,9 @@
         top: 50%;        
         left: 50%;             
         transform: translate(-50%, -50%);  
-        width: 100vw;                
-        aspect-ratio: 16 / 9;     
+        width: 100vw;
+        height: 100vh;                
+        z-index: 1001;    
     }
 
     #gameOverOverlay img, #youWinOverlay img {        
@@ -102,11 +110,11 @@
         display: flex;  
         align-items: center;        
         justify-content: space-around;    
-        position: absolute;
         top: 65%;
         left: 50%;
-        transform: translateX(-50%); 
         gap: 15px;
+        position: absolute;
+        transform: translate(-50%);
     }
 
     .overlay {
@@ -114,9 +122,9 @@
         top: 50%;        
         left: 50%;             
         transform: translate(-50%, -50%);  
-        width: 100vw;              
-        max-width: 720px;       
-        aspect-ratio: 16 / 9;    
+        width: 100vw;
+        height: 100vh;
+        z-index: 1002;              
     }
 
     .overlay-content {
@@ -133,18 +141,163 @@
     }
 }
 
-@media (max-height: 400px) and (orientation: landscape) {
-    #playButton {
-        top: 17%;
+@media (max-width: 750px) and (orientation: landscape) {
+    body:not(.game-started) .show-on-mobile {
+        display: none;
+    }
+
+    body.game-started .show-on-mobile {
+        display: flex;
     }
 }
 
 @media (max-width: 750px) and (orientation: landscape) {
-    .hide-on-mobile {
-        display: none !important;
+    #mobileControls {
+        display: flex;
+    }
+}
+
+@media (max-width: 750px) and (orientation: portrait) {
+    #rotateMessage {
+        display: flex;
+    }
+    canvas {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+}
+
+@media (max-height: 690px) {
+    h1 {
+        display: none;
     }
 
-    .show-on-mobile {
-        display: flex !important;
+    canvas {
+        width: 100vw;
+        height: 100vh;
+        aspect-ratio: 16 / 9;
+        object-fit: contain;
+    }
+
+    .button-line {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        padding: 6px;
+        cursor: pointer;
+        background: rgba(128, 128, 128, 0.25);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    #playButton {
+        position: absolute;
+        top: 18%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 4vh;
+        padding: 1.5vh 3vw;
+    }
+
+    #mobileControls {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        justify-content: space-around;
+        padding: 10px;
+        z-index: 1000;
+        gap: 70px;
+    }
+
+    #overlayImpressum {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: inherit;
+        left: 50%;
+        transform: translateX(-50%);
+        letter-spacing: 2px;
+        font-size: 16px;
+        padding: 5px 20px;
+        z-index: 1001;
+        bottom: 10px;
+        height: 35px;
+    }
+
+    #gameOverOverlay img, #youWinOverlay img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #gameOverOverlay, #youWinOverlay {
+        position: absolute;        
+        top: 50%;        
+        left: 50%;             
+        transform: translate(-50%, -50%);  
+        width: 100vw;
+        height: 100vh;                
+        z-index: 1001;    
+    }
+
+    .overlay{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100vw;
+        height: 100vh;
+        z-index: 1002;
+        max-width: 1300px
+    }
+
+    .button-gameover {
+        top: 78%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .btn-i {
+        bottom: 20px;
+        padding: 25px 2px;
+        z-index: 1003;
+    }
+}
+
+@media (max-height: 400px) and (orientation: landscape) {
+    #playButton {
+        top: 19%;
+    }
+}
+
+@media (max-height: 350px) { 
+    .btn-i {
+        bottom: 10px;
+        padding: 10px 2px;
+    }
+
+    .overlay-content button {
+        margin-top: -6px;
+    }
+}
+
+@keyframes rotatePhone {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(90deg);
+    }
+    100% {
+        transform: rotate(0deg);
     }
 }

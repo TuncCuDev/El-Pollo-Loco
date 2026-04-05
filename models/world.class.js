@@ -26,22 +26,38 @@ class World {
         this.endBoss = this.level.enemies.find (e => e instanceof Endboss);
         this.endbossBar = new EndbossStatusBar(this.endBoss);
         
-        this.backgroundMusic = new Audio('assets/sounds/gamemusic.mp3');
-        this.backgroundMusic.loop = true;
-        this.backgroundMusic.volume = 0.1;
-        this.backgroundMusic.play();
-        this.gameOverSound = new Audio('assets/sounds/gameover.mp3');
-        this.gameOverSound.volume = 0.5;
-        this.takeCoin = new Audio('assets/sounds/takecoin.mp3');
-        this.takeCoin.volume = 0.1;
-        this.takeBottle = new Audio ('assets/sounds/bottlesound.mp3');
-        this.takeBottle.volume = 0.1;
-        this.bossMusic = new Audio('assets/sounds/matchsound.mp3');
-        this.bossMusic.volume = 0.5;
+        this.initAudio();
 
         this.setWorld();
         this.draw();
         this.run();
+    }
+
+
+    /**
+     * Initializes all game audio.
+     */
+    initAudio() {
+        this.backgroundMusic = new Audio('assets/sounds/gamemusic.mp3');
+        this.gameOverSound = new Audio('assets/sounds/gameover.mp3');
+        this.takeCoin = new Audio('assets/sounds/takecoin.mp3');
+        this.takeBottle = new Audio('assets/sounds/bottlesound.mp3');
+        this.bossMusic = new Audio('assets/sounds/matchsound.mp3');
+
+        if (soundOn) this.playBackgroundMusic();
+        this.gameOverSound.volume = 0.5;
+        this.takeCoin.volume = 0.1;
+        this.takeBottle.volume = 0.1;
+        this.bossMusic.volume = 0.5;
+    }
+
+    /**
+     * Plays the background music in a loop.
+     */
+    playBackgroundMusic() {
+        this.backgroundMusic.loop = true;
+        this.backgroundMusic.volume = 0.1;
+        this.backgroundMusic.play();
     }
 
     /**
@@ -110,7 +126,8 @@ class World {
      * Checks if sound is enabled.
      */
     playBossMusic() {
-        if (!soundOn) return;
+        if (!soundOn || !this.gameIsRunning) return; 
+        this.bossMusic.currentTime = 0;
         this.bossMusic.play();
     }
 
@@ -155,7 +172,8 @@ class World {
     }
 
     /**
-     * Check if thrown bottle hit anything.
+     * Checks if the thrown bottle hits any target.
+     * @param {Object} bottle - The bottle object to check for collisions.
      */
     checkHits(bottle) {
         this.checkEndbossHit(bottle); 
@@ -163,7 +181,8 @@ class World {
     }
 
     /**
-     * Checks if the bottle can hit the boss.
+     * Checks if the bottle can hit the endboss and triggers the hit logic if possible.
+     * @param {Object} bottle - The bottle object to check for collision with the endboss.
      */
     checkEndbossHit(bottle) {
         if (!this.canHitEndboss(bottle)) return;
@@ -171,14 +190,16 @@ class World {
     }
 
     /**
-     * Function for conditions are met.
+     * Checks whether the bottle can hit the endboss.
+     * @param {Object} bottle - The bottle object to check for collision with the endboss.
      */
     canHitEndboss(bottle) {
         return this.endBoss && !this.endBoss.isDead && !bottle.hasSplashed && bottle.isColliding(this.endBoss);
     }
 
     /**
-     * Marks the bottle as used, play the splash animation, tells the boss it got hit.
+     * Marks the bottle as used, plays the splash animation,
+     * @param {Object} bottle - The bottle object that hits the endboss.
      */
     hitEndboss(bottle) {
         bottle.hasSplashed = true;
@@ -187,14 +208,17 @@ class World {
     }
 
     /**
-     * Loop through all enemies in the level.
+     * Loops through all enemies in the current level and checks if they are hit by the bottle.
+     * @param {Object} bottle - The bottle object that may collide with enemies.
      */
     checkEnemiesHit(bottle) {
         this.level.enemies.forEach(enemy => this.checkEnemyHit(enemy, bottle));
     }
 
     /**
-     * Checks hits.
+     * Checks if a bottle hits an enemy and triggers the hit logic if applicable.
+     * @param {Object} enemy - The enemy object to check for a hit.
+     * @param {Object} bottle - The bottle object that may collide with the enemy.
      */
     checkEnemyHit(enemy, bottle) {
         if (enemy === this.endBoss || enemy.isDead || !bottle.isColliding(enemy)) return;
@@ -202,7 +226,9 @@ class World {
     }
 
     /**
-     * Plays bottle splash animation and eliminate the enemy.
+     * Plays the bottle splash animation and eliminates the enemy if possible.
+     * @param {Object} enemy - The enemy object to be affected.
+     * @param {Object} bottle - The bottle object that hits the enemy.
      */
     hitEnemy(enemy, bottle) {
         bottle.playSplashAnimation();
@@ -225,7 +251,8 @@ class World {
     }
 
     /**
-     * Safety check, seperates logic by enemy type.
+     * Handles collisions with any enemy, separating logic based on enemy type.
+     * @param {Object} enemy - The enemy object to check collision with.
      */
     handleEnemyCollision(enemy) {
         if (!enemy) return;
@@ -237,17 +264,20 @@ class World {
     }
 
     /**
-     * Checks if the character touches the endboss.
+     * Handles collisions between the character and the endboss.
+     * @param {Object} endboss - The endboss object to check collision with.
      */
     handleEndbossCollision(endboss) {
         if (this.character.isColliding(endboss)) {
             this.character.hit();
+            this.statusBar.setPercentage(this.character.energy);
             this.endbossBar.setPercentage(endboss.energy);
         }
     }
 
     /**
-     *Function for character jumps on enemy or touching from side.
+     * Handles collisions between the character and a normal enemy.
+     * @param {Object} enemy - The enemy object to check collision with.
      */
     handleNormalEnemyCollision(enemy) {
         if (typeof enemy.kill !== 'function') return;
@@ -261,7 +291,8 @@ class World {
     }
 
     /**
-     * Function for enemy kill method.
+     * Calls the kill method on the given enemy object.
+     * @param {Object} enemy - The enemy object to be killed.
      */
     killEnemy(enemy) {
         enemy.kill();
@@ -324,25 +355,26 @@ class World {
     }
 
     /**
-     * For ending the game, and stopped all sounds.
+     * Ends the game and stops all sounds.
+     * @param {string} status - The game status, either 'win' or 'gameOver'.
      */
     endGame(status) {
         if (!this.gameIsRunning) return;
         this.gameIsRunning = false;
 
-    if (status === 'gameOver' && this.soundOn) {
+        if (status === 'gameOver' && this.soundOn) {
         this.playGameOverSound();
-    }
+        }
         this.stopAllMusic();
         this.stopEnemySounds();
         this.stopEndbossSounds();
         this.stopThrowableSounds();
-
         this.winOrGameOver(status);
     }
 
     /**
-     * Decides what happens when the game ends based on status.
+    * Plays sounds or shows overlays depending on whether the player has won or lost.
+    * @param {string} status - The game status, either 'win' or 'gameOver'.
      */
     winOrGameOver(status) {
         if (status === 'gameOver') {
@@ -370,7 +402,7 @@ class World {
     stopEnemySounds() {
         this.level.enemies.forEach(enemy => {
             if (enemy.audioInterval) clearInterval(enemy.audioInterval);
-            ['chickenSound', 'chickenDie', 'crySound'].forEach(soundKey => {
+            ['chickenSound', 'chickenDie'].forEach(soundKey => {
                 if (!enemy[soundKey]) return;
                 enemy[soundKey].pause();
                 enemy[soundKey].currentTime = 0;
@@ -384,7 +416,7 @@ class World {
      */
     stopThrowableSounds() {
         this.throwableObject.forEach(bottle => {
-            ['throwSound', 'hitSound'].forEach(soundKey => {
+            ['throwSound', 'hitSound', 'crySound'].forEach(soundKey => {
                 if (!bottle[soundKey]) return;
                 bottle[soundKey].pause();
                 bottle[soundKey].currentTime = 0;
@@ -469,7 +501,8 @@ class World {
     }
 
     /**
-     * Loops through an array of objects.
+     * Loops through an array of movable objects and draws each one on the canvas.
+     * @param {Object} objects - An array of movable objects to draw.
      */
     addObjectsToMap(objects) {
         objects.forEach (o => {
@@ -478,7 +511,10 @@ class World {
     }
 
     /**
-     * Draws movable objetc.
+     * Draws a movable object on the canvas.
+     * If the object is facing the opposite direction, flips it horizontally before drawing,
+     * and then restores the canvas state afterwards.
+     * @param {Object} mo - The movable object to draw.
      */
     addToMap(mo) {
         if (mo.otherDirection) {
@@ -492,7 +528,8 @@ class World {
     }
 
     /**
-     * Flips the canvas horizontally.
+     * Flips the canvas horizontally and adjusts the object's position accordingly.
+     * @param {Object} mo - The movable object to flip.
      */
     flipImage(mo) {
         this.ctx.save();
@@ -502,7 +539,8 @@ class World {
     }
 
     /**
-     * Restores orginal canvas state, reverts object position.
+     * Restores the original canvas state and reverts the object's position.
+     * @param {Object} mo - The movable object whose position should be reverted.
      */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
