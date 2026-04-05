@@ -35,65 +35,6 @@ class World {
 
 
     /**
-     * Initializes all game audio.
-     */
-    initAudio() {
-        this.backgroundMusic = new Audio('assets/sounds/gamemusic.mp3');
-        this.gameOverSound = new Audio('assets/sounds/gameover.mp3');
-        this.takeCoin = new Audio('assets/sounds/takecoin.mp3');
-        this.takeBottle = new Audio('assets/sounds/bottlesound.mp3');
-        this.bossMusic = new Audio('assets/sounds/matchsound.mp3');
-
-        if (soundOn) this.playBackgroundMusic();
-        this.gameOverSound.volume = 0.5;
-        this.takeCoin.volume = 0.1;
-        this.takeBottle.volume = 0.1;
-        this.bossMusic.volume = 0.5;
-    }
-
-    /**
-     * Plays the background music in a loop.
-     */
-    playBackgroundMusic() {
-        this.backgroundMusic.loop = true;
-        this.backgroundMusic.volume = 0.1;
-        this.backgroundMusic.play();
-    }
-
-    /**
-     * Initializing world for game. Main components of the world.
-     */
-    setWorld() {
-        this.setCharacterWorld();
-        this.setCollectable();
-        this.setEnemisWorld();
-    }
-
-    /**
-     * Giving character reference to world.
-     */
-
-    setCharacterWorld() {
-        this.character.world = this;
-    }
-
-    /**
-     *Giving reference to collectables item.
-     */
-    setCollectable() {
-        this.collectables = this.level.collectableObject;
-    }
-
-    /**
-     * Giving reference to enemy objects.
-     */
-    setEnemisWorld() {
-        this.level.enemies.forEach(enemy => {
-            enemy.world = this;
-        });
-    }
-
-    /**
      * Checks if the character has collided with enemies or collectables and bottles.
      */
     run() {
@@ -103,34 +44,7 @@ class World {
         }, 200);
     }
 
-    /**
-     * Checks if the character reached point 1900 = x to switch music.
-     */
-    checkMusicSwitch() {
-        if (this.character.x < 1900 || this.musicTriggerReached) return;
-        this.musicTriggerReached = true;
-        this.stopBackgroundMusic();
-        this.playBossMusic();
-    }
-
-    /**
-     * Checks if background music exist to stop.
-     */
-    stopBackgroundMusic() {
-        if (!this.backgroundMusic) return;
-        this.backgroundMusic.pause();
-        this.backgroundMusic.currentTime = 0;
-    }
-
-    /**
-     * Checks if sound is enabled.
-     */
-    playBossMusic() {
-        if (!soundOn || !this.gameIsRunning) return; 
-        this.bossMusic.currentTime = 0;
-        this.bossMusic.play();
-    }
-
+  
     /**
      * Checks if the character is trying to throw a bottle.
      */
@@ -352,76 +266,6 @@ class World {
      */
     youWin() {
         this.endGame('win');
-    }
-
-    /**
-     * Ends the game and stops all sounds.
-     * @param {string} status - The game status, either 'win' or 'gameOver'.
-     */
-    endGame(status) {
-        if (!this.gameIsRunning) return;
-        this.gameIsRunning = false;
-
-        if (status === 'gameOver' && this.soundOn) {
-        this.playGameOverSound();
-        }
-        this.stopAllMusic();
-        this.stopEnemySounds();
-        this.stopEndbossSounds();
-        this.stopThrowableSounds();
-        this.winOrGameOver(status);
-    }
-
-    /**
-    * Plays sounds or shows overlays depending on whether the player has won or lost.
-    * @param {string} status - The game status, either 'win' or 'gameOver'.
-     */
-    winOrGameOver(status) {
-        if (status === 'gameOver') {
-            this.playGameOverSound();
-            this.showGameOverOverlay();
-        } else if (status === 'win') {
-            this.showWinOverlay();
-        }
-    }
-
-    /**
-     * Stops background and match sounds.
-     */
-    stopAllMusic() {
-        [this.backgroundMusic, this.bossMusic].forEach(music => {
-            if (!music) return;
-            music.pause();
-            music.currentTime = 0;
-        });
-    }
-
-    /**
-     * Stopa individual sounds for each enemy.
-     */
-    stopEnemySounds() {
-        this.level.enemies.forEach(enemy => {
-            if (enemy.audioInterval) clearInterval(enemy.audioInterval);
-            ['chickenSound', 'chickenDie'].forEach(soundKey => {
-                if (!enemy[soundKey]) return;
-                enemy[soundKey].pause();
-                enemy[soundKey].currentTime = 0;
-            });
-        });
-    }
-
-
-    /**
-     * Stops all sounds of throwable objects.
-     */
-    stopThrowableSounds() {
-        this.throwableObject.forEach(bottle => {
-            ['throwSound', 'hitSound', 'crySound'].forEach(soundKey => {
-                if (!bottle[soundKey]) return;
-                bottle[soundKey].pause();
-                bottle[soundKey].currentTime = 0;
-            });
-        });
     }
 
     /**
