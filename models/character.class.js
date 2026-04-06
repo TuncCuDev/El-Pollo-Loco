@@ -249,6 +249,9 @@ class Character extends MoveableObject {
      * Function for right, left movement and jump.
      */
     moveCharacter() {
+        if (this.x >= 1400) { 
+            this.world.endBossReached = true;
+        }
         this.handleRightMovement();
         this.handleLeftMovement();
         this.handleJump();
@@ -300,7 +303,13 @@ class Character extends MoveableObject {
      * Moves to left.
      */
     canMoveLeft() {
-        return this.x > 0;
+        let limitLeft = 0; 
+
+        if (this.world.endBossReached) {
+            limitLeft = 1500; 
+        }
+
+        return this.x - this.speed >= limitLeft;
     }
 
     /**

@@ -12,7 +12,8 @@ class Endboss extends MoveableObject {
     jumpSpeed = 20;     
     megaJumpSpeed = 25;
     gravity = 2;        
-    groundY = this.y;   
+    groundY = this.y;
+    endBossReached = false;   
     IMAGES_WALKING = [
         'assets/images/4_enemie_boss_chicken/2_alert/G5.png',
         'assets/images/4_enemie_boss_chicken/2_alert/G6.png',
