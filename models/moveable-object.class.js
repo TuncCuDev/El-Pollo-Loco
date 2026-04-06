@@ -1,7 +1,7 @@
 class MoveableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
-    speedY = 0;
+    speedY = 20;
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
@@ -17,8 +17,13 @@ class MoveableObject extends DrawableObject {
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
+            this.y -= this.speedY;
+            this.speedY -= this.acceleration;
+            }
+
+            if (this.y >= 100) {
+                this.y = 100;      
+                this.speedY = 0;       
             }
         }, 1000 / 25)
     }
@@ -135,6 +140,8 @@ class MoveableObject extends DrawableObject {
      * Sets vertical spped upward.
      */
     jump() {
-        this.speedY = 30;
+        if (this.isOnGround()) {
+        this.speedY = -20;
+        }
     }
 }
