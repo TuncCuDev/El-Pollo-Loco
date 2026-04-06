@@ -97,7 +97,7 @@ class ThrowableObject extends MoveableObject {
      * Called when the bottle is thrown.
     */
     throw() {
-        this.applyGravity();
+        this.applyGravityThrow();
         if (soundOn) this.playThrowSound();
         this.startMovement();
     }

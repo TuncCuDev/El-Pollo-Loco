@@ -86,7 +86,7 @@ class Character extends MoveableObject {
         this.isLongIdle = false; 
         this.longIdleTimer = null;
 
-        this.applyGravity();
+        this.applyGravityJump();
         this.animate();
     }
 

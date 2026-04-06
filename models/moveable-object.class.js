@@ -12,9 +12,21 @@ class MoveableObject extends DrawableObject {
        
 
     /**
-     * Throws and jumps are affected by this.
+     * Throws are affected by this.
      */
-    applyGravity() {
+    applyGravityThrow() {
+        setInterval(() => {
+            if (this.isAboveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+            }
+        }, 1000 / 25)
+    }
+
+    /**
+     * Jumps are affected by this.
+     */
+    applyGravityJump() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY;
