@@ -274,6 +274,7 @@ class World {
     showWinOverlay() {
         document.getElementById('youWinOverlay').style.display = 'block';
         document.getElementById('restartButton').style.display = 'inline-block';
+        document.getElementById('mobileControls').classList.remove('show');
     }
 
     /**
@@ -312,6 +313,7 @@ class World {
     showGameOverOverlay() {
         document.getElementById('gameOverOverlay').style.display = 'block';
         document.getElementById('restartButton').style.display = 'inline-block';
+        document.getElementById('mobileControls').classList.remove('show');
     }
 
     /**

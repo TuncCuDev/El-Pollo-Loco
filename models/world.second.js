@@ -67,8 +67,8 @@ World.prototype.checkMusicSwitch = function () {
     if (this.character.x < 1900 || this.musicTriggerReached) return;
 
     this.musicTriggerReached = true;
-    this.stopBackgroundMusic();
-    this.playBossMusic();
+        this.stopBackgroundMusic();
+        this.playBossMusic();
 };
 
 /**
@@ -79,13 +79,20 @@ World.prototype.stopBackgroundMusic = function () {
 
     this.backgroundMusic.pause();
     this.backgroundMusic.currentTime = 0;
+
+    if (this.bossMusic && !this.bossMusic.paused) {
+        this.bossMusic.pause();
+        this.bossMusic.currentTime = 0;
+    }
+
+    currentMusic = null;
 };
 
 /**
  * Checks if sound is enabled.
  */
 World.prototype.playBossMusic = function () {
-    if (!soundOn || !this.gameIsRunning) return;
+    if (!soundOn || !this.gameIsRunning || !this.bossMusic) return;
 
     this.bossMusic.currentTime = 0;
     this.bossMusic.play();

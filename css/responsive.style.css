@@ -1,24 +1,10 @@
-@media (max-width: 900) and (orientation: landscape) {
-    #menuButton {
-        bottom: 10px;
-    }
-}
-
-@media (max-width: 800px) and (orientation: landscape) {
-    #mobileControls {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        justify-content: space-around;
-        padding: 10px;
-        z-index: 1000;
-        gap: 70px;
-    }
-
+@media (max-width: 1400px) and (orientation: landscape) {
     h1 {
         display: none;
+    }
+
+    #mobileControls.show {
+        display: flex; 
     }
 
     body {
@@ -56,7 +42,7 @@
 
     #playButton {
         position: absolute;
-        top: 18%;             
+         top: calc(18% - 25px);           
         left: 50%;
         transform: translateX(-50%);
         font-size: 4vh;       
@@ -141,22 +127,6 @@
     }
 }
 
-@media (max-width: 750px) and (orientation: landscape) {
-    body:not(.game-started) .show-on-mobile {
-        display: none;
-    }
-
-    body.game-started .show-on-mobile {
-        display: flex;
-    }
-}
-
-@media (max-width: 750px) and (orientation: landscape) {
-    #mobileControls {
-        display: flex;
-    }
-}
-
 @media (max-width: 750px) and (orientation: portrait) {
     #rotateMessage {
         display: flex;
@@ -194,27 +164,6 @@
         cursor: pointer;
         background: rgba(128, 128, 128, 0.25);
         border: 1px solid rgba(0, 0, 0, 0.2);
-    }
-
-    #playButton {
-        position: absolute;
-        top: 18%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 4vh;
-        padding: 1.5vh 3vw;
-    }
-
-    #mobileControls {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        justify-content: space-around;
-        padding: 10px;
-        z-index: 1000;
-        gap: 70px;
     }
 
     #overlayImpressum {
@@ -273,7 +222,7 @@
     }
 }
 
-@media (max-height: 400px) and (orientation: landscape) {
+@media (max-height: 450px) and (orientation: landscape) {
     #playButton {
         top: 19%;
     }

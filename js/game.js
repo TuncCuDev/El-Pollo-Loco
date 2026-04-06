@@ -19,7 +19,7 @@ function init() {
     let preloadSound = new Audio('assets/sounds/gamemusic.mp3');
     preloadSound.load();
 
-    updateSoundFromLocalStorage()
+    updateSoundFromLocalStorage();
 }
 
 /**
@@ -53,10 +53,11 @@ function drawStartScreen() {
 function startGame() {
     document.getElementById('playButton').style.display = 'none';
     document.getElementById('overlayImpressum').style.display = 'none';
+    document.getElementById('mobileControls').classList.add('show');
 
     world = new World(canvas, keyboard);
-
-    setupMobileControls(true);
+    setupMobileControls();
+    disableMobileControlsContextMenu();
 }
 
 /**
@@ -64,43 +65,26 @@ function startGame() {
  */
 function restartGame() {
     document.getElementById('gameOverOverlay').style.display = 'none';
+    document.getElementById('mobileControls').classList.add('show');
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     world = new World(canvas, keyboard);
+    setupMobileControls();
+    disableMobileControlsContextMenu();
 
-    world.camera_x = 0;
-
-    setupMobileControls(true);
+    world.camera_x = 0;   
 }
 
 /**
- * Shows mobile controls in landsacoe mode.
- * @param {*} show 
+ * Blocking the default browser behavior.
  */
-function setupMobileControls(show) {
-    const controls = document.getElementById('mobileControls');
-
-    if (show && isMobileLandscape()) {
-        controls.style.display = 'flex';
-    } else {
-        controls.style.display = 'none';
+function disableMobileControlsContextMenu() {
+    const mobileControls = document.getElementById('mobileControls');
+    if (mobileControls) {
+        mobileControls.addEventListener('contextmenu', (e) => {
+            e.preventDefault(); 
+        });
     }
-}
-
-/**
- * Checks if the screen width is 800px or less.
- */
-function isMobileLandscape() {
-    return window.innerWidth <= 800 && window.innerWidth > window.innerHeight;
-}
-
-/**
- * Shows mobile control buttons.
- * @param {boolean} show - If true, displays the mobile controls; if false, hides them.
- */
-function setupMobileControls(show) {
-    const controls = document.getElementById('mobileControls');
-    controls.style.display = show ? 'block' : 'none';
 }
 
 /**
@@ -201,10 +185,16 @@ function setAudioState(audio, enable) {
     if (!audio) return;
 
     if (enable) {
-        if (audio.paused) audio.play();
+        // Audio zurücksetzen, falls es schon zu Ende gespielt wurde
+        if (audio.ended) audio.currentTime = 0;
+
+        audio.play().catch(err => {
+            // Fehler abfangen (z. B. Autoplay blockiert)
+            console.warn("Audio konnte nicht abgespielt werden:", err);
+        });
     } else {
         audio.pause();
-        audio.currentTime = 0; // Optional: zurück auf Anfang
+        audio.currentTime = 0; // optional
     }
 }
 
@@ -359,8 +349,8 @@ function setupMobileControls() {
     btnLeft.ontouchstart = btnLeft.onmousedown = () => { keyboard.LEFT = true };
     btnLeft.ontouchend = btnLeft.onmouseup = btnLeft.onmouseleave = () => { keyboard.LEFT = false };
 
-    btnRight.ontouchstart = btnRight.onmousedown = () => { keyboard.RIGHT = true };
-    btnRight.ontouchend = btnRight.onmouseup = btnRight.onmouseleave = () => { keyboard.RIGHT = false };
+    btnRight.ontouchstart = btnRight.onmousedown = () => { keyboard.RIGHT = true};
+    btnRight.ontouchend = btnRight.onmouseup = btnRight.onmouseleave = () => { keyboard.RIGHT = false; };
 
     btnJump.ontouchstart = btnJump.onmousedown = () => { keyboard.SPACE = true };
     btnJump.ontouchend = btnJump.onmouseup = btnJump.onmouseleave = () => { keyboard.SPACE = false };
