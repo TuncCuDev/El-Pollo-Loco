@@ -8,24 +8,24 @@ World.prototype.initAudio = function () {
     this.takeBottle = new Audio('assets/sounds/bottlesound.mp3');
     this.bossMusic = new Audio('assets/sounds/matchsound.mp3');
 
-    if (soundOn) this.playBackgroundMusic();
-
     this.gameOverSound.volume = 0.5;
     this.takeCoin.volume = 0.1;
     this.takeBottle.volume = 0.1;
-    this.bossMusic.volume = 0.5;
 
-    this.backgroundMusic.muted = !soundOn;
-    this.bossMusic.muted = !soundOn;
+    if (soundOn) this.playBackgroundMusic();
 };
 
 /**
  * Plays the background music in a loop.
  */
 World.prototype.playBackgroundMusic = function () {
-    this.backgroundMusic.loop = true;
-    this.backgroundMusic.volume = 0.1;
-    this.backgroundMusic.play();
+    if (!soundOn || !this.backgroundMusic) return;
+
+    if (this.backgroundMusic.paused) {
+        this.backgroundMusic.loop = true;
+        this.backgroundMusic.volume = 0.1;
+        this.backgroundMusic.play();
+    }
 };
 
 /**
@@ -64,18 +64,19 @@ World.prototype.setEnemisWorld = function () {
  * Checks if the character reached point 1900 = x to switch music.
  */
 World.prototype.checkMusicSwitch = function () {
+    if (!soundOn) return; 
     if (this.character.x < 1900 || this.musicTriggerReached) return;
 
     this.musicTriggerReached = true;
-        this.stopBackgroundMusic();
-        this.playBossMusic();
+    this.stopBackgroundMusic();
+    this.playBossMusic();
 };
 
 /**
  * Checks if background music exist to stop.
  */
 World.prototype.stopBackgroundMusic = function () {
-    if (!this.backgroundMusic) return;
+    if (!soundOn || !this.bossMusic) return;
 
     this.backgroundMusic.pause();
     this.backgroundMusic.currentTime = 0;
@@ -84,18 +85,19 @@ World.prototype.stopBackgroundMusic = function () {
         this.bossMusic.pause();
         this.bossMusic.currentTime = 0;
     }
-
-    currentMusic = null;
 };
 
 /**
  * Checks if sound is enabled.
  */
 World.prototype.playBossMusic = function () {
-    if (!soundOn || !this.gameIsRunning || !this.bossMusic) return;
+    if (!soundOn || !this.bossMusic) return;
 
-    this.bossMusic.currentTime = 0;
-    this.bossMusic.play();
+    if (this.bossMusic.paused) {
+        this.bossMusic.loop = true;
+        this.bossMusic.volume = 0.5;
+        this.bossMusic.play();
+    }
 };
 
 /**
@@ -157,7 +159,6 @@ World.prototype.stopThrowableSounds = function () {
 World.prototype.endGame = function (status) {
     if (!this.gameIsRunning) return;
     this.gameIsRunning = false;
-
     if (status === 'gameOver' && this.soundOn) {
     this.playGameOverSound();
     }
@@ -166,4 +167,7 @@ World.prototype.endGame = function (status) {
     this.stopEndbossSounds();
     this.stopThrowableSounds();
     this.winOrGameOver(status);
+     if (this.character) {
+        this.character.stopSnoring();
+    }
 }

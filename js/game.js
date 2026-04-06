@@ -4,6 +4,7 @@ let background;
 let keyboard = new Keyboard();
 let startImage = new Image();
 let soundOn = true;
+let audios;
 
 
 /**
@@ -150,6 +151,7 @@ function toggleSound() {
     updateSoundIcon();
     updateWorldSounds();
     updateSnoringSound();
+    
 }
 
 /**
@@ -165,36 +167,71 @@ function updateSoundIcon() {
 }
 
 /**
- * Applies the sound setting to all active sounds.
+ * Updates all active sounds.
  */
 function updateWorldSounds() {
     if (!world) return;
 
-    // Hintergrundmusik
-    setAudioState(world.backgroundMusic, soundOn);
-    setAudioState(world.bossMusic, soundOn);
+    const audios = [
+        ...world.level.enemies.map(e => e.chickenSound),
+        ...world.level.enemies.map(e => e.chickenDie)
+    ];
 
-    // Gegner-Sounds
-    world.level.enemies.forEach(chicken => {
-        setAudioState(chicken.chickenSound, soundOn);
-        setAudioState(chicken.chickenDie, soundOn);
+    handleAudioPlayback(audios);
+    updateWorldMusic();
+}
+
+/**
+ * Plays or stops a given list of audios/ sounds..
+ * @param {*} audios -  An array of audio elements.
+ */
+function handleAudioPlayback(audios) {
+    audios.forEach(audio => {
+        if (!audio) return;
+
+        if (soundOn) {
+            if (audio.ended) audio.currentTime = 0;
+            audio.play();
+        } else {
+            audio.pause();
+            audio.currentTime = 0;
+        }
     });
 }
 
-function setAudioState(audio, enable) {
-    if (!audio) return;
+/**
+ * Starts or stops the world’s sound.
+ */
+function updateWorldMusic() {
+    if (soundOn) {
+        playSound();
+    } else { 
+        stopSound();
+    }
+}
 
-    if (enable) {
-        // Audio zurücksetzen, falls es schon zu Ende gespielt wurde
-        if (audio.ended) audio.currentTime = 0;
-
-        audio.play().catch(err => {
-            // Fehler abfangen (z. B. Autoplay blockiert)
-            console.warn("Audio konnte nicht abgespielt werden:", err);
-        });
+/**
+ * Plays either the boss music or the background sound.
+ */
+function playSound() {
+    if (world.musicTriggerReached) {
+        world.playBossMusic();
     } else {
-        audio.pause();
-        audio.currentTime = 0; // optional
+         world.playBackgroundMusic();
+    }
+}
+
+/**
+ * Pauses and resets both background and boss sound.
+ */
+function stopSound() {
+    if (world.backgroundMusic && !world.backgroundMusic.paused) {
+        world.backgroundMusic.pause();
+        world.backgroundMusic.currentTime = 0;
+    }
+    if (world.bossMusic && !world.bossMusic.paused) {
+        world.bossMusic.pause();
+        world.bossMusic.currentTime = 0;
     }
 }
 
