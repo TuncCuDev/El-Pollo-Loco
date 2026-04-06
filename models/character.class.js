@@ -211,11 +211,21 @@ class Character extends MoveableObject {
     /**
      *  Plays snoring sound.
      */
-
     playSnoring() {
         this.snoringSound.volume = 0.3;
         this.snoringSound.play();
         this.isSnoring = true;
+    }
+
+    /**
+     * Stops snoring sound.
+     */
+    stopSnoring() {
+        if (this.isSnoring && this.snoringSound) {
+            this.snoringSound.pause();
+            this.snoringSound.currentTime = 0;
+            this.isSnoring = false;
+        }
     }
 
     /**
@@ -249,9 +259,6 @@ class Character extends MoveableObject {
      * Function for right, left movement and jump.
      */
     moveCharacter() {
-        if (this.x >= 1400) { 
-            this.world.endBossReached = true;
-        }
         this.handleRightMovement();
         this.handleLeftMovement();
         this.handleJump();
@@ -303,13 +310,7 @@ class Character extends MoveableObject {
      * Moves to left.
      */
     canMoveLeft() {
-        let limitLeft = 0; 
-
-        if (this.world.endBossReached) {
-            limitLeft = 1500; 
-        }
-
-        return this.x - this.speed >= limitLeft;
+        return this.x > 0;
     }
 
     /**
@@ -372,8 +373,8 @@ class Character extends MoveableObject {
 
         let horizontal = playerCenterX > enemy.x + 10 && playerCenterX < enemy.x + enemy.width + 90;
         let vertical = playerBottom >= enemy.y - 25 && playerBottom <= enemy.y + enemy.height - 5;
-        let falling = this.speedY < 10;
+        let falling = this.speedY < 0;
 
-        return horizontal && vertical && falling;
+        return horizontal && vertical && falling
     }
 }
