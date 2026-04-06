@@ -12,8 +12,7 @@ class Endboss extends MoveableObject {
     jumpSpeed = 20;     
     megaJumpSpeed = 25;
     gravity = 2;        
-    groundY = this.y;
-    endBossReached = false;   
+    groundY = this.y; 
     IMAGES_WALKING = [
         'assets/images/4_enemie_boss_chicken/2_alert/G5.png',
         'assets/images/4_enemie_boss_chicken/2_alert/G6.png',
@@ -68,7 +67,7 @@ class Endboss extends MoveableObject {
      * @param {number} minX - Minimum x-coordinate limit for the jump.
      * @param {number} maxX - Maximum x-coordinate limit for the jump.
      */
-    jump(isMega = false, direction = 1, minX = 1750, maxX = 2500) {
+    jump(isMega = false, direction = 1, minX = 1500, maxX = 2500) {
         if (this.isJumping || this.isDead) return;
 
         this.isJumping = true;

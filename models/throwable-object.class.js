@@ -125,9 +125,9 @@ class ThrowableObject extends MoveableObject {
      * @param {Object} enemy - The enemy object to check collision with.
      */
     isColliding(enemy) {
-        return this.x + this.width > enemy.x &&
-            this.y + this.height > enemy.y + 5 &&
-            this.x < enemy.x + enemy.width  &&
-            this.y < enemy.y + enemy.height + 10;
+        return this.x + this.width > enemy.x - 5 &&
+            this.y + this.height > enemy.y - 10 &&
+            this.x < enemy.x + enemy.width - 5  &&
+            this.y < enemy.y + enemy.height;
     }
 }
