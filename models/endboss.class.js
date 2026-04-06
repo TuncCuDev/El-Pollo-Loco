@@ -145,7 +145,7 @@ class Endboss extends MoveableObject {
      */
     animate() {
         this.startWalkingAnimation();
-        this.startPatrolMovement(1900, 2500);
+        this.startPatrolMovement(1500, 2500);
     }
 
     /**
@@ -164,7 +164,7 @@ class Endboss extends MoveableObject {
      * @param {number} minX - Minimum x-coordinate limit for patrol movement.  
      * @param {number} maxX - Maximum x-coordinate limit for patrol movement.     
      */
-   startPatrolMovement(minX = 1900, maxX = 2500) {
+   startPatrolMovement(minX = 1500, maxX = 2500) {
         let direction = 1;
 
         this.moveInterval = setInterval(() => {

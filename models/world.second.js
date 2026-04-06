@@ -14,6 +14,9 @@ World.prototype.initAudio = function () {
     this.takeCoin.volume = 0.1;
     this.takeBottle.volume = 0.1;
     this.bossMusic.volume = 0.5;
+
+    this.backgroundMusic.muted = !soundOn;
+    this.bossMusic.muted = !soundOn;
 };
 
 /**

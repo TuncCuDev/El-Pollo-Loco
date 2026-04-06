@@ -18,6 +18,21 @@ function init() {
 
     let preloadSound = new Audio('assets/sounds/gamemusic.mp3');
     preloadSound.load();
+
+    updateSoundFromLocalStorage()
+}
+
+/**
+ * Updates Local Storage for sounds.
+ */
+function updateSoundFromLocalStorage() {
+    const storedSound = localStorage.getItem('soundOn');
+    if (storedSound !== null) {
+        soundOn = storedSound === 'true';
+    }
+
+    updateSoundIcon();
+    updateWorldSounds();
 }
 
 /**
@@ -59,7 +74,7 @@ function restartGame() {
 }
 
 /**
- * 
+ * Shows mobile controls in landsacoe mode.
  * @param {*} show 
  */
 function setupMobileControls(show) {
@@ -73,7 +88,7 @@ function setupMobileControls(show) {
 }
 
 /**
- * 
+ * Checks if the screen width is 800px or less.
  */
 function isMobileLandscape() {
     return window.innerWidth <= 800 && window.innerWidth > window.innerHeight;
@@ -89,11 +104,16 @@ function setupMobileControls(show) {
 }
 
 /**
- * Passes to fullscreen function.
+ * If not fullscreen, enters fullscreen. If already fullscreen, exits.
  */
-function fullscreen() {
-    let canvas = document.getElementById('canvas');
-    enterFullscreen(canvas);
+function toggleFullscreen() {
+    const container = document.getElementById('fullscreen');
+
+    if (!document.fullscreenElement) {
+        enterFullscreen(container);
+    } else {
+        exitFullscreen();
+    }
 }
 
 /**
@@ -136,12 +156,16 @@ function closeInfo() {
 }
 
 /**
- * Switches sound on and off, update icon and game sounds.
+ * Switches sound on and off, updates icon, world sounds, and snoring.
  */
 function toggleSound() {
     soundOn = !soundOn;
+
+    localStorage.setItem('soundOn', soundOn ? 'true' : 'false');
+
     updateSoundIcon();
     updateWorldSounds();
+    updateSnoringSound();
 }
 
 /**
@@ -149,11 +173,11 @@ function toggleSound() {
  */
 function updateSoundIcon() {
     const icon = document.getElementById("soundIcon");
-    const filename = icon.src.split('/').pop();
+    if (!icon) return;
 
-    icon.src = (filename === "laut.png") 
-        ? "./assets/images/img/laut.stumm.png" 
-        : "./assets/images/img/laut.png";
+    icon.src = soundOn 
+        ? "./assets/images/img/laut.png" 
+        : "./assets/images/img/laut.stumm.png";
 }
 
 /**
@@ -162,13 +186,41 @@ function updateSoundIcon() {
 function updateWorldSounds() {
     if (!world) return;
 
-    toggleAudio(world.backgroundMusic);
-    toggleAudio(world.bossMusic);
+    // Hintergrundmusik
+    setAudioState(world.backgroundMusic, soundOn);
+    setAudioState(world.bossMusic, soundOn);
 
+    // Gegner-Sounds
     world.level.enemies.forEach(chicken => {
-        toggleAudio(chicken.chickenSound);
-        toggleAudio(chicken.chickenDie);
+        setAudioState(chicken.chickenSound, soundOn);
+        setAudioState(chicken.chickenDie, soundOn);
     });
+}
+
+function setAudioState(audio, enable) {
+    if (!audio) return;
+
+    if (enable) {
+        if (audio.paused) audio.play();
+    } else {
+        audio.pause();
+        audio.currentTime = 0; // Optional: zurück auf Anfang
+    }
+}
+
+/**
+ * Applies the sound for snoring.
+ */
+function updateSnoringSound() {
+    if (!soundOn && world.character) {
+        const character = world.character;
+
+        if (character.isSnoring && character.snoringSound) {
+            character.snoringSound.pause();
+            character.snoringSound.currentTime = 0;
+            character.isSnoring = false;
+        }
+    }
 }
 
 /**

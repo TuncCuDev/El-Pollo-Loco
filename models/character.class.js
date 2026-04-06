@@ -167,12 +167,14 @@ class Character extends MoveableObject {
     playJumpingAnimation() {
         if (!this.jumpIndex) this.jumpIndex = 0;
 
-        if (this.jumpIndex < this.IMAGES_JUMPING.length) {
-            this.loadImage(this.IMAGES_JUMPING[this.jumpIndex]);
-            this.jumpIndex++;
-        } else {
-            this.loadImage(this.IMAGES_JUMPING[this.IMAGES_JUMPING.length - 1]);
+        const speed = 0.5; 
+        this.jumpIndex += speed; 
+
+        if (this.jumpIndex >= this.IMAGES_JUMPING.length) {
+            this.jumpIndex = this.IMAGES_JUMPING.length - 1;
         }
+
+        this.loadImage(this.IMAGES_JUMPING[Math.floor(this.jumpIndex)]);
     }
 
     /**
@@ -205,6 +207,10 @@ class Character extends MoveableObject {
             this.playAnimation(this.IMAGES_IDLE, 'idleIndex');
         }
     }
+
+    /**
+     *  Plays snoring sound.
+     */
 
     playSnoring() {
         this.snoringSound.volume = 0.3;

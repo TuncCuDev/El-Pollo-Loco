@@ -12,7 +12,7 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow-x: hidden; /* verhindert seitlichen Rand */
+    overflow-x: hidden;
 }
 
 body {
@@ -101,12 +101,6 @@ canvas {
     border: 1px solid rgba(0, 0, 0, 0.164);   
 }
 
-canvas:fullscreen {
-    width: 100vw;
-    height: 100vh;
-    object-fit: contain;
-    background: black;
-}
 
 #soundIcon, .size {
     height: 24px;
@@ -187,22 +181,66 @@ canvas:fullscreen {
     color: white;
 }
 
+#fullscreen {
+    position: relative;
+}
+
+#fullscreen:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    background: black;
+}
+
+#fullscreen:fullscreen #canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#fullscreen {
+    position: relative;
+}
+
+#fullscreen:fullscreen .button-line {
+    position: absolute;
+    top: 20px;          
+    left: 50%;      
+    transform: translateX(-50%); 
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+#fullscreen:fullscreen #playButton {
+    left: 50%;
+    top: 90px;
+    transform: translateX(-50%);
+}
+
+#fullscreen:fullscreen #overlayImpressum {
+    display: none;
+}
+
+#fullscreen:fullscreen .button-line button:last-child {
+    display: none;
+}
+
 #impressumOverlay {
-    position: fixed; /* wichtig! */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh; /* volle Höhe vom Viewport */
-
+    height: 100vh; 
     background-image: url(./assets/images/img/desert.jpg);
     background-repeat: no-repeat;
-    background-size: cover;
     background-position: center;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     z-index: 1000;
     display: none;
 }
@@ -404,3 +442,6 @@ body.impressum-open #overlayImpressum {
     display: none !important;
 }
 
+.cursor {
+    cursor: pointer;
+}
