@@ -239,8 +239,8 @@ function stopSound() {
  * Applies the sound for snoring.
  */
 function updateSnoringSound() {
-    if (!soundOn && world.character) {
-        const character = world.character;
+    const character = world.character;
+    if (!soundOn && world && world.character) {
 
         if (character.isSnoring && character.snoringSound) {
             character.snoringSound.pause();

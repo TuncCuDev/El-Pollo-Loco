@@ -18,7 +18,7 @@ class Chicken extends MoveableObject {
         this.x = 250 + Math.random() * (2000 - 200);
         this.speed = 0.15 + Math.random() * 0.25;
 
-        this.chickenSound = new Audio('assets/sounds/chicken1.mp3');
+        this.chickenSound = new Audio('assets/sounds/chicken2.mp3');
         this.chickenSound.volume = 0.1;
         this.chickenDie = new Audio('assets/sounds/chickendie.mp3');
         this.chickenDie.volume = 0.1;
