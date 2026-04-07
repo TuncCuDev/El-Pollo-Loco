@@ -47,7 +47,6 @@ function drawStartScreen() {
     playButton.style.display = 'block';
 }
 
-
 /**
  * Function for starting the game, switching from menu to gameplay.
  */

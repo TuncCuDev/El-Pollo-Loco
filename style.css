@@ -113,9 +113,9 @@ canvas {
 }
 
 .overlay {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.93);
@@ -123,7 +123,7 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1002;
+    z-index: 9999;
 }
 
 .container {
@@ -197,6 +197,7 @@ canvas {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    z-index: 1000;
 }
 
 #fullscreen {
@@ -210,7 +211,7 @@ canvas {
     transform: translateX(-50%); 
     display: flex;
     gap: 10px;
-    z-index: 10;
+    z-index: 1001;
 }
 
 #fullscreen:fullscreen #playButton {
@@ -247,9 +248,9 @@ canvas {
     background-color: rgba(0,0,0,0.6);
     padding: 30px;
     border-radius: 20px;
-    max-width: 800px;
+    max-width: 900px;
     width: 90%;
-    min-height: 350px; 
+    min-height: 600px;
     text-align: center;
     box-shadow: 0 5px 20px rgba(0,0,0,0.5);
     display: flex;

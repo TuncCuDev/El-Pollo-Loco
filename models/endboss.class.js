@@ -92,7 +92,7 @@ class Endboss extends MoveableObject {
      * @param {number} direction - Direction of the jump: 1 for right, -1 for left.
      */
     getJumpDistance(isMega, direction) {
-        return direction * (isMega ? 15 : 7);
+        return direction * (isMega ? 40 : 20);
     }
 
     /**
@@ -112,7 +112,7 @@ class Endboss extends MoveableObject {
             if (this.y >= this.groundY) {
                 this.landOnGround(jumpInterval);
             }
-        }, 30);
+        }, 23);
     }
 
     /**
@@ -359,4 +359,3 @@ class Endboss extends MoveableObject {
         this.world.youWin();
     }
 }
-

@@ -126,7 +126,7 @@ class ThrowableObject extends MoveableObject {
      */
     isColliding(enemy) {
         return this.x + this.width > enemy.x - 5 &&
-            this.y + this.height > enemy.y - 10 &&
+            this.y + this.height > enemy.y  &&
             this.x < enemy.x + enemy.width - 5  &&
             this.y < enemy.y + enemy.height;
     }

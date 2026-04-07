@@ -44,5 +44,3 @@ function initCollactables() {
     
     return collectables;
 };
-
-

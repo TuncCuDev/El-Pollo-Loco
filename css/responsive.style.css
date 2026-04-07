@@ -3,6 +3,10 @@
         display: none;
     }
 
+    #fullscreenBtn {
+        display: none;
+    }
+
     #mobileControls.show {
         display: flex; 
     }
@@ -66,9 +70,9 @@
     }
 
     .impressum-content {
-        height: auto;                  
-        max-height: 50vh;              
-        min-height: 250px;  
+        height: auto;
+        max-height: 90vh;
+        min-height: 500px; 
     }
 
     .impressum-content h2 {
@@ -219,6 +223,10 @@
         bottom: 20px;
         padding: 25px 2px;
         z-index: 1003;
+    }
+
+    .btn-impressum {
+        margin-bottom: 60px;
     }
 }
 
