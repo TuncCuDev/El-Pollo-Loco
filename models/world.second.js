@@ -15,6 +15,34 @@ World.prototype.initAudio = function () {
     if (soundOn) this.playBackgroundMusic();
 };
 
+ /**
+     * Checks if the character has collided with enemies or collectables and bottles.
+     */
+    World.prototype.startCollisionCheck = function () {
+        setInterval(() => {
+            this.checkCollisions();
+            this.checkThrowObject();
+        }, 80);
+    }
+
+    /**
+     * This subfunction starts an animation loop for the end boss.
+     */
+    World.prototype.startEndBossLoop = function () {
+        const loop = () => {
+            if (!this.endBossActivated && this.character.x >= 2000) {
+                this.endBossActivated = true;
+                this.endBoss.animate();
+            }
+
+            if (this.gameIsRunning) {
+                requestAnimationFrame(loop);
+            }
+        };
+
+        loop();
+    }
+
 /**
  * Plays the background music in a loop.
  */

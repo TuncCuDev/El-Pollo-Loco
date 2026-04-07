@@ -15,6 +15,7 @@ class World {
     throwCooldown = 1500;
     bossMusicStarted = false;
     bossMusic;
+    endBossActivated = false;
     throwableObject = [new ThrowableObject()]; 
     
 
@@ -25,9 +26,7 @@ class World {
         this.level = initLevel1();
         this.endBoss = this.level.enemies.find (e => e instanceof Endboss);
         this.endbossBar = new EndbossStatusBar(this.endBoss);
-        
         this.initAudio();
-
         this.setWorld();
         this.draw();
         this.run();
@@ -35,16 +34,13 @@ class World {
 
 
     /**
-     * Checks if the character has collided with enemies or collectables and bottles.
+     * This subfunction starts an interval that regularly checks.
      */
-    run() {
-        setInterval(() => {
-            this.checkCollisions();
-            this.checkThrowObject();
-        }, 200);
+     run() {
+        this.startCollisionCheck();
+        this.startEndBossLoop();
     }
 
-  
     /**
      * Checks if the character is trying to throw a bottle.
      */
@@ -58,7 +54,6 @@ class World {
      */
     throwBottle() {
         const now = Date.now(); 
-
         if (this.keyboard.D && this.character.bottles > 0 && (now - this.lastThrowTime >= this.throwCooldown)) {
             this.character.resetLongIdle();
             let bottle = new ThrowableObject(this.character.x + (this.character.otherDirection ? -40 : 40), this.character.y + 100, this.character.otherDirection );
@@ -321,29 +316,39 @@ class World {
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.Backgrounds);
-
-        this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.statusBar);
-        this.addToMap(this.coinsBar);
-        this.addToMap(this.bottleBar);
-        if (this.endBoss) {
-            this.addToMap(this.endBoss.statusBar);
-        }
-        this.ctx.translate(this.camera_x, 0); //Forwards
-        this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.throwableObject);
-        this.addObjectsToMap(this.collectables);
         this.ctx.translate(-this.camera_x, 0);
+        this.drawBars();
+        this.drawObjects();
         if (!this.gameIsRunning) return;
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
         });
+    }
+
+    /**
+     * Draws bars.
+     */
+    drawBars() {
+        this.addToMap(this.statusBar);
+        this.addToMap(this.coinsBar);
+        this.addToMap(this.bottleBar);
+        if (this.endBoss) this.addToMap(this.endBoss.statusBar);
+    }
+
+    /**
+     * Draws objects.
+     */
+    drawObjects() {
+        this.ctx.translate(this.camera_x, 0);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.throwableObject);
+        this.addObjectsToMap(this.collectables);
+        this.ctx.translate(-this.camera_x, 0);
     }
 
     /**

@@ -82,7 +82,7 @@ class MoveableObject extends DrawableObject {
         if (now - this.startTime < 1000) {
             return; 
         }
-        this.energy -= 5;
+        this.energy -= 2.5;
         if (soundOn && this.world.gameIsRunning) this.playCrySound();
         this.lastHit = now;
         this.updateHitStatus(now);

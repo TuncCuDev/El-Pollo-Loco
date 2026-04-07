@@ -224,10 +224,6 @@ canvas {
     display: none;
 }
 
-#fullscreen:fullscreen .button-line button:last-child {
-    display: none;
-}
-
 #impressumOverlay {
     position: fixed; 
     top: 0;

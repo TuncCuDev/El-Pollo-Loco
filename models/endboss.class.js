@@ -55,8 +55,6 @@ class Endboss extends MoveableObject {
         this.endbossHit = new Audio('assets/sounds/endbossmatch.mp3');
         this.winSound = new Audio('assets/sounds/wingame.mp3');
         this.endbossDie = new Audio('assets/sounds/endbossdie.mp3');
-        
-        this.animate();
     }
 
 

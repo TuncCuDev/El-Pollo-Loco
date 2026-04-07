@@ -195,17 +195,34 @@ class Character extends MoveableObject {
      * Plays idle animation.
      */
     playIdleAnimation() {
+        if (!this.idleFrameCounter) this.idleFrameCounter = 0;
+        this.idleFrameCounter++;
+        if (this.idleFrameCounter % 3 !== 0) return; 
         if (this.isLongIdle) {
             if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_LONG_IDLE, 'longIdleIndex');
-                if (soundOn && this.world.gameIsRunning && !this.isSnoring) this.playSnoring();
+                this._playLongIdle();
             } else {
                 this.resetLongIdle();
-                this.playAnimation(this.IMAGES_IDLE, 'idleIndex');
+                this._playIdle();
             }
         } else {
-            this.playAnimation(this.IMAGES_IDLE, 'idleIndex');
+            this._playIdle();
         }
+    }
+
+    /**
+     * Function for idle animation.
+     */
+    _playIdle() {
+        this.playAnimation(this.IMAGES_IDLE, 'idleIndex');
+    }
+
+    /**
+     * Function for long idle animation.
+     */
+    _playLongIdle() {
+        this.playAnimation(this.IMAGES_LONG_IDLE, 'longIdleIndex');
+        if (soundOn && this.world.gameIsRunning && !this.isSnoring) this.playSnoring();
     }
 
     /**
