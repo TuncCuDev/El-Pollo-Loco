@@ -15,34 +15,6 @@ World.prototype.initAudio = function () {
     if (soundOn) this.playBackgroundMusic();
 };
 
- /**
-     * Checks if the character has collided with enemies or collectables and bottles.
-     */
-    World.prototype.startCollisionCheck = function () {
-        setInterval(() => {
-            this.checkCollisions();
-            this.checkThrowObject();
-        }, 80);
-    }
-
-    /**
-     * This subfunction starts an animation loop for the end boss.
-     */
-    World.prototype.startEndBossLoop = function () {
-        const loop = () => {
-            if (!this.endBossActivated && this.character.x >= 2000) {
-                this.endBossActivated = true;
-                this.endBoss.animate();
-            }
-
-            if (this.gameIsRunning) {
-                requestAnimationFrame(loop);
-            }
-        };
-
-        loop();
-    }
-
 /**
  * Plays the background music in a loop.
  */
@@ -140,6 +112,62 @@ World.prototype.winOrGameOver = function (status) {
         this.showWinOverlay();
     }
 };
+
+/**
+ * Shows the game over scree.
+ */
+World.prototype.showGameOverOverlay = function () {
+    document.getElementById('gameOverOverlay').style.display = 'block';
+    document.getElementById('restartButton').style.display = 'inline-block';
+    document.getElementById('mobileControls').classList.remove('show');
+}
+
+
+/** 
+ * Calls endGame() with status "win".
+ */
+World.prototype.youWin = function () {
+    this.endGame('win');
+}
+
+/**
+ * Shows the win screen.
+ */
+World.prototype.showWinOverlay = function () {
+    document.getElementById('youWinOverlay').style.display = 'block';
+    document.getElementById('restartButton').style.display = 'inline-block';
+    document.getElementById('mobileControls').classList.remove('show');
+}
+
+/**
+ * Function for losing the game.
+ */
+World.prototype.gameOver = function () {
+    this.endGame('gameOver');
+}
+
+/**
+ * Creates game over sound.
+ */
+World.prototype.playGameOverSound = function () {
+    if (!soundOn) return;
+    this.gameOverSound.currentTime = 0;
+    this.gameOverSound.play();
+}
+
+/**
+ * Stops all sounds for endboss.
+ */
+World.prototype.stopEndbossSounds = function () {
+    if (!this.level.endboss) return;
+    const endboss = this.level.endboss;
+    ['endbossHit', 'endbossDie'].forEach(soundKey => {
+        if (!endboss[soundKey]) return;
+        endboss[soundKey].pause();
+        endboss[soundKey].currentTime = 0;
+    });
+    if (endboss.audioInterval) clearInterval(endboss.audioInterval);
+}
 
 /**
  * Stops background and match sounds.

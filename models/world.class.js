@@ -42,6 +42,34 @@ class World {
     }
 
     /**
+     * Checks if the character has collided with enemies or collectables and bottles.
+     */
+    startCollisionCheck() {
+        setInterval(() => {
+            this.checkCollisions();
+            this.checkThrowObject();
+        }, 80);
+    }
+
+    /**
+     * This subfunction starts an animation loop for the end boss.
+     */
+    startEndBossLoop() {
+        const loop = () => {
+            if (!this.endBossActivated && this.character.x >= 2000) {
+                this.endBossActivated = true;
+                this.endBoss.animate();
+            }
+
+            if (this.gameIsRunning) {
+                requestAnimationFrame(loop);
+            }
+        };
+        loop();
+    }
+
+
+    /**
      * Checks if the character is trying to throw a bottle.
      */
     checkThrowObject() {
@@ -256,60 +284,6 @@ class World {
         }
     }
 
-    /** 
-     * Calls endGame() with status "win".
-     */
-    youWin() {
-        this.endGame('win');
-    }
-
-    /**
-     * Shows the win screen.
-     */
-    showWinOverlay() {
-        document.getElementById('youWinOverlay').style.display = 'block';
-        document.getElementById('restartButton').style.display = 'inline-block';
-        document.getElementById('mobileControls').classList.remove('show');
-    }
-
-    /**
-     * Function for losing the game.
-     */
-    gameOver() {
-        this.endGame('gameOver');
-    }
-
-    /**
-     * Creates game over sound.
-     */
-    playGameOverSound() {
-        if (!soundOn) return;
-        this.gameOverSound.currentTime = 0;
-        this.gameOverSound.play();
-    }
-
-    /**
-     * Stops all sounds for endboss.
-     */
-    stopEndbossSounds() {
-        if (!this.level.endboss) return;
-        const endboss = this.level.endboss;
-        ['endbossHit', 'endbossDie'].forEach(soundKey => {
-            if (!endboss[soundKey]) return;
-            endboss[soundKey].pause();
-            endboss[soundKey].currentTime = 0;
-        });
-        if (endboss.audioInterval) clearInterval(endboss.audioInterval);
-    }
-
-    /**
-     * Shows the game over scree.
-     */
-    showGameOverOverlay() {
-        document.getElementById('gameOverOverlay').style.display = 'block';
-        document.getElementById('restartButton').style.display = 'inline-block';
-        document.getElementById('mobileControls').classList.remove('show');
-    }
 
     /**
      * Draw UI, game objects, resetting camera etc.
