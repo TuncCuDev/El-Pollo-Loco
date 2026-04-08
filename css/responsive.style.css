@@ -131,7 +131,7 @@
     }
 }
 
-@media (max-width: 1400px) and (orientation: portrait) {
+@media (orientation: portrait) {
     #rotateMessage {
         display: flex;
     }
