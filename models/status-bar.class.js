@@ -45,7 +45,7 @@ class StatusBar extends DrawableObject {
             return 3;
         } else if (this.percentage > 25) {
             return 2;
-        } else if (this.percentage > 5) {
+        } else if (this.percentage > 3) {
             return 1;
         } else {
             return 0;

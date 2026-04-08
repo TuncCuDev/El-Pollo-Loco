@@ -131,11 +131,15 @@
     }
 }
 
-@media (max-width: 750px) and (orientation: portrait) {
+@media (max-width: 1400px) and (orientation: portrait) {
     #rotateMessage {
         display: flex;
     }
     canvas {
+        display: none;
+    }
+
+    .button-line {
         display: none;
     }
 }
@@ -256,5 +260,11 @@
     }
     100% {
         transform: rotate(0deg);
+    }
+}
+
+@media (orientation: portrait) {
+    .phone {
+        animation: rotatePhone 2s infinite ease-in-out;
     }
 }
