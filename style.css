@@ -215,9 +215,11 @@ canvas {
 }
 
 #fullscreen:fullscreen #playButton {
+    position: absolute;
     left: 50%;
     top: 90px;
     transform: translateX(-50%);
+    z-index: 1002;
 }
 
 #fullscreen:fullscreen #overlayImpressum {

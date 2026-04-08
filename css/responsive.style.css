@@ -46,7 +46,7 @@
 
     #playButton {
         position: absolute;
-         top: calc(18% - 25px);           
+        top: calc(18% - 25px);           
         left: 50%;
         transform: translateX(-50%);
         font-size: 4vh;       
